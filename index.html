@@ -1,0 +1,3906 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>九州必買伴手禮與必吃美食記錄手札</title>
+  <!-- Google Fonts: Huninn (粉圓體) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            washi: '#FFFCF6',
+            ink: '#3E3A39',
+            coral: '#F2A497',
+            yamabuki: '#F6D27A',
+            mizuiro: '#A8D3E6',
+            wakatake: '#B9DAA5',
+          },
+          fontFamily: {
+            huninn: ['"Huninn"', '"Noto Sans TC"', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    :root {
+      --bg-washi: #FFFCF6;
+      --ink: #3E3A39;
+      --coral: #F2A497;
+      --yamabuki: #F6D27A;
+      --mizuiro: #A8D3E6;
+      --wakatake: #B9DAA5;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-washi);
+      /* 極淡和紙點狀紋理（純 SVG 平塗點陣，無漸層） */
+      background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='4' cy='4' r='1.1' fill='%233E3A39' fill-opacity='0.06'/%3E%3Ccircle cx='16' cy='16' r='1.1' fill='%233E3A39' fill-opacity='0.06'/%3E%3C/svg%3E");
+      color: var(--ink);
+      font-family: 'Huninn', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* 日系繪本風：粗線框、大圓角、平塗色塊、硬邊陰影 */
+    .pb-card {
+      background-color: #FFFFFF;
+      border: 3px solid var(--ink);
+      border-radius: 24px;
+      box-shadow: 4px 4px 0px var(--ink);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.2s ease;
+    }
+
+    .pb-card-done {
+      background-color: #F7F4EC;
+      border: 3px solid var(--ink);
+      border-radius: 24px;
+      box-shadow: 2px 2px 0px var(--ink);
+    }
+
+    .pb-subbox {
+      background-color: var(--bg-washi);
+      border: 2.5px solid var(--ink);
+      border-radius: 18px;
+    }
+
+    .pb-btn {
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      box-shadow: 3px 3px 0px var(--ink);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pb-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px var(--ink);
+    }
+
+    .pb-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    .pb-pill {
+      border: 3px solid var(--ink);
+      border-radius: 9999px;
+      box-shadow: 2px 2px 0px var(--ink);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .pb-pill:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    .pb-tag {
+      border: 2.5px solid var(--ink);
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.82rem;
+      padding: 2px 10px;
+      line-height: 1.35;
+    }
+
+    .pb-input {
+      width: 100%;
+      background-color: var(--bg-washi);
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      padding: 10px 14px;
+      color: var(--ink);
+      font-family: 'Huninn', sans-serif;
+      font-size: 1rem;
+      outline: none;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .pb-input:focus {
+      background-color: #FFFFFF;
+      box-shadow: 3px 3px 0px var(--ink);
+    }
+
+    /* 繪本完成印章 */
+    .pb-stamp {
+      border: 3px solid var(--ink);
+      border-radius: 14px;
+      box-shadow: 2px 2px 0px var(--ink);
+      transform: rotate(-7deg);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 10px;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* 繪本相框與虛線空相框 */
+    .pb-photo-frame {
+      border: 3px solid var(--ink);
+      border-radius: 18px;
+      overflow: hidden;
+      background-color: var(--bg-washi);
+      position: relative;
+    }
+
+    .pb-photo-empty {
+      border: 3px dashed var(--ink);
+      border-radius: 18px;
+      background-color: var(--bg-washi);
+    }
+
+    /* 隱藏水平捲軸但保持滑動 */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* 繪本動態效果 */
+    @keyframes floatGentle {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-5px) rotate(1.5deg);
+      }
+    }
+
+    @keyframes swayGentle {
+      0%, 100% {
+        transform: rotate(-2deg) translateX(0px);
+      }
+      50% {
+        transform: rotate(2.5deg) translateX(3px);
+      }
+    }
+
+    @keyframes carBounce {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-2.5px);
+      }
+    }
+
+    @keyframes popBounce {
+      0% {
+        opacity: 0.4;
+        transform: scale(0.92) translateY(8px);
+      }
+      55% {
+        opacity: 1;
+        transform: scale(1.02) translateY(-3px);
+      }
+      80% {
+        transform: scale(0.99) translateY(1px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0px);
+      }
+    }
+
+    @keyframes checkBounce {
+      0% {
+        transform: scale(0.8);
+      }
+      45% {
+        transform: scale(1.18) rotate(-4deg);
+      }
+      75% {
+        transform: scale(0.95) rotate(2deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .anim-float {
+      animation: floatGentle 3.6s ease-in-out infinite;
+    }
+
+    .anim-sway {
+      animation: swayGentle 4.2s ease-in-out infinite;
+      transform-origin: bottom center;
+    }
+
+    .anim-car {
+      animation: carBounce 1.8s ease-in-out infinite;
+    }
+
+    .anim-pop {
+      animation: popBounce 0.36s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .anim-check {
+      animation: checkBounce 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* 支援系統與手動「減少動態效果」設定 */
+    @media (prefers-reduced-motion: reduce) {
+      .anim-float,
+      .anim-sway,
+      .anim-car,
+      .anim-pop,
+      .anim-check {
+        animation: none !important;
+      }
+      .pb-card,
+      .pb-card-done,
+      .pb-btn,
+      .pb-pill,
+      .pb-input {
+        transition: none !important;
+      }
+    }
+
+    body.reduce-motion .anim-float,
+    body.reduce-motion .anim-sway,
+    body.reduce-motion .anim-car,
+    body.reduce-motion .anim-pop,
+    body.reduce-motion .anim-check {
+      animation: none !important;
+    }
+
+    body.reduce-motion .pb-card,
+    body.reduce-motion .pb-card-done,
+    body.reduce-motion .pb-btn,
+    body.reduce-motion .pb-pill,
+    body.reduce-motion .pb-input {
+      transition: none !important;
+    }
+  </style>
+</head>
+<body class="bg-washi text-ink min-h-screen flex flex-col">
+
+  <!-- ==================== 頂端固定選單 (Sticky Header) ==================== -->
+  <header class="sticky top-0 z-40 bg-washi border-b-[3px] border-ink">
+    <div class="max-w-5xl mx-auto px-3 sm:px-5 pt-2.5 pb-2.5">
+      <!-- 第一列：繪本標題 + 進度徽章 + 操作鈕 -->
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+        <div class="flex items-center gap-2.5">
+          <!-- 迷你自繪手札徽章 SVG -->
+          <div class="w-11 h-11 rounded-[16px] bg-yamabuki border-[3px] border-ink flex items-center justify-center shrink-0 shadow-[2px_2px_0px_#3E3A39] anim-float">
+            <svg viewBox="0 0 48 48" class="w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- 阿蘇火山與小太陽 -->
+              <circle cx="35" cy="12" r="5" fill="#F2A497" stroke="#3E3A39" stroke-width="3"/>
+              <path d="M20 14C20 11.5 23 10 25 11.5C27 10 30 11.5 29 14" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+              <path d="M7 38L18 20H29L41 38H7Z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M18 20L21 25L24 22L27 25L29 20" fill="#FFFCF6" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-lg sm:text-xl font-normal tracking-wide leading-tight flex items-center gap-1.5">
+              <span>九州旅手帳・伴手禮＆美食</span>
+            </h1>
+            <!-- 進度統計徽章 -->
+            <div class="flex flex-wrap items-center gap-1.5 mt-0.5 text-xs">
+              <span id="statSouvenir" class="bg-coral/70 px-2 py-0.5 rounded-full border-2 border-ink">
+                🎁 伴手禮 0/0
+              </span>
+              <span id="statFood" class="bg-wakatake/70 px-2 py-0.5 rounded-full border-2 border-ink">
+                🍜 美食 0/0
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右側按鈕區：減少動態切換 + 雲端共享手札 + 管理地區/備份 -->
+        <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <button
+            id="btnToggleMotion"
+            type="button"
+            onclick="toggleMotionPref()"
+            title="切換動畫效果"
+            class="pb-btn bg-washi px-2.5 py-2 text-xs sm:text-sm flex items-center gap-1"
+            aria-label="切換動畫效果"
+          >
+            <span id="motionIcon">✨</span>
+            <span class="hidden md:inline" id="motionText">動畫開</span>
+          </button>
+
+          <button
+            id="btnOpenCloudModal"
+            type="button"
+            onclick="openCloudModal()"
+            class="pb-btn bg-yamabuki px-2.5 sm:px-3 py-2 text-xs sm:text-sm flex items-center gap-1.5"
+            title="雲端同步與旅伴共享設定"
+          >
+            <span id="headerSyncDot" class="w-2.5 h-2.5 rounded-full bg-wakatake border-[1.5px] border-ink inline-block shrink-0"></span>
+            <span>☁️ 共享手札</span>
+            <span id="headerRoomCode" class="hidden sm:inline bg-washi text-[11px] px-1.5 py-0.5 rounded-full border-[1.5px] border-ink">連線中</span>
+          </button>
+
+          <button
+            type="button"
+            onclick="openRegionModal()"
+            class="pb-btn bg-mizuiro px-2.5 sm:px-3 py-2 text-xs sm:text-sm flex items-center gap-1.5"
+          >
+            <span>⚙️</span>
+            <span>管理地區 / 備份</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 第二列：主分頁切換 (必買伴手禮 / 必吃美食) -->
+      <div class="grid grid-cols-2 gap-2.5 mb-2.5" role="tablist" aria-label="手札分類分頁">
+        <button
+          id="tabSouvenir"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          onclick="switchTab('souvenir')"
+          class="pb-btn py-2 px-3 text-sm sm:text-base flex items-center justify-center gap-2 bg-coral"
+        >
+          <!-- 伴手禮 SVG 小圖示 -->
+          <svg viewBox="0 0 28 28" class="w-5 h-5 shrink-0" fill="none" aria-hidden="true">
+            <rect x="4" y="10" width="20" height="14" rx="4" fill="#FFFCF6" stroke="#3E3A39" stroke-width="2.5"/>
+            <path d="M14 10V24M4 16H24" stroke="#3E3A39" stroke-width="2.5"/>
+            <path d="M14 10C14 10 9 10 8 7C7 4.5 10.5 3.5 13 6.5L14 10Z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/>
+            <path d="M14 10C14 10 19 10 20 7C21 4.5 17.5 3.5 15 6.5L14 10Z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/>
+          </svg>
+          <span>必買伴手禮</span>
+          <span id="tabCountSouvenir" class="bg-washi text-xs px-2 py-0.5 rounded-full border-2 border-ink">0</span>
+        </button>
+
+        <button
+          id="tabFood"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          onclick="switchTab('food')"
+          class="pb-btn py-2 px-3 text-sm sm:text-base flex items-center justify-center gap-2 bg-washi"
+        >
+          <!-- 拉麵碗 SVG 小圖示 -->
+          <svg viewBox="0 0 28 28" class="w-5 h-5 shrink-0" fill="none" aria-hidden="true">
+            <path d="M4 13H24C24 19.5 19.5 23 14 23C8.5 23 4 19.5 4 13Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M8 23H20" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M6 9L22 7M6 11L22 10" stroke="#3E3A39" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M10 5C10 3.8 11.5 3.8 11.5 5" stroke="#3E3A39" stroke-width="2" stroke-linecap="round"/>
+            <path d="M15 4.5C15 3.3 16.5 3.3 16.5 4.5" stroke="#3E3A39" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>必吃美食</span>
+          <span id="tabCountFood" class="bg-washi text-xs px-2 py-0.5 rounded-full border-2 border-ink">0</span>
+        </button>
+      </div>
+
+      <!-- 第三列：地區篩選膠囊列 -->
+      <div class="flex items-center gap-2">
+        <div id="regionFilterBar" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 flex-1" role="region" aria-label="地區篩選">
+          <!-- 由 JS 動態渲染地區膠囊 -->
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 主內容區 ==================== -->
+  <main class="max-w-5xl w-full mx-auto px-3 sm:px-5 pt-4 pb-24 flex-1">
+
+    <!-- 日系繪本風主題插圖橫幅 (九州自駕・阿蘇山・櫻井二見浦鳥居・別府溫泉熱氣・草莓與拉麵) -->
+    <section class="pb-card bg-washi p-3.5 sm:p-5 mb-5 relative overflow-hidden">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-center md:text-left flex-1">
+          <div class="inline-flex items-center gap-1.5 bg-wakatake px-3 py-1 rounded-full border-2 border-ink text-xs mb-2">
+            <span>🚗 九州自駕・鐵道散步採買手札</span>
+          </div>
+          <h2 id="bannerTitle" class="text-xl sm:text-2xl mb-1">
+            把九州的美味與戰利品通通收進手札！
+          </h2>
+          <p id="bannerSubtitle" class="text-sm text-ink/85">
+            支援雲端即時同步與旅伴多人共享！上傳照片、一鍵搜圖與打勾進度都會即時同步給同行夥伴。
+          </p>
+        </div>
+
+        <!-- 手繪感粗線條九州風景與美食插圖 SVG -->
+        <div class="w-full max-w-[350px] shrink-0">
+          <svg viewBox="0 0 360 132" class="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="九州阿蘇火山、櫻井二見浦海邊鳥居、別府溫泉熱氣、自駕小車與草莓拉麵繪本插圖">
+            <!-- 背景雲朵 -->
+            <path class="anim-float" d="M28 28C28 23.5 31.5 20 36 20C38 15.5 44.5 14.5 48 18C52.5 17 57 20.5 57 25C57 28.5 53.5 31 49 31H33.5C30.2 31 28 29.5 28 28Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+            <path class="anim-float" style="animation-delay: 1.2s" d="M286 24C286 20 289 17 293 17C295 13 301 12 304 15C308 14 312 17 312 21C312 24 309 27 305 27H291C288 27 286 25.5 286 24Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+
+            <!-- 阿蘇火山輕煙 -->
+            <g class="anim-sway">
+              <path d="M98 30C95 25 100 19 106 21C109 16 117 17 118 22C123 22 126 27 122 31" fill="#FFFCF6" stroke="#3E3A39" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <!-- 阿蘇火山山體 -->
+            <path d="M54 108L94 40H124L164 108H54Z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M94 40L102 53L109 47L116 53L124 40" fill="#F6D27A" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+
+            <!-- 別府溫泉湯池與熱氣 -->
+            <g class="anim-float" style="animation-delay: 0.7s">
+              <path d="M182 54C180 49 184 45 182 40" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M192 52C190 47 194 43 192 38" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M202 54C200 49 204 45 202 40" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+            <path d="M172 68C172 62 181 59 192 59C203 59 212 62 212 68V74H172V68Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.8" stroke-linejoin="round"/>
+
+            <!-- 糸島櫻井二見浦夫婦岩與白色鳥居 -->
+            <path d="M234 108C237 87 247 79 256 79C265 79 274 88 277 108H234Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M247 81V58M265 81V58" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+            <path d="M241 58H271" stroke="#3E3A39" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M244 65H268" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/>
+
+            <!-- 地面線 -->
+            <path d="M10 108H350" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+
+            <!-- 左側：甘王草莓小圖示 -->
+            <g class="anim-float" style="animation-delay: 0.4s">
+              <path d="M22 83C22 76 28 73 35 73C42 73 48 76 48 83C48 93 40 103 35 103C30 103 22 93 22 83Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3"/>
+              <path d="M27 74L35 78L43 74L39 69L35 73L31 69L27 74Z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.3" stroke-linejoin="round"/>
+              <circle cx="31" cy="84" r="1.3" fill="#3E3A39"/>
+              <circle cx="39" cy="84" r="1.3" fill="#3E3A39"/>
+              <circle cx="35" cy="91" r="1.3" fill="#3E3A39"/>
+            </g>
+
+            <!-- 中間：九州自駕可愛小車 -->
+            <g class="anim-car">
+              <path d="M142 96V87C142 83 145 80 149 80H156L162 69C164 66 167 65 170 65H188C192 65 195 67 197 70L202 80H206C210 80 213 83 213 87V96C213 99 210 101 207 101H148C145 101 142 99 142 96Z" fill="#F6D27A" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+              <!-- 車窗 -->
+              <path d="M161 79L165 70H177V79H161Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M182 79V70H191L196 79H182Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/>
+              <!-- 車輪 -->
+              <circle cx="158" cy="101" r="7" fill="#FFFCF6" stroke="#3E3A39" stroke-width="3"/>
+              <circle cx="158" cy="101" r="2" fill="#3E3A39"/>
+              <circle cx="197" cy="101" r="7" fill="#FFFCF6" stroke="#3E3A39" stroke-width="3"/>
+              <circle cx="197" cy="101" r="2" fill="#3E3A39"/>
+            </g>
+
+            <!-- 右側：豚骨拉麵碗 -->
+            <g class="anim-float" style="animation-delay: 0.9s">
+              <path d="M294 84H338C338 97 328 105 316 105C304 105 294 97 294 84Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M303 107H329" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+              <ellipse cx="316" cy="84" rx="20" ry="4" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.5"/>
+              <path d="M300 75L336 71M300 79L336 77" stroke="#3E3A39" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- 搜尋與狀態快速篩選列 -->
+    <section class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 mb-5">
+      <!-- 關鍵字搜尋框 -->
+      <div class="relative flex-1">
+        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-base pointer-events-none">🔍</span>
+        <input
+          id="searchInput"
+          type="text"
+          oninput="handleSearchInput(this.value)"
+          placeholder="搜尋品名、藥妝、分店（如：博多車站、24小時、草莓）..."
+          class="pb-input pl-10 pr-9 py-2 text-sm"
+        />
+        <button
+          id="btnClearSearch"
+          type="button"
+          onclick="clearSearch()"
+          class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-xs bg-coral px-1.5 py-0.5 rounded-full border border-ink"
+          aria-label="清除搜尋"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- 完成狀態切換按鈕組與快捷新增鈕 -->
+      <div class="flex flex-wrap items-center justify-end gap-1.5 self-end sm:self-auto">
+        <button
+          id="statusFilterAll"
+          type="button"
+          onclick="setStatusFilter('all')"
+          class="pb-pill px-3 py-1.5 text-xs sm:text-sm bg-yamabuki"
+        >
+          全部 (<span id="countStatusAll">0</span>)
+        </button>
+        <button
+          id="statusFilterTodo"
+          type="button"
+          onclick="setStatusFilter('todo')"
+          class="pb-pill px-3 py-1.5 text-xs sm:text-sm bg-washi"
+        >
+          待收集 (<span id="countStatusTodo">0</span>)
+        </button>
+        <button
+          id="statusFilterDone"
+          type="button"
+          onclick="setStatusFilter('done')"
+          class="pb-pill px-3 py-1.5 text-xs sm:text-sm bg-washi"
+        >
+          已完成 (<span id="countStatusDone">0</span>)
+        </button>
+        <button
+          type="button"
+          onclick="openItemModal()"
+          class="pb-pill px-3 py-1.5 text-xs sm:text-sm bg-coral flex items-center gap-1"
+          aria-label="快捷新增項目"
+        >
+          <span>＋</span>
+          <span>新增</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 項目卡片網格 (手機單欄、平板/桌機雙欄) -->
+    <section id="itemsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5" aria-live="polite">
+      <!-- 由 JS 動態渲染卡片 -->
+    </section>
+
+    <!-- 空狀態繪本插圖 -->
+    <section id="emptyState" class="hidden pb-card bg-washi p-8 text-center my-6 anim-pop">
+      <div class="max-w-[180px] mx-auto mb-3 anim-float">
+        <svg viewBox="0 0 160 130" class="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- 可愛小熊拿著空提籃 -->
+          <circle cx="56" cy="36" r="11" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+          <circle cx="104" cy="36" r="11" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+          <ellipse cx="80" cy="56" rx="28" ry="24" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+          <ellipse cx="80" cy="62" rx="11" ry="8" fill="#FFFCF6" stroke="#3E3A39" stroke-width="2.5"/>
+          <circle cx="80" cy="59" r="3" fill="#3E3A39"/>
+          <circle cx="68" cy="52" r="2.8" fill="#3E3A39"/>
+          <circle cx="92" cy="52" r="2.8" fill="#3E3A39"/>
+          <!-- 提籃 -->
+          <path d="M44 86H116L108 116H52L44 86Z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M58 86C58 72 102 72 102 86" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+          <path d="M36 116H124" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="text-lg sm:text-xl mb-1">這個篩選條件下還沒有記錄喔！</h3>
+      <p class="text-sm text-ink/80 mb-4">試試切換其他地區篩選，或點下方按鈕新增你的私房必買必吃清單吧～</p>
+      <button type="button" onclick="openItemModal()" class="pb-btn bg-coral px-5 py-2.5 text-sm sm:text-base">
+        ＋ 立即新增一筆記錄
+      </button>
+    </section>
+  </main>
+
+  <!-- ==================== 頁尾 (Footer) ==================== -->
+  <footer class="border-t-[3px] border-ink bg-washi py-5 px-4 pb-24 sm:pb-6 text-center text-xs sm:text-sm">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>☁️ 雲端即時同步中・點上方「☁️ 共享手札」即可複製邀請連結與旅伴共同編輯！</p>
+      <div class="flex flex-wrap items-center justify-center gap-2">
+        <button type="button" onclick="copyChecklistText()" class="pb-btn bg-wakatake px-3 py-1.5 text-xs">
+          📋 複製純文字清單
+        </button>
+        <button type="button" onclick="confirmResetDefault()" class="pb-btn bg-washi px-3 py-1.5 text-xs">
+          🔄 恢復九州預設清單
+        </button>
+      </div>
+    </div>
+  </footer>
+  <!-- ==================== 右下角懸浮新增按鈕 (FAB，避開底部工具列與平台浮水印) ==================== -->
+  <button
+    type="button"
+    onclick="openItemModal()"
+    style="bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px));"
+    class="pb-btn fixed right-5 z-30 bg-yamabuki px-4 py-3 text-sm sm:text-base flex items-center gap-1.5 shadow-[4px_4px_0px_#3E3A39]"
+    aria-label="新增項目"
+  >
+    <span class="text-lg leading-none">＋</span>
+    <span>新增項目</span>
+  </button>
+
+  <!-- 卡片快速上傳專用隱藏檔案選擇器 -->
+  <input
+    type="file"
+    id="quickCardPhotoInput"
+    accept="image/*"
+    onchange="handleQuickCardPhotoUpload(event)"
+    class="hidden"
+  />
+
+  <!-- ==================== 彈窗 1：新增 / 編輯項目 Modal ==================== -->
+  <div id="itemModal" class="fixed inset-0 z-50 hidden bg-ink/45 flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="itemModalTitle">
+    <div class="bg-washi border-t-[3px] sm:border-[3px] border-ink rounded-t-[26px] sm:rounded-[26px] shadow-[0_-4px_0_#3E3A39] sm:shadow-[6px_6px_0px_#3E3A39] w-full max-w-xl max-h-[92vh] overflow-y-auto p-4 sm:p-6 anim-pop">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b-[3px] border-ink">
+        <h3 id="itemModalTitle" class="text-lg sm:text-xl flex items-center gap-2">
+          <span>✏️</span>
+          <span>新增手札記錄</span>
+        </h3>
+        <button type="button" onclick="closeItemModal()" class="pb-btn bg-coral w-9 h-9 flex items-center justify-center text-base" aria-label="關閉視窗">
+          ✕
+        </button>
+      </div>
+
+      <form id="itemForm" onsubmit="saveItemForm(event)" class="space-y-4">
+        <input type="hidden" id="fieldId" />
+        <input type="hidden" id="fieldImageData" />
+
+        <!-- 分類選擇：伴手禮 vs 美食 -->
+        <div>
+          <label class="block text-sm mb-1.5">記錄分類 *</label>
+          <div class="grid grid-cols-2 gap-2.5">
+            <label class="cursor-pointer">
+              <input type="radio" name="fieldType" value="souvenir" class="sr-only peer" onchange="toggleBranchField(this.value)" checked />
+              <div class="pb-btn py-2 px-3 text-center text-sm bg-washi peer-checked:bg-coral">
+                🎁 必買伴手禮 / 藥妝
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="fieldType" value="food" class="sr-only peer" onchange="toggleBranchField(this.value)" />
+              <div class="pb-btn py-2 px-3 text-center text-sm bg-washi peer-checked:bg-wakatake">
+                🍜 必吃美食 / 咖啡廳
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 品名 / 店家名稱 -->
+        <div>
+          <label for="fieldTitle" class="block text-sm mb-1">商品或餐廳名稱 *</label>
+          <input id="fieldTitle" type="text" required oninput="updateModalSearchHelper()" placeholder="例如：努努雞（冷吃炸雞）/ 博多一雙豚骨拉麵" class="pb-input" />
+        </div>
+
+        <!-- 地區 & 詳細種類 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="fieldRegion" class="block text-sm mb-1">所屬地區 *</label>
+            <select id="fieldRegion" onchange="updateModalSearchHelper()" class="pb-input bg-washi"></select>
+          </div>
+          <div>
+            <label for="fieldCategory" class="block text-sm mb-1">商品 / 料理詳細種類 *</label>
+            <input id="fieldCategory" type="text" required placeholder="例如：限定甜點禮盒、常備藥妝、泡系豚骨拉麵" class="pb-input" />
+          </div>
+        </div>
+
+        <!-- 快速種類小標籤建議 -->
+        <div class="flex flex-wrap gap-1.5 text-xs">
+          <span class="text-ink/70 self-center">快選種類：</span>
+          <button type="button" onclick="fillCategory('限定甜點禮盒')" class="pb-pill bg-washi px-2.5 py-0.5">限定甜點禮盒</button>
+          <button type="button" onclick="fillCategory('常備藥妝')" class="pb-pill bg-washi px-2.5 py-0.5">常備藥妝</button>
+          <button type="button" onclick="fillCategory('在地名產')" class="pb-pill bg-washi px-2.5 py-0.5">在地名產</button>
+          <button type="button" onclick="fillCategory('泡系豚骨拉麵')" class="pb-pill bg-washi px-2.5 py-0.5">泡系豚骨拉麵</button>
+          <button type="button" onclick="fillCategory('鄉土鍋物')" class="pb-pill bg-washi px-2.5 py-0.5">鄉土鍋物</button>
+          <button type="button" onclick="fillCategory('海景料理')" class="pb-pill bg-washi px-2.5 py-0.5">海景料理</button>
+        </div>
+
+        <!-- ==================== 完整圖片工具區 ==================== -->
+        <div class="pb-subbox p-3.5 bg-white space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm flex items-center gap-1.5">
+              <span>🖼️</span>
+              <span>戰利品 / 美食照片記錄</span>
+            </span>
+            <button
+              id="btnRemoveModalImage"
+              type="button"
+              onclick="removeModalImage()"
+              class="hidden pb-btn bg-coral/80 px-2.5 py-1 text-xs"
+            >
+              🗑️ 移除圖片
+            </button>
+          </div>
+
+          <!-- 即時相框預覽 -->
+          <div id="modalImagePreviewBox" class="pb-photo-empty h-44 w-full flex flex-col items-center justify-center text-center p-3 overflow-hidden">
+            <span class="text-2xl mb-1">📷</span>
+            <p class="text-xs sm:text-sm text-ink/80">尚未選擇圖片（支援上傳、搜圖或直接按 Ctrl+V 貼上截圖）</p>
+          </div>
+          <p id="modalImageErrorMsg" class="hidden text-xs text-[#B9382C] bg-coral/35 px-2.5 py-1.5 rounded-xl border-2 border-ink">
+            ⚠️ 該圖片網址無法載入（可能受網站防盜連限制），建議改用「Google 搜圖後右鍵複製圖片 → 在此按 Ctrl+V 貼上」或直接上傳本機圖片！
+          </p>
+
+          <!-- 操作按鈕列：上傳本機圖片 & Google 搜圖幫手 -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <label class="pb-btn bg-yamabuki py-2 px-3 text-xs sm:text-sm flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>📁</span>
+              <span>上傳本機圖片</span>
+              <input type="file" accept="image/*" onchange="handleModalFileUpload(event)" class="hidden" />
+            </label>
+
+            <a
+              id="modalGoogleImageSearchLink"
+              href="https://www.google.com/search?tbm=isch&q=%E4%B9%9D%E5%B7%9E"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="pb-btn bg-mizuiro py-2 px-3 text-xs sm:text-sm flex items-center justify-center gap-1.5"
+            >
+              <span>🔍</span>
+              <span>Google 搜圖幫手</span>
+            </a>
+          </div>
+
+          <!-- 剪貼簿貼圖小提示 -->
+          <div class="bg-wakatake/35 border-2 border-ink rounded-[14px] px-3 py-2 text-xs leading-relaxed">
+            💡 <strong>貼圖小撇步</strong>：點「Google 搜圖幫手」找到喜歡的圖片後，可<strong>右鍵複製圖片</strong>直接在此視窗按 <kbd class="px-1.5 py-0.5 bg-washi border border-ink rounded">Ctrl+V</kbd>（Mac 為 <kbd class="px-1.5 py-0.5 bg-washi border border-ink rounded">⌘+V</kbd>）貼上，或直接上傳手機相簿照片！
+          </div>
+        </div>
+
+        <!-- ==================== 網址自動解析並填寫伴手禮＆美食詳細資訊 ==================== -->
+        <div class="pb-subbox p-3.5 bg-mizuiro/20 space-y-2.5">
+          <label for="fieldInfoUrl" class="block text-sm flex items-center gap-1.5">
+            <span>🔗</span>
+            <span>貼上網址自動解析並填寫分店、地址、推薦原因與營業時間</span>
+          </label>
+          <div class="flex gap-2">
+            <input
+              id="fieldInfoUrl"
+              type="url"
+              placeholder="貼上部落格、Tabelog、IG 或 Google 地圖網址..."
+              class="pb-input py-1.5 text-xs sm:text-sm flex-1 bg-white"
+            />
+            <button
+              id="btnSearchInfoUrl"
+              type="button"
+              onclick="searchInfoFromUrl()"
+              class="pb-btn bg-yamabuki px-3.5 py-1.5 text-xs sm:text-sm shrink-0 flex items-center gap-1"
+            >
+              <span>🔍</span>
+              <span>自動解析填寫</span>
+            </button>
+          </div>
+          <p class="text-[11px] text-ink/75">
+            貼上連結後將自動解析網頁資訊，並自動填入下方「名稱、詳細購買分店、地址、推薦原因、營業時間與地圖關鍵字」。
+          </p>
+
+          <!-- 解析結果摘要與一鍵套用卡片 -->
+          <div id="urlSearchResultBox" class="hidden bg-white border-2 border-ink rounded-[14px] p-3 space-y-2 text-xs">
+            <div class="flex items-start justify-between gap-2 pb-1.5 border-b border-ink/15">
+              <div class="min-w-0">
+                <p class="text-[11px] text-ink/65">✨ 已解析網址來源並產生以下詳細資料：</p>
+                <p id="urlParsedTitleText" class="text-sm leading-snug break-words"></p>
+              </div>
+              <button
+                type="button"
+                onclick="applyParsedUrlDataToForm(true)"
+                class="pb-btn bg-wakatake px-2.5 py-1 text-[11px] shrink-0"
+              >
+                全部填入表單
+              </button>
+            </div>
+
+            <div class="space-y-1 text-ink/90 leading-relaxed break-words">
+              <p id="urlParsedBranchesRow" class="hidden">🏪 <strong>購買分店：</strong><span id="urlParsedBranchesText"></span></p>
+              <p id="urlParsedAddressRow" class="hidden">📍 <strong>地址位置：</strong><span id="urlParsedAddressText"></span></p>
+              <p id="urlParsedNoteRow" class="hidden">💡 <strong>推薦原因：</strong><span id="urlParsedNoteText"></span></p>
+              <p id="urlParsedHoursRow" class="hidden">🕒 <strong>營業時間：</strong><span id="urlParsedHoursText"></span></p>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <a
+                id="urlSearchGoogleInfoLink"
+                href="https://www.google.com/search?q=%E4%B9%9D%E5%B7%9E+%E4%BC%B4%E6%89%8B%E7%A6%AE+%E7%BE%8E%E9%A3%9F"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="pb-pill bg-mizuiro px-2.5 py-1 text-[11px] inline-flex items-center gap-1"
+              >
+                <span>🔎</span>
+                <span>Google 搜相關心得</span>
+              </a>
+              <a
+                id="urlSearchGoogleImgLink"
+                href="https://www.google.com/search?tbm=isch&q=%E4%B9%9D%E5%B7%9E+%E4%BC%B4%E6%89%8B%E7%A6%AE+%E7%BE%8E%E9%A3%9F"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="pb-pill bg-coral/80 px-2.5 py-1 text-[11px] inline-flex items-center gap-1"
+              >
+                <span>🖼️</span>
+                <span>搜相關圖片</span>
+              </a>
+              <a
+                id="urlSearchGoogleMapLink"
+                href="https://www.google.com/maps/search/?api=1&query=%E4%B9%9D%E5%B7%9E"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="pb-pill bg-washi px-2.5 py-1 text-[11px] inline-flex items-center gap-1"
+              >
+                <span>🗺️</span>
+                <span>查地圖位置</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- 交通方式彩色小標籤選擇 (自駕=水色, 電車=若竹綠, 步行=山吹黃, 巴士=珊瑚粉) -->
+        <div>
+          <label class="block text-sm mb-1.5">交通方式標籤</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <label class="cursor-pointer">
+              <input type="radio" name="fieldTransport" value="car" class="sr-only peer" checked />
+              <div class="pb-btn py-2 px-2 text-xs sm:text-sm bg-washi peer-checked:bg-mizuiro text-center">
+                🚗 自駕
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="fieldTransport" value="train" class="sr-only peer" />
+              <div class="pb-btn py-2 px-2 text-xs sm:text-sm bg-washi peer-checked:bg-wakatake text-center">
+                🚃 電車
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="fieldTransport" value="walk" class="sr-only peer" />
+              <div class="pb-btn py-2 px-2 text-xs sm:text-sm bg-washi peer-checked:bg-yamabuki text-center">
+                🚶 步行
+              </div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="fieldTransport" value="bus" class="sr-only peer" />
+              <div class="pb-btn py-2 px-2 text-xs sm:text-sm bg-washi peer-checked:bg-coral text-center">
+                🚌 巴士
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 伴手禮專屬：詳細購買分店資訊 -->
+        <div id="branchFieldWrapper">
+          <label for="fieldBranches" class="block text-sm mb-1">🏪 詳細購買分店資訊（樓層 / 機場 / 24H藥妝據點）</label>
+          <textarea id="fieldBranches" rows="2" placeholder="例如：博多車站 MING 1F、博多阪急 B1、福岡機場國內線 2F" class="pb-input"></textarea>
+        </div>
+
+        <!-- 地址備註 + Google 地圖搜尋關鍵字 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="fieldAddress" class="block text-sm mb-1">📍 地址 / 位置備註</label>
+            <input id="fieldAddress" type="text" placeholder="例如：福岡市博多區博多駅中央街1-1" class="pb-input" />
+          </div>
+          <div>
+            <label for="fieldMapQuery" class="block text-sm mb-1">🗺️ Google 地圖搜尋關鍵字</label>
+            <input id="fieldMapQuery" type="text" placeholder="留空則自動帶入名稱與地址" class="pb-input" />
+          </div>
+        </div>
+
+        <!-- 推薦原因 & 營業時間 -->
+        <div>
+          <label for="fieldNote" class="block text-sm mb-1">💡 推薦原因 / 必買必吃重點</label>
+          <textarea id="fieldNote" rows="2" placeholder="寫下口味特色、限定款、伴手禮價格或排隊小撇步..." class="pb-input"></textarea>
+        </div>
+
+        <div>
+          <label for="fieldHours" class="block text-sm mb-1">🕒 營業時間 / 公休日提醒</label>
+          <input id="fieldHours" type="text" placeholder="例如：09:00–21:00（全年無休）" class="pb-input" />
+        </div>
+
+        <!-- 已完成勾選 -->
+        <div class="pt-1">
+          <label class="inline-flex items-center gap-2.5 cursor-pointer select-none">
+            <input id="fieldCompleted" type="checkbox" class="w-5 h-5 accent-[#3E3A39] rounded border-2 border-ink" />
+            <span class="text-sm">標記為「已入手 / 已吃過」</span>
+          </label>
+        </div>
+
+        <!-- 送出與取消按鈕 -->
+        <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 pt-3 border-t-[3px] border-ink">
+          <div class="justify-self-start">
+            <button type="button" onclick="closeItemModal()" class="pb-btn bg-washi px-3.5 sm:px-4 py-2 text-sm">
+              取消
+            </button>
+          </div>
+          <button type="submit" class="pb-btn bg-yamabuki px-5 sm:px-6 py-2 text-sm sm:text-base justify-self-center">
+            💾 儲存手札
+          </button>
+          <div></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== 彈窗 2：管理地區與 JSON 備份 Modal ==================== -->
+  <div id="regionModal" class="fixed inset-0 z-50 hidden bg-ink/45 flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="regionModalTitle">
+    <div class="bg-washi border-t-[3px] sm:border-[3px] border-ink rounded-t-[26px] sm:rounded-[26px] shadow-[0_-4px_0_#3E3A39] sm:shadow-[6px_6px_0px_#3E3A39] w-full max-w-lg max-h-[90vh] overflow-y-auto p-4 sm:p-6 anim-pop">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b-[3px] border-ink">
+        <h3 id="regionModalTitle" class="text-lg sm:text-xl flex items-center gap-2">
+          <span>🗺️</span>
+          <span>管理地區標籤與資料備份</span>
+        </h3>
+        <button type="button" onclick="closeRegionModal()" class="pb-btn bg-coral w-9 h-9 flex items-center justify-center text-base" aria-label="關閉地區管理">
+          ✕
+        </button>
+      </div>
+
+      <!-- 新增自訂地區 -->
+      <form onsubmit="addNewRegion(event)" class="pb-subbox p-3.5 bg-white mb-4 space-y-3">
+        <label for="newRegionName" class="block text-sm">＋ 新增地區 / 城市標籤</label>
+        <div class="flex gap-2">
+          <input id="newRegionName" type="text" required placeholder="例如：熊本市區、長崎、鹿兒島..." class="pb-input py-2 text-sm flex-1" />
+          <button type="submit" class="pb-btn bg-yamabuki px-4 py-2 text-sm shrink-0">新增</button>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <span class="w-full sm:w-auto">標籤配色（10色）：</span>
+          <label class="cursor-pointer flex items-center gap-1" title="珊瑚粉">
+            <input type="radio" name="newRegionColor" value="#F2A497" class="sr-only peer" checked />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #F2A497;"></span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-1" title="山吹黃">
+            <input type="radio" name="newRegionColor" value="#F6D27A" class="sr-only peer" />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #F6D27A;"></span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-1" title="水色">
+            <input type="radio" name="newRegionColor" value="#A8D3E6" class="sr-only peer" />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #A8D3E6;"></span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-1" title="若竹綠">
+            <input type="radio" name="newRegionColor" value="#B9DAA5" class="sr-only peer" />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #B9DAA5;"></span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-1" title="藤紫">
+            <input type="radio" name="newRegionColor" value="#D5C3E8" class="sr-only peer" />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #D5C3E8;"></span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-1" title="蜜柑橘">
+            <input type="radio" name="newRegionColor" value="#F7BE8B" class="sr-only peer" />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #F7BE8B;"></span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-1" title="櫻花粉">
+            <input type="radio" name="newRegionColor" value="#F8C8DC" class="sr-only peer" />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #F8C8DC;"></span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-1" title="薄荷青">
+            <input type="radio" name="newRegionColor" value="#A9DFD8" class="sr-only peer" />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #A9DFD8;"></span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-1" title="焙茶棕">
+            <input type="radio" name="newRegionColor" value="#E2CBB5" class="sr-only peer" />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #E2CBB5;"></span>
+          </label>
+          <label class="cursor-pointer flex items-center gap-1" title="抹茶黃綠">
+            <input type="radio" name="newRegionColor" value="#E4E8A3" class="sr-only peer" />
+            <span class="w-6 h-6 rounded-full border-2 border-ink inline-block peer-checked:ring-2 peer-checked:ring-ink peer-checked:scale-110 transition-transform" style="background-color: #E4E8A3;"></span>
+          </label>
+        </div>
+      </form>
+
+      <!-- 現有地區列表 -->
+      <div class="mb-4">
+        <p class="text-sm mb-2">目前手札地區：</p>
+        <div id="regionManageList" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
+      </div>
+
+      <!-- 匯出與匯入備份（含照片） -->
+      <div class="pb-subbox p-3.5 bg-mizuiro/25 space-y-2.5">
+        <p class="text-sm">📦 手札資料備份與還原（含照片與打勾進度）</p>
+        <div class="grid grid-cols-2 gap-2.5">
+          <button type="button" onclick="exportBackupJSON()" class="pb-btn bg-wakatake py-2 px-3 text-xs sm:text-sm">
+            ⬇️ 匯出 JSON 備份
+          </button>
+          <label class="pb-btn bg-washi py-2 px-3 text-xs sm:text-sm text-center cursor-pointer">
+            ⬆️ 匯入 JSON 還原
+            <input type="file" accept=".json,application/json" onchange="importBackupJSON(event)" class="hidden" />
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 彈窗 3：自訂確認對話框 Modal ==================== -->
+  <div id="confirmModal" class="fixed inset-0 z-50 hidden bg-ink/50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="pb-card bg-washi max-w-sm w-full p-5 text-center anim-pop">
+      <div class="text-3xl mb-2">🐻</div>
+      <h3 id="confirmTitle" class="text-lg mb-1.5">確認操作</h3>
+      <p id="confirmMessage" class="text-sm text-ink/85 mb-5 leading-relaxed"></p>
+      <div class="flex items-center justify-center gap-3">
+        <button type="button" onclick="closeConfirmModal()" class="pb-btn bg-washi px-4 py-2 text-sm">
+          先不要
+        </button>
+        <button id="btnConfirmExecute" type="button" class="pb-btn bg-coral px-4 py-2 text-sm">
+          確定執行
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 彈窗 4：大圖預覽燈箱 (Lightbox) ==================== -->
+  <div id="lightboxModal" class="fixed inset-0 z-50 hidden bg-ink/75 flex items-center justify-center p-3 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+    <div class="pb-card bg-washi max-w-2xl w-full p-3.5 sm:p-5 anim-pop">
+      <div class="flex items-center justify-between gap-2 pb-2.5 mb-3 border-b-[3px] border-ink">
+        <div class="min-w-0">
+          <span id="lightboxRegionBadge" class="pb-tag text-xs mb-1">📍 福岡・博多</span>
+          <h3 id="lightboxTitle" class="text-base sm:text-lg truncate">圖片預覽</h3>
+        </div>
+        <button type="button" onclick="closeLightbox()" class="pb-btn bg-coral w-9 h-9 flex items-center justify-center text-base shrink-0" aria-label="關閉大圖預覽">
+          ✕
+        </button>
+      </div>
+
+      <div class="pb-photo-frame bg-white flex items-center justify-center max-h-[65vh] overflow-hidden mb-3">
+        <img id="lightboxImg" src="" alt="大圖預覽" class="max-h-[64vh] w-auto max-w-full object-contain" />
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <button id="btnLightboxChangePhoto" type="button" class="pb-btn bg-yamabuki px-3.5 py-1.5 text-xs sm:text-sm flex items-center gap-1.5">
+          <span>📷</span>
+          <span>更換這張照片</span>
+        </button>
+        <button type="button" onclick="closeLightbox()" class="pb-btn bg-washi px-4 py-1.5 text-xs sm:text-sm">
+          關閉預覽
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 彈窗 5：雲端同步與旅伴共享中心 Modal ==================== -->
+  <div id="cloudModal" class="fixed inset-0 z-50 hidden bg-ink/45 flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="cloudModalTitle">
+    <div class="bg-washi border-t-[3px] sm:border-[3px] border-ink rounded-t-[26px] sm:rounded-[26px] shadow-[0_-4px_0_#3E3A39] sm:shadow-[6px_6px_0px_#3E3A39] w-full max-w-lg max-h-[92vh] overflow-y-auto p-4 sm:p-6 anim-pop">
+      <div class="flex items-center justify-between pb-3 mb-4 border-b-[3px] border-ink">
+        <h3 id="cloudModalTitle" class="text-lg sm:text-xl flex items-center gap-2">
+          <span>☁️</span>
+          <span>雲端同步與旅伴共享手札</span>
+        </h3>
+        <button type="button" onclick="closeCloudModal()" class="pb-btn bg-coral w-9 h-9 flex items-center justify-center text-base" aria-label="關閉共享設定">
+          ✕
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <!-- 目前手札共享房間卡片 -->
+        <div class="pb-subbox p-4 bg-white space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs sm:text-sm flex items-center gap-1.5">
+              <span>🏠</span>
+              <span>目前連線的手札共享房</span>
+            </span>
+            <span id="cloudModalStatusBadge" class="pb-tag bg-wakatake text-xs">
+              ● 已連線即時同步
+            </span>
+          </div>
+
+          <div class="bg-yamabuki/35 border-[2.5px] border-ink rounded-[16px] p-3 flex items-center justify-between gap-2">
+            <div>
+              <p class="text-[11px] text-ink/75">手札房間代碼（Room Code）</p>
+              <p id="cloudCurrentRoomCode" class="text-lg sm:text-xl tracking-wider font-normal select-all">載入中...</p>
+            </div>
+            <button type="button" onclick="copyRoomCode()" class="pb-btn bg-washi px-3 py-1.5 text-xs sm:text-sm shrink-0">
+              📋 複製代碼
+            </button>
+          </div>
+
+          <button type="button" onclick="copyShareInviteLink()" class="pb-btn bg-coral w-full py-2.5 px-4 text-xs sm:text-sm flex items-center justify-center gap-2">
+            <span>🔗</span>
+            <span>複製「旅伴邀請連結」傳到 LINE 群組</span>
+          </button>
+          <p class="text-xs text-ink/75 leading-relaxed">
+            💡 只要旅伴打開邀請連結，或輸入相同的「手札房間代碼」，大家就能<strong>即時共同編輯</strong>同一本九州手札、同步看到誰買了伴手禮或上傳了美食照！
+          </p>
+        </div>
+
+        <!-- 旅伴顯示暱稱設定 -->
+        <div class="pb-subbox p-3.5 bg-white space-y-2.5">
+          <label for="cloudNicknameInput" class="block text-sm">🐻 我的旅伴暱稱（顯示在新增與打勾紀錄上）</label>
+          <div class="flex gap-2">
+            <input
+              id="cloudNicknameInput"
+              type="text"
+              maxlength="16"
+              placeholder="例如：小美、阿翔、旅伴A..."
+              class="pb-input py-2 text-sm flex-1"
+            />
+            <button type="button" onclick="saveNicknameSetting()" class="pb-btn bg-wakatake px-4 py-2 text-sm shrink-0">
+              儲存暱稱
+            </button>
+          </div>
+        </div>
+
+        <!-- 加入其他旅伴的手札房 / 建立新房間 -->
+        <div class="pb-subbox p-3.5 bg-mizuiro/25 space-y-3">
+          <p class="text-sm">🚪 切換或加入旅伴的手札房間</p>
+          <div class="flex gap-2">
+            <input
+              id="joinRoomCodeInput"
+              type="text"
+              placeholder="輸入旅伴提供的房間代碼（如 KYUSHU-888）"
+              class="pb-input py-2 text-xs sm:text-sm flex-1 uppercase"
+            />
+            <button type="button" onclick="joinCloudRoom()" class="pb-btn bg-yamabuki px-4 py-2 text-xs sm:text-sm shrink-0">
+              加入房間
+            </button>
+          </div>
+          <div class="pt-1 flex items-center justify-between gap-2 border-t-2 border-ink/15">
+            <span class="text-xs text-ink/80">想開一本全新的空白/預設旅程手札？</span>
+            <button type="button" onclick="createNewCloudRoom()" class="pb-btn bg-washi px-3 py-1.5 text-xs shrink-0">
+              ✨ 建立新手札房
+            </button>
+          </div>
+        </div>
+
+        <!-- 完整使用者識別碼（供跨裝置與多人核對） -->
+        <div class="bg-washi border-2 border-ink/40 rounded-[14px] px-3 py-2 text-[11px] text-ink/75 break-all">
+          <span>帳號識別 ID：</span>
+          <span id="cloudFullUserId" class="select-all">驗證中...</span>
+        </div>
+
+        <!-- 自架網站（匯出 HTML 後）啟用跨裝置多人雲端同步設定 -->
+        <details class="pb-subbox p-3.5 bg-white">
+          <summary class="text-xs sm:text-sm cursor-pointer select-none flex items-center justify-between">
+            <span>🌐 自架網站啟用「多人雲端即時同步」（選填）</span>
+            <span class="text-xs text-ink/70">展開設定 ▾</span>
+          </summary>
+          <div class="mt-3 pt-3 border-t-2 border-ink/15 space-y-2.5 text-xs">
+            <p class="text-ink/80 leading-relaxed">
+              匯出 HTML 後，手札已預設開啟<strong>「本機自動永久保存」</strong>（重新整理資料不會消失）。若你將網頁上架到 Netlify / GitHub Pages 且希望與旅伴跨裝置即時同步，可在此貼上你的免費 Firebase Web 設定 JSON：
+            </p>
+            <textarea
+              id="customFirebaseConfigInput"
+              rows="4"
+              placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"..."}'
+              class="pb-input text-xs font-mono"
+            ></textarea>
+            <div class="flex flex-wrap items-center justify-end gap-2">
+              <button type="button" onclick="clearCustomCloudConfig()" class="pb-btn bg-washi px-3 py-1.5 text-xs">
+                清除設定
+              </button>
+              <button type="button" onclick="saveCustomCloudConfig()" class="pb-btn bg-wakatake px-3.5 py-1.5 text-xs">
+                💾 儲存並啟用雲端同步
+              </button>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 繪本風底部輕提示 (Toast) ==================== -->
+  <div id="toastBanner" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 hidden pointer-events-none">
+    <div id="toastInner" class="pb-card bg-yamabuki px-4 py-2.5 text-sm flex items-center gap-2 shadow-[4px_4px_0px_#3E3A39]">
+      <span id="toastIcon">✨</span>
+      <span id="toastText">已更新手札！</span>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // ==================== 1A. 瀏覽器大容量本機資料庫 (IndexedDB，供匯出後獨立網站永久保存) ====================
+    const IDB_NAME = 'KyushuTravelJournalDB';
+    const IDB_VERSION = 1;
+    const IDB_STORE = 'journal_state';
+
+    function openLocalDB() {
+      return new Promise((resolve, reject) => {
+        if (!window.indexedDB) {
+          reject(new Error('IndexedDB not supported'));
+          return;
+        }
+        const req = window.indexedDB.open(IDB_NAME, IDB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const idb = e.target.result;
+          if (!idb.objectStoreNames.contains(IDB_STORE)) {
+            idb.createObjectStore(IDB_STORE);
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function idbGet(key) {
+      try {
+        const idb = await openLocalDB();
+        return await new Promise((resolve, reject) => {
+          const tx = idb.transaction(IDB_STORE, 'readonly');
+          const store = tx.objectStore(IDB_STORE);
+          const req = store.get(key);
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      } catch (err) {
+        console.warn('讀取本機資料庫略過：', err);
+        return null;
+      }
+    }
+
+    async function idbSet(key, value) {
+      try {
+        const idb = await openLocalDB();
+        return await new Promise((resolve, reject) => {
+          const tx = idb.transaction(IDB_STORE, 'readwrite');
+          const store = tx.objectStore(IDB_STORE);
+          const req = store.put(value, key);
+          req.onsuccess = () => resolve(true);
+          req.onerror = () => reject(req.error);
+        });
+      } catch (err) {
+        console.warn('寫入本機資料庫略過：', err);
+        return false;
+      }
+    }
+
+    async function idbDelete(key) {
+      try {
+        const idb = await openLocalDB();
+        return await new Promise((resolve, reject) => {
+          const tx = idb.transaction(IDB_STORE, 'readwrite');
+          const store = tx.objectStore(IDB_STORE);
+          const req = store.delete(key);
+          req.onsuccess = () => resolve(true);
+          req.onerror = () => reject(req.error);
+        });
+      } catch (err) {
+        console.warn('刪除本機資料庫鍵值略過：', err);
+        return false;
+      }
+    }
+
+    async function persistStandaloneSnapshot() {
+      await idbSet('kyushu_journal_snapshot_v1', {
+        regions,
+        items,
+        userNickname,
+        reduceMotion,
+        savedAt: Date.now(),
+      });
+    }
+
+    // ==================== 1B. 雲端初始化與集合常數 ====================
+    // 若匯出 HTML 後想直接在程式碼內寫入自己的 Firebase 設定，可填入下方物件（或透過網頁「共享手札」視窗貼上）
+    const CUSTOM_FIREBASE_CONFIG = null;
+
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+    let firebaseConfig =
+      typeof __firebase_config !== 'undefined'
+        ? JSON.parse(__firebase_config)
+        : CUSTOM_FIREBASE_CONFIG;
+
+    let app = null;
+    let auth = null;
+    let db = null;
+
+    function initFirebaseServices(cfg) {
+      if (!cfg || typeof cfg !== 'object' || !cfg.apiKey || !cfg.projectId) return false;
+      try {
+        app = initializeApp(cfg);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        return true;
+      } catch (err) {
+        console.error('初始化雲端服務失敗：', err);
+        app = null;
+        auth = null;
+        db = null;
+        return false;
+      }
+    }
+
+    if (firebaseConfig) {
+      initFirebaseServices(firebaseConfig);
+    }
+
+    const COL_ROOMS = 'kyushu_journal_rooms';
+    const COL_REGIONS = 'kyushu_journal_regions';
+    const COL_ITEMS = 'kyushu_journal_items';
+
+    const BRAND_COLORS = [
+      { hex: '#F2A497', name: '珊瑚粉' },
+      { hex: '#F6D27A', name: '山吹黃' },
+      { hex: '#A8D3E6', name: '水色' },
+      { hex: '#B9DAA5', name: '若竹綠' },
+      { hex: '#D5C3E8', name: '藤紫' },
+      { hex: '#F7BE8B', name: '蜜柑橘' },
+      { hex: '#F8C8DC', name: '櫻花粉' },
+      { hex: '#A9DFD8', name: '薄荷青' },
+      { hex: '#E2CBB5', name: '焙茶棕' },
+      { hex: '#E4E8A3', name: '抹茶黃綠' },
+    ];
+
+    const TRANSPORT_CONFIG = {
+      car: { label: '🚗 自駕', color: '#A8D3E6' },
+      train: { label: '🚃 電車', color: '#B9DAA5' },
+      walk: { label: '🚶 步行', color: '#F6D27A' },
+      bus: { label: '🚌 巴士', color: '#F2A497' },
+    };
+
+    // ==================== 2. 預設九州地區資料 ====================
+    const DEFAULT_REGIONS = [
+      { id: 'fukuoka', name: '福岡・博多', color: '#F2A497', sortOrder: 1 },
+      { id: 'mojiko', name: '門司港', color: '#F6D27A', sortOrder: 2 },
+      { id: 'beppu', name: '別府', color: '#A8D3E6', sortOrder: 3 },
+      { id: 'yufuin', name: '由布院', color: '#B9DAA5', sortOrder: 4 },
+      { id: 'aso', name: '阿蘇', color: '#F2A497', sortOrder: 5 },
+      { id: 'itoshima', name: '糸島', color: '#A8D3E6', sortOrder: 6 },
+      { id: 'drugstore', name: '藥妝・唐吉訶德', color: '#F6D27A', sortOrder: 7 },
+    ];
+
+    // ==================== 3. 精選預載九州必買伴手禮(13筆)與必吃美食(10筆) ====================
+    const DEFAULT_ITEMS = [
+      // ---------- 🎁 必買伴手禮（共 13 項，含九州伴手禮與必買日本藥妝） ----------
+      {
+        id: 'souv-01',
+        type: 'souvenir',
+        title: '努努雞（冷吃炸雞）',
+        regionId: 'fukuoka',
+        category: '冰鎮名物點心',
+        transport: 'train',
+        branches: '博多阪急 B1F 專櫃、博多車站 Ming（マイング）名店街、福岡機場國內線 2F 伴手禮店',
+        address: '福岡市博多區博多駅中央街1-1（博多阪急 B1F / Ming 1F）',
+        mapQuery: '努努鶏 博多マイング店',
+        note: '福岡超人氣「冰著吃」炸雞翅！外皮裹滿甜鹹微辣秘製醬汁與白芝麻，越冰越酥脆涮嘴，買回飯店配啤酒超適合（需冷凍/冷藏保存）。',
+        hours: '09:00–21:00（博多Ming店）',
+        image: '',
+        completed: false,
+        sortOrder: 1,
+      },
+      {
+        id: 'souv-02',
+        type: 'souvenir',
+        title: '福太郎 めんべい 明太子仙貝',
+        regionId: 'fukuoka',
+        category: '明太子名產',
+        transport: 'train',
+        branches: '博多車站 Ming 專賣店、博多阪急 B1F、福岡機場國內/國際線免稅店',
+        address: '福岡市博多區博多駅中央街1-1（博多マイング 1F）',
+        mapQuery: '山口油屋福太郎 博多マイング店',
+        note: '加入博多明太子、花枝與章魚烘烤的薄脆仙貝！推薦必買原味、美乃滋與福岡限定蔥香口味，獨立包裝適合帶回台灣分送同事親友。',
+        hours: '09:00–21:00',
+        image: '',
+        completed: false,
+        sortOrder: 2,
+      },
+      {
+        id: 'souv-03',
+        type: 'souvenir',
+        title: 'Amanberry 草莓奶油夾心餅',
+        regionId: 'fukuoka',
+        category: '限定甜點禮盒',
+        transport: 'walk',
+        branches: '博多阪急 B1F 專櫃（僅此一家常設店，建議早上 10:00 開門即前往排隊）',
+        address: '福岡市博多區博多駅中央街1-1（博多阪急 B1F）',
+        mapQuery: 'Amanberry 博多阪急',
+        note: '使用福岡特產「甘王草莓」製作的立體草莓造型脆餅！酥脆餅乾夾入濃郁生奶油巧克力與香甜草莓乾，顏值極高，下午常提前完售。',
+        hours: '10:00–20:00（售完為止）',
+        image: '',
+        completed: false,
+        sortOrder: 3,
+      },
+      {
+        id: 'souv-04',
+        type: 'souvenir',
+        title: '如水庵 筑紫麻糬',
+        regionId: 'fukuoka',
+        category: '傳統和菓子',
+        transport: 'train',
+        branches: '博多車站筑紫口店、博多大丸 B2F、福岡機場國內/國際線賣店',
+        address: '福岡市博多區博多駅中央街1-1（博多車站筑紫口側）',
+        mapQuery: '如水庵 博多駅筑紫口店',
+        note: '裹滿九州產香濃黃豆粉的軟Q麻糬，淋上附贈的黑糖蜜一起享用，甜而不膩、口感細緻，是長輩最喜愛的博多經典銘菓。',
+        hours: '08:00–21:00（博多站筑紫口店）',
+        image: '',
+        completed: false,
+        sortOrder: 4,
+      },
+      {
+        id: 'souv-05',
+        type: 'souvenir',
+        title: '門司港 燒咖哩調理包＆香蕉蛋糕',
+        regionId: 'mojiko',
+        category: '在地名產',
+        transport: 'train',
+        branches: '門司港懷舊海峽廣場 1F 特產館、JR 門司港站銘品館',
+        address: '福岡縣北九州市門司區港町5-1（海峽廣場 1F）',
+        mapQuery: '門司港レトロ 海峡プラザ',
+        note: '門司港曾是日本香蕉貿易重鎮，當地限定的香蕉年輪蛋糕、香蕉夾心餅乾與名店「伽哩本舗」燒咖哩調理包都是必帶戰利品。',
+        hours: '10:00–20:00',
+        image: '',
+        completed: false,
+        sortOrder: 5,
+      },
+      {
+        id: 'souv-06',
+        type: 'souvenir',
+        title: '岡本屋賣店 地獄蒸布丁',
+        regionId: 'beppu',
+        category: '溫泉名產',
+        transport: 'car',
+        branches: '明礬溫泉 岡本屋賣店本店（附停車場）、JR 別府車站銘品藏',
+        address: '大分縣別府市明礬3組',
+        mapQuery: '岡本屋売店 別府',
+        note: '昭和63年流傳至今的元祖地獄蒸布丁！利用天然硫磺溫泉蒸氣慢蒸而成，微苦焦糖配濃郁蛋香，現場內用一顆再外帶保冷禮盒。',
+        hours: '08:30–18:30（布丁常於傍晚前售罄）',
+        image: '',
+        completed: false,
+        sortOrder: 6,
+      },
+      {
+        id: 'souv-07',
+        type: 'souvenir',
+        title: 'B-speak P-roll 瑞士卷',
+        regionId: 'yufuin',
+        category: '限定甜點禮盒',
+        transport: 'walk',
+        branches: '由布院湯之坪街道入口本店（建議 10:00 開門即前往購買或預約小條裝）',
+        address: '大分縣由布市湯布院町川上3040-2',
+        mapQuery: 'B-speak 由布院',
+        note: '由布院頂級旅館「山莊無量塔」監製的生乳蛋糕捲！僅使用麵粉、砂糖、雞蛋與鮮奶油烘焙，海綿蛋糕蓬鬆濕潤、奶香清爽不膩。',
+        hours: '10:00–17:00（小條裝常於中午前完售）',
+        image: '',
+        completed: false,
+        sortOrder: 7,
+      },
+      {
+        id: 'souv-08',
+        type: 'souvenir',
+        title: 'Milch 由布院半熟起司蛋糕',
+        regionId: 'yufuin',
+        category: '乳酪甜點',
+        transport: 'walk',
+        branches: '由布院湯之坪街道本店、JR 博多城（AMU EST 1F）店',
+        address: '大分縣由布市湯布院町川上3015-1',
+        mapQuery: '由布院ミルヒ Yufuin Milch',
+        note: '連續榮獲世界食品品質評鑑金賞！使用由布院產鮮奶與起司烘烤，現烤熱吃會爆漿流心，冷藏後則像綿密生乳酪蛋糕，也推出常溫起司餅乾禮盒。',
+        hours: '09:30–17:30',
+        image: '',
+        completed: false,
+        sortOrder: 8,
+      },
+      {
+        id: 'souv-09',
+        type: 'souvenir',
+        title: '阿蘇小國澤西牛乳布丁＆牛奶餅乾',
+        regionId: 'aso',
+        category: '牧場乳製品',
+        transport: 'car',
+        branches: '道之驛阿蘇（道の駅 阿蘇，JR阿蘇站旁）、草千里休息站賣店',
+        address: '熊本縣阿蘇市黑川1440-1（道の駅 阿蘇）',
+        mapQuery: '道の駅 阿蘇',
+        note: '阿蘇小國鄉稀有的澤西牛（Jersey）鮮乳乳脂肪含量高、香氣特別濃醇！澤西牛乳布丁、鮮乳夾心餅與牛奶糖都是自駕途中必掃伴手禮。',
+        hours: '09:00–18:00',
+        image: '',
+        completed: false,
+        sortOrder: 9,
+      },
+      {
+        id: 'souv-10',
+        type: 'souvenir',
+        title: 'またいちの塩 花鹽布丁＆海鹽',
+        regionId: 'itoshima',
+        category: '海鹽名產',
+        transport: 'car',
+        branches: '工房とったん（海邊製鹽小屋）、新三郎商店 糸島本店',
+        address: '福岡縣糸島市志摩芥屋3757（工房とったん）',
+        mapQuery: 'またいちの塩 工房とったん',
+        note: '以玄界灘海水古法日曬慢煮的天然海鹽！招牌「花鹽布丁」淋上焦糖醬並撒上結晶花鹽，鹹甜交織超驚豔，推薦順便帶一包炊飯糰超好吃的「炊塩」。',
+        hours: '10:00–17:00（遇惡劣天候可能臨時公休）',
+        image: '',
+        completed: false,
+        sortOrder: 10,
+      },
+      {
+        id: 'souv-11',
+        type: 'souvenir',
+        title: '大正製藥 百保能黃金A微粒',
+        regionId: 'drugstore',
+        category: '常備藥妝',
+        transport: 'train',
+        branches: '大國藥妝 博多筑紫口店、松本清 天神地下街店、唐吉訶德 中洲店（24H營業）',
+        address: '福岡市博多區博多駅中央街1-1（筑紫口周邊藥妝店）',
+        mapQuery: 'ダイコクドラッグ 博多筑紫口店',
+        note: '日本家庭必備綜合感冒常備藥（44包盒裝），旅途中感覺喉嚨微癢或著涼時及時補充超安心，結帳記得攜帶護照辦理免稅。',
+        hours: '09:00–22:30（唐吉訶德中洲店為 24 小時營業）',
+        image: '',
+        completed: false,
+        sortOrder: 11,
+      },
+      {
+        id: 'souv-12',
+        type: 'souvenir',
+        title: 'EVE QUICK 頭痛藥 DX（藍盒）',
+        regionId: 'drugstore',
+        category: '常備藥妝',
+        transport: 'train',
+        branches: '松本清 博多車站地下街店、大國藥妝 天神店、唐吉訶德 天神本店（24H營業）',
+        address: '福岡市中央區今泉1-20-17（唐吉訶德 天神本店）',
+        mapQuery: 'ドン・キホーテ 福岡天神本店',
+        note: '針對頭痛、肩頸痠痛與生理痛的速效加強版（藍盒 DX），添加氧化鎂保護胃黏膜，是台灣旅客到日本藥妝店必補貨的常備清單。',
+        hours: '24小時營業（唐吉訶德天神本店）',
+        image: '',
+        completed: false,
+        sortOrder: 12,
+      },
+      {
+        id: 'souv-13',
+        type: 'souvenir',
+        title: '合利他命 EX PLUS ＆ 休足時間',
+        regionId: 'drugstore',
+        category: '常備藥妝',
+        transport: 'walk',
+        branches: '唐吉訶德 中洲店（24H免稅）、Sundrug（サンドラッグ）博多站前店',
+        address: '福岡市博多區中洲3-7-24（唐吉訶德 中洲店）',
+        mapQuery: 'ドン・キホーテ 中洲店',
+        note: '九州自由行每天走兩萬步必備！晚上回飯店貼上清涼「休足時間」舒緩小腿與腳底；合利他命 EX PLUS（270錠）則是幫家人代購的熱門首選。',
+        hours: '24小時營業（唐吉訶德中洲店）',
+        image: '',
+        completed: false,
+        sortOrder: 13,
+      },
+
+      // ---------- 🍜 必吃美食（共 10 項） ----------
+      {
+        id: 'food-01',
+        type: 'food',
+        title: '博多一雙 豚骨拉麵（博多站東本店）',
+        regionId: 'fukuoka',
+        category: '泡系豚骨拉麵',
+        transport: 'walk',
+        branches: '',
+        address: '福岡市博多區博多駅東3-1-6（博多站筑紫口步行約5分鐘）',
+        mapQuery: '博多一双 博多駅東本店',
+        note: '被稱為「豚骨卡布奇諾」的博多泡系拉麵名店！湯頭熬煮至表面浮現細密乳化泡沫，豚骨香氣極濃郁卻不死鹹，推薦加點半熟味玉與一口煎餃。',
+        hours: '11:00–24:00（湯頭售完提前打烊）',
+        image: '',
+        completed: false,
+        sortOrder: 14,
+      },
+      {
+        id: 'food-02',
+        type: 'food',
+        title: '博多もつ鍋 おおやま（牛腸鍋）',
+        regionId: 'fukuoka',
+        category: '鄉土鍋物',
+        transport: 'train',
+        branches: '',
+        address: '福岡市博多區博多駅中央街1-1（JR博多城 9F / DEITOS ANNEX）',
+        mapQuery: '博多もつ鍋 おおやま 博多デイトス',
+        note: '福岡代表性鄉土料理！招牌「味噌口味牛腸鍋」使用九州產和牛小腸，肥美彈牙無腥味，湯頭濃醇甘甜，最後一定要加點強棒麵（ちゃんぽん麺）吸飽精華。',
+        hours: '11:00–23:00（建議提前線上預約）',
+        image: '',
+        completed: false,
+        sortOrder: 15,
+      },
+      {
+        id: 'food-03',
+        type: 'food',
+        title: '極味屋 博多店（伊萬里牛漢堡排）',
+        regionId: 'fukuoka',
+        category: '鐵板和牛漢堡排',
+        transport: 'walk',
+        branches: '',
+        address: '福岡市博多區博多駅中央街2-1（博多巴士總站 1F）',
+        mapQuery: '極味や 博多店',
+        note: '使用佐賀伊萬里牛與九州產黑毛和牛製作的手打漢堡排，表面微煎後上桌，自己用筷子夾小塊在滾燙小圓鐵石上煎至喜愛熟度，搭配白飯、味噌湯與霜淇淋吃到飽！',
+        hours: '11:00–22:00（建議避開正餐尖峰時段）',
+        image: '',
+        completed: false,
+        sortOrder: 16,
+      },
+      {
+        id: 'food-04',
+        type: 'food',
+        title: '伽哩本舗 門司港懷舊本店（燒咖哩）',
+        regionId: 'mojiko',
+        category: '門司港燒咖哩',
+        transport: 'train',
+        branches: '',
+        address: '福岡縣北九州市門司區港町9-2 阿波屋大樓2F',
+        mapQuery: '伽哩本舗 門司港レトロ店',
+        note: '門司港發祥靈魂美食！在濃郁香料咖哩飯上打入一顆半熟蛋並鋪滿雙層起司進烤箱焗烤，窗邊座位還能直接欣賞關門海峽與門司港懷舊建築群。',
+        hours: '11:00–20:00（L.O. 19:30）',
+        image: '',
+        completed: false,
+        sortOrder: 17,
+      },
+      {
+        id: 'food-05',
+        type: 'food',
+        title: '地獄蒸し工房 鉄輪（溫泉蒸氣料理）',
+        regionId: 'beppu',
+        category: '溫泉蒸氣料理',
+        transport: 'bus',
+        branches: '',
+        address: '大分縣別府市風呂本5組（鐵輪溫泉）',
+        mapQuery: '地獄蒸し工房 鉄輪 別府',
+        note: '利用別府鐵輪溫泉 98 度高溫噴氣親自體驗蒸煮海鮮、大分地瓜、玉米與溫泉蛋！零油脂純天然蒸氣完全鎖住食材鮮甜，好玩又健康。',
+        hours: '10:00–19:00（最終受理 18:00，每月第3個週三公休）',
+        image: '',
+        completed: false,
+        sortOrder: 18,
+      },
+      {
+        id: 'food-06',
+        type: 'food',
+        title: 'とよ常 本店（特上炸蝦天丼）',
+        regionId: 'beppu',
+        category: '經典天丼',
+        transport: 'car',
+        branches: '',
+        address: '大分縣別府市北濱2-12-24（附專用停車場）',
+        mapQuery: 'とよ常 本店 別府',
+        note: '別府創業超過 90 年的超人氣和食老店！招牌「特上天丼」兩尾大炸蝦直立擺盤超霸氣，麵衣酥脆不油膩，淋上祖傳秘製微甜醬汁超級下飯。',
+        hours: '11:00–14:00、17:00–21:00（週二公休）',
+        image: '',
+        completed: false,
+        sortOrder: 19,
+      },
+      {
+        id: 'food-07',
+        type: 'food',
+        title: '由布まぶし 心（豐後牛釜飯三吃）',
+        regionId: 'yufuin',
+        category: '豐後牛釜飯',
+        transport: 'walk',
+        branches: '',
+        address: '大分縣由布市湯布院町川北5-3 2F（JR由布院站步行1分鐘）',
+        mapQuery: '由布まぶし 心 駅前支店',
+        note: '由布院排隊第一名美食！直火陶鍋現炊的「豐後牛釜飯」，一吃品嚐炭烤和牛原味、二吃拌入柚子胡椒與小菜、三吃淋上高湯變成香氣四溢的鍋巴茶泡飯！',
+        hours: '11:00–16:00、17:30–21:00（週四公休，建議開店前30分排隊）',
+        image: '',
+        completed: false,
+        sortOrder: 20,
+      },
+      {
+        id: 'food-08',
+        type: 'food',
+        title: 'いまきん食堂（阿蘇赤牛丼）',
+        regionId: 'aso',
+        category: '阿蘇赤牛丼',
+        transport: 'car',
+        branches: '',
+        address: '熊本縣阿蘇市內牧290（內牧溫泉街）',
+        mapQuery: 'いまきん食堂 阿蘇',
+        note: '傳承百年的阿蘇排隊名店！粉嫩三分熟的阿蘇放牧「赤牛排」鋪滿整碗白飯，戳破半熟溫泉蛋拌著特製味噌醬與芥末享用，肉質軟嫩鮮甜無比。',
+        hours: '11:00–15:00（週三公休，建議早上 10:00 先到現場抽號碼牌）',
+        image: '',
+        completed: false,
+        sortOrder: 21,
+      },
+      {
+        id: 'food-09',
+        type: 'food',
+        title: '糸島海鮮堂 二見浦本店（海景海鮮丼）',
+        regionId: 'itoshima',
+        category: '海景料理',
+        transport: 'car',
+        branches: '',
+        address: '福岡縣福岡市西區小田2206-21（附停車場）',
+        mapQuery: '糸島海鮮堂 二見ヶ浦本店',
+        note: '整面落地窗無敵海景第一排！一邊眺望湛藍玄界灘與櫻井二見浦「夫婦岩・白色鳥居」，一邊大啖鋪滿當日現流生魚片、海膽與鮭魚卵的豪華海鮮丼。',
+        hours: '11:00–17:30（週六日營業至 18:00）',
+        image: '',
+        completed: false,
+        sortOrder: 22,
+      },
+      {
+        id: 'food-10',
+        type: 'food',
+        title: 'London Bus Cafe（雙層巴士義式冰淇淋）',
+        regionId: 'itoshima',
+        category: '海邊甜點咖啡',
+        transport: 'car',
+        branches: '',
+        address: '福岡縣糸島市志摩野北2289-6（縣道54號海濱旁）',
+        mapQuery: '糸島 LONDON BUS CAFE',
+        note: '停靠在糸島蔚藍海岸邊的英國紅色雙層巴士咖啡廳！買一支手作義式冰淇淋（推薦甘王草莓與海鹽牛奶雙球），走上巴士二樓吹海風看海超愜意。',
+        hours: '11:00–日落（遇雨天可能提早打烊）',
+        image: '',
+        completed: false,
+        sortOrder: 23,
+      },
+    ];
+
+    // ==================== 4. 應用程式狀態 ====================
+    let currentUser = null;
+    let currentRoomId = '';
+    let userNickname = '';
+    let unsubscribeRegions = null;
+    let unsubscribeItems = null;
+
+    let regions = JSON.parse(JSON.stringify(DEFAULT_REGIONS));
+    let items = [];
+    let activeTab = 'souvenir'; // 'souvenir' | 'food'
+    let activeRegion = 'all';
+    let statusFilter = 'all'; // 'all' | 'todo' | 'done'
+    let searchQuery = '';
+    let reduceMotion = false;
+    let pendingConfirmCallback = null;
+    let quickUploadTargetItemId = null;
+    let lightboxCurrentItemId = null;
+    let lastParsedUrlPayload = null;
+
+    // ==================== 5. 驗證與雲端即時同步啟動 ====================
+    async function initApp() {
+      reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 1. 優先從瀏覽器大容量本機資料庫 (IndexedDB) 載入已保存的手札進度與照片（確保匯出後重新整理資料永不消失）
+      const savedSnapshot = await idbGet('kyushu_journal_snapshot_v1');
+      if (savedSnapshot && Array.isArray(savedSnapshot.items)) {
+        items = savedSnapshot.items;
+        if (Array.isArray(savedSnapshot.regions) && savedSnapshot.regions.length > 0) {
+          regions = savedSnapshot.regions;
+        }
+        if (typeof savedSnapshot.userNickname === 'string') {
+          userNickname = savedSnapshot.userNickname;
+        }
+        if (typeof savedSnapshot.reduceMotion === 'boolean') {
+          reduceMotion = savedSnapshot.reduceMotion;
+        }
+      } else {
+        items = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+        await persistStandaloneSnapshot();
+      }
+
+      applyMotionPreference();
+
+      // 若環境未內建雲端設定，檢查使用者是否曾在「共享手札」設定過自訂雲端專案
+      if (!firebaseConfig) {
+        const savedCustomCfg = await idbGet('kyushu_custom_cloud_config');
+        if (savedCustomCfg && initFirebaseServices(savedCustomCfg)) {
+          firebaseConfig = savedCustomCfg;
+        }
+      }
+
+      // 檢查網址是否帶有 ?room= 邀請代碼
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlRoom = sanitizeRoomCode(urlParams.get('room'));
+      if (urlRoom) {
+        currentRoomId = urlRoom;
+        updateRoomDisplayUI();
+      }
+
+      renderAll();
+
+      // 若無雲端設定（匯出為獨立網站的預設狀態），啟用本機自動永久保存模式
+      if (!auth || !db) {
+        currentRoomId = urlRoom || '本機永久保存';
+        updateRoomDisplayUI();
+        updateSyncStatusUI('local', '本機已自動保存');
+        const fullUidEl = document.getElementById('cloudFullUserId');
+        if (fullUidEl) {
+          fullUidEl.textContent = '目前為「本機永久保存模式」：所有新增、打勾與照片皆自動存於此裝置瀏覽器，重新整理不會消失。';
+        }
+        return;
+      }
+
+      updateSyncStatusUI('syncing', '連線中...');
+
+      // 逾時保護：若 8 秒內雲端驗證未回應，自動切換為本機可用代碼不卡死
+      let authCompleted = false;
+      const authTimeoutId = setTimeout(() => {
+        if (!authCompleted) {
+          if (!currentRoomId) {
+            currentRoomId = urlRoom || `KYUSHU-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+          }
+          updateRoomDisplayUI();
+          updateSyncStatusUI('offline', '連線逾時');
+          showToast('⚠️ 雲端連線較慢，已先為您顯示手札代碼');
+        }
+      }, 8000);
+
+      // 先完成 Firebase 驗證登入，再執行任何 Firestore 讀寫
+      let userCred = null;
+      try {
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          try {
+            userCred = await signInWithCustomToken(auth, __initial_auth_token);
+          } catch (tokenErr) {
+            userCred = await signInAnonymously(auth);
+          }
+        } else {
+          userCred = await signInAnonymously(auth);
+        }
+      } catch (err) {
+        authCompleted = true;
+        clearTimeout(authTimeoutId);
+        console.error('驗證登入失敗：', err);
+        if (!currentRoomId) {
+          currentRoomId = urlRoom || 'OFFLINE-MODE';
+        }
+        updateRoomDisplayUI();
+        updateSyncStatusUI('local', '本機已自動保存');
+        showToast('⚠️ 雲端連線異常，已自動切換為本機永久保存模式');
+        return;
+      }
+
+      authCompleted = true;
+      clearTimeout(authTimeoutId);
+
+      const user = userCred?.user || auth.currentUser;
+      if (!user) return;
+
+      currentUser = user;
+      const fullUidEl = document.getElementById('cloudFullUserId');
+      if (fullUidEl) fullUidEl.textContent = user.uid;
+
+      // 驗證完成後立刻產生並顯示房間代碼（不等待遠端讀取）
+      const fallbackRoom = `KYUSHU-${user.uid.slice(0, 6).toUpperCase()}`;
+      if (!currentRoomId) {
+        currentRoomId = urlRoom || fallbackRoom;
+      }
+      updateRoomDisplayUI();
+
+      // 立即連線至該手札房間並監聽即時資料
+      connectToRoom(currentRoomId);
+
+      // 同步在背景讀取個人雲端偏好（暱稱、動態設定與上次使用的房間）
+      resolveUserRoomAndPrefs(user, urlRoom, fallbackRoom);
+    }
+
+    function sanitizeRoomCode(raw) {
+      return String(raw || '')
+        .trim()
+        .toUpperCase()
+        .replace(/[^A-Z0-9\-_]/g, '')
+        .slice(0, 24);
+    }
+
+    async function resolveUserRoomAndPrefs(user, urlRoom, fallbackRoom) {
+      if (!user || !db) return;
+      const prefRef = doc(db, 'artifacts', appId, 'users', user.uid, 'settings', 'preferences');
+      let savedPrefs = {};
+      try {
+        const prefSnap = await getDoc(prefRef);
+        if (prefSnap.exists()) {
+          savedPrefs = prefSnap.data() || {};
+        }
+      } catch (e) {
+        console.error('讀取個人雲端偏好失敗：', e);
+      }
+
+      if (typeof savedPrefs.reduceMotion === 'boolean') {
+        reduceMotion = savedPrefs.reduceMotion;
+        applyMotionPreference();
+      }
+      userNickname = savedPrefs.nickname || '';
+
+      const targetRoom = urlRoom || sanitizeRoomCode(savedPrefs.activeRoomId) || fallbackRoom;
+      const roomChanged = targetRoom && targetRoom !== currentRoomId;
+      currentRoomId = targetRoom;
+      updateRoomDisplayUI();
+
+      if (roomChanged) {
+        connectToRoom(currentRoomId);
+      }
+
+      // 將目前房間與偏好寫入個人雲端設定（RULE 1 路徑）
+      try {
+        await setDoc(
+          prefRef,
+          {
+            activeRoomId: currentRoomId,
+            nickname: userNickname,
+            reduceMotion,
+            updatedAt: Date.now(),
+          },
+          { merge: true }
+        );
+      } catch (e) {
+        console.error('儲存個人雲端偏好失敗：', e);
+      }
+    }
+
+    async function connectToRoom(roomId) {
+      if (!currentUser || !db || !roomId) return;
+
+      updateSyncStatusUI('syncing', '同步中...');
+      if (typeof unsubscribeRegions === 'function') unsubscribeRegions();
+      if (typeof unsubscribeItems === 'function') unsubscribeItems();
+
+      // 若 10 秒內尚未收到快照回應，自動切換為就緒狀態避免一直顯示同步中
+      let firstSnapshotReceived = false;
+      const syncTimeoutId = setTimeout(() => {
+        if (!firstSnapshotReceived) {
+          updateSyncStatusUI('online', '已就緒');
+        }
+      }, 10000);
+
+      // 優先掛載即時監聽，讓畫面在最短時間內取得雲端資料
+      const regionsColRef = collection(db, 'artifacts', appId, 'public', 'data', COL_REGIONS);
+      unsubscribeRegions = onSnapshot(
+        regionsColRef,
+        (snapshot) => {
+          const list = [];
+          snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            if (data && data.roomId === roomId) {
+              list.push(data);
+            }
+          });
+          list.sort((a, b) => (a.sortOrder || 999) - (b.sortOrder || 999));
+          regions = list.length > 0 ? list : JSON.parse(JSON.stringify(DEFAULT_REGIONS));
+          renderRegionBar();
+          renderItems(false);
+          if (!document.getElementById('regionModal').classList.contains('hidden')) {
+            renderRegionManageList();
+          }
+        },
+        (error) => {
+          console.error('監聽地區資料失敗：', error);
+          updateSyncStatusUI('offline', '同步中斷');
+        }
+      );
+
+      // 監聽公共項目集合（RULE 1 & RULE 2：僅使用簡單 collection() 查詢，在 JS 記憶體篩選排序）
+      const itemsColRef = collection(db, 'artifacts', appId, 'public', 'data', COL_ITEMS);
+      unsubscribeItems = onSnapshot(
+        itemsColRef,
+        (snapshot) => {
+          firstSnapshotReceived = true;
+          clearTimeout(syncTimeoutId);
+
+          const list = [];
+          snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            if (data && data.roomId === roomId) {
+              list.push(data);
+            }
+          });
+          list.sort((a, b) => (a.sortOrder || 9999) - (b.sortOrder || 9999));
+          if (list.length > 0) {
+            items = list;
+            persistStandaloneSnapshot();
+          }
+          updateStats();
+          renderItems(false);
+          updateSyncStatusUI('online', '已同步');
+
+          // 若大圖預覽開啟中，同步更新預覽照片
+          if (lightboxCurrentItemId) {
+            const current = items.find((i) => i.id === lightboxCurrentItemId);
+            if (current && current.image) {
+              document.getElementById('lightboxImg').src = current.image;
+            }
+          }
+        },
+        (error) => {
+          clearTimeout(syncTimeoutId);
+          console.error('監聽手札項目失敗：', error);
+          updateSyncStatusUI('offline', '同步異常');
+          showToast('⚠️ 雲端同步連線發生錯誤，請檢查網路狀態');
+        }
+      );
+
+      // 背景檢查此手札房間是否為全新房間，若是則寫入預設九州資料（不阻塞畫面顯示）
+      try {
+        const roomRef = doc(db, 'artifacts', appId, 'public', 'data', COL_ROOMS, roomId);
+        const roomSnap = await getDoc(roomRef);
+        if (!roomSnap.exists()) {
+          await seedDefaultRoomData(roomId);
+        }
+      } catch (err) {
+        console.error('檢查或初始化手札房間狀態失敗：', err);
+      }
+    }
+
+    async function seedDefaultRoomData(roomId) {
+      if (!currentUser || !db || !roomId) return;
+      try {
+        // 先寫入地區與項目資料，最後再建立房間標記檔，避免網路中斷導致只寫入一半
+        for (const reg of DEFAULT_REGIONS) {
+          const regDocId = `${roomId}__${reg.id}`;
+          const regRef = doc(db, 'artifacts', appId, 'public', 'data', COL_REGIONS, regDocId);
+          await setDoc(regRef, { ...reg, roomId }, { merge: true });
+        }
+
+        const sourceItems = items.length > 0 ? items : DEFAULT_ITEMS;
+        for (const item of sourceItems) {
+          const itemDocId = `${roomId}__${item.id}`;
+          const itemRef = doc(db, 'artifacts', appId, 'public', 'data', COL_ITEMS, itemDocId);
+          await setDoc(
+            itemRef,
+            {
+              ...item,
+              roomId,
+              updatedAt: Date.now(),
+            },
+            { merge: true }
+          );
+        }
+
+        const roomRef = doc(db, 'artifacts', appId, 'public', 'data', COL_ROOMS, roomId);
+        await setDoc(
+          roomRef,
+          {
+            roomId,
+            createdBy: currentUser.uid,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+          },
+          { merge: true }
+        );
+      } catch (err) {
+        console.error('初始化預設手札資料失敗：', err);
+      }
+    }
+
+    // ==================== 6. 雲端同步狀態與共享房間介面控制 ====================
+    function updateSyncStatusUI(state, labelText) {
+      const dot = document.getElementById('headerSyncDot');
+      const badge = document.getElementById('cloudModalStatusBadge');
+
+      if (dot) {
+        dot.classList.remove('bg-wakatake', 'bg-yamabuki', 'bg-coral', 'bg-mizuiro');
+        if (state === 'online') dot.classList.add('bg-wakatake');
+        else if (state === 'local') dot.classList.add('bg-mizuiro');
+        else if (state === 'syncing') dot.classList.add('bg-yamabuki');
+        else dot.classList.add('bg-coral');
+      }
+
+      if (badge) {
+        badge.classList.remove('bg-wakatake', 'bg-yamabuki', 'bg-coral', 'bg-mizuiro');
+        if (state === 'online') {
+          badge.classList.add('bg-wakatake');
+          badge.textContent = `● ${labelText || '已連線即時同步'}`;
+        } else if (state === 'local') {
+          badge.classList.add('bg-mizuiro');
+          badge.textContent = `● ${labelText || '本機已自動永久保存'}`;
+        } else if (state === 'syncing') {
+          badge.classList.add('bg-yamabuki');
+          badge.textContent = `◐ ${labelText || '雲端同步中...'}`;
+        } else {
+          badge.classList.add('bg-coral');
+          badge.textContent = `○ ${labelText || '離線模式'}`;
+        }
+      }
+    }
+
+    function updateRoomDisplayUI() {
+      const headerCode = document.getElementById('headerRoomCode');
+      const modalCode = document.getElementById('cloudCurrentRoomCode');
+      const displayCode = currentRoomId || '準備中...';
+      if (headerCode) headerCode.textContent = displayCode;
+      if (modalCode) modalCode.textContent = displayCode;
+    }
+
+    async function openCloudModal() {
+      updateRoomDisplayUI();
+      const nickInput = document.getElementById('cloudNicknameInput');
+      if (nickInput) nickInput.value = userNickname || '';
+      const joinInput = document.getElementById('joinRoomCodeInput');
+      if (joinInput) joinInput.value = '';
+      const cfgInput = document.getElementById('customFirebaseConfigInput');
+      if (cfgInput) {
+        const savedCfg = await idbGet('kyushu_custom_cloud_config');
+        cfgInput.value = savedCfg ? JSON.stringify(savedCfg, null, 2) : '';
+      }
+      document.getElementById('cloudModal').classList.remove('hidden');
+    }
+
+    function closeCloudModal() {
+      document.getElementById('cloudModal').classList.add('hidden');
+    }
+
+    async function saveCustomCloudConfig() {
+      const raw = (document.getElementById('customFirebaseConfigInput')?.value || '').trim();
+      if (!raw) {
+        showToast('⚠️ 請先貼上雲端專案設定 JSON');
+        return;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        if (!parsed.apiKey || !parsed.projectId) {
+          showToast('⚠️ 設定格式缺少 apiKey 或 projectId');
+          return;
+        }
+        await idbSet('kyushu_custom_cloud_config', parsed);
+        showToast('✅ 已儲存雲端設定，正在重新連線...');
+        setTimeout(() => window.location.reload(), 600);
+      } catch (err) {
+        showToast('⚠️ JSON 格式不正確，請確認大括號與雙引號完整');
+      }
+    }
+
+    async function clearCustomCloudConfig() {
+      await idbDelete('kyushu_custom_cloud_config');
+      const cfgInput = document.getElementById('customFirebaseConfigInput');
+      if (cfgInput) cfgInput.value = '';
+      showToast('🗑️ 已清除自訂雲端設定，切回本機永久保存模式');
+      setTimeout(() => window.location.reload(), 600);
+    }
+
+    function copyTextFallback(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      let success = false;
+      try {
+        success = document.execCommand('copy');
+      } catch (err) {
+        console.error('複製失敗：', err);
+      }
+      document.body.removeChild(textarea);
+      return success;
+    }
+
+    function copyRoomCode() {
+      if (!currentRoomId) return;
+      copyTextFallback(currentRoomId);
+      showToast(`📋 已複製房間代碼：${currentRoomId}`);
+    }
+
+    function copyShareInviteLink() {
+      if (!currentRoomId) return;
+      const baseUrl = window.location.href.split('?')[0];
+      const shareUrl = `${baseUrl}?room=${encodeURIComponent(currentRoomId)}`;
+      copyTextFallback(shareUrl);
+      showToast('🔗 已複製旅伴邀請連結，快貼到 LINE 群組吧！');
+    }
+
+    async function saveNicknameSetting() {
+      const nickInput = document.getElementById('cloudNicknameInput');
+      const val = (nickInput?.value || '').trim().slice(0, 16);
+      userNickname = val;
+      await persistStandaloneSnapshot();
+
+      if (currentUser && db) {
+        try {
+          const prefRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'settings', 'preferences');
+          await setDoc(prefRef, { nickname: userNickname, updatedAt: Date.now() }, { merge: true });
+        } catch (err) {
+          console.error('儲存暱稱失敗：', err);
+        }
+      }
+      showToast(userNickname ? `🐻 已設定旅伴暱稱：${userNickname}` : '已清除旅伴暱稱');
+    }
+
+    async function joinCloudRoom() {
+      const input = document.getElementById('joinRoomCodeInput');
+      const code = sanitizeRoomCode(input?.value || '');
+      if (!code) {
+        showToast('⚠️ 請先輸入有效的手札房間代碼');
+        return;
+      }
+
+      currentRoomId = code;
+      updateRoomDisplayUI();
+      try {
+        const nextUrl = `${window.location.pathname}?room=${encodeURIComponent(code)}`;
+        window.history.replaceState({}, '', nextUrl);
+      } catch (e) {
+        // 忽略沙盒環境網址列限制
+      }
+
+      if (currentUser && db) {
+        try {
+          const prefRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'settings', 'preferences');
+          await setDoc(prefRef, { activeRoomId: code, updatedAt: Date.now() }, { merge: true });
+        } catch (err) {
+          console.error('更新房間偏好失敗：', err);
+        }
+        connectToRoom(code);
+      }
+
+      closeCloudModal();
+      showToast(`🚪 已切換至手札房間：${code}`);
+    }
+
+    async function createNewCloudRoom() {
+      const newCode = `KYUSHU-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+      currentRoomId = newCode;
+      items = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+      regions = JSON.parse(JSON.stringify(DEFAULT_REGIONS));
+      updateRoomDisplayUI();
+      renderAll();
+
+      try {
+        const nextUrl = `${window.location.pathname}?room=${encodeURIComponent(newCode)}`;
+        window.history.replaceState({}, '', nextUrl);
+      } catch (e) {
+        // 忽略沙盒環境網址列限制
+      }
+
+      if (currentUser && db) {
+        try {
+          const prefRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'settings', 'preferences');
+          await setDoc(prefRef, { activeRoomId: newCode, updatedAt: Date.now() }, { merge: true });
+        } catch (err) {
+          console.error('建立新房間偏好失敗：', err);
+        }
+        connectToRoom(newCode);
+      }
+
+      closeCloudModal();
+      showToast(`✨ 已建立全新手札房：${newCode}`);
+    }
+
+    // ==================== 7. 動畫效果設定 (支援減少動態效果) ====================
+    function applyMotionPreference() {
+      const iconEl = document.getElementById('motionIcon');
+      const textEl = document.getElementById('motionText');
+      if (reduceMotion) {
+        document.body.classList.add('reduce-motion');
+        if (iconEl) iconEl.textContent = '⏸️';
+        if (textEl) textEl.textContent = '動畫關';
+      } else {
+        document.body.classList.remove('reduce-motion');
+        if (iconEl) iconEl.textContent = '✨';
+        if (textEl) textEl.textContent = '動畫開';
+      }
+    }
+
+    async function toggleMotionPref() {
+      reduceMotion = !reduceMotion;
+      applyMotionPreference();
+      await persistStandaloneSnapshot();
+      if (currentUser && db) {
+        try {
+          const prefRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'settings', 'preferences');
+          await setDoc(prefRef, { reduceMotion, updatedAt: Date.now() }, { merge: true });
+        } catch (err) {
+          console.error('儲存動態偏好失敗：', err);
+        }
+      }
+      showToast(reduceMotion ? '⏸️ 已開啟減少動態效果模式' : '✨ 已恢復繪本輕盈動畫');
+    }
+
+    // ==================== 8. 分頁、地區篩選與搜尋邏輯 ====================
+    function renderAll() {
+      renderRegionBar();
+      updateStats();
+      renderItems(false);
+    }
+
+    function switchTab(tab) {
+      activeTab = tab === 'food' ? 'food' : 'souvenir';
+      const tabSouv = document.getElementById('tabSouvenir');
+      const tabFood = document.getElementById('tabFood');
+
+      if (tabSouv && tabFood) {
+        if (activeTab === 'souvenir') {
+          tabSouv.classList.remove('bg-washi');
+          tabSouv.classList.add('bg-coral');
+          tabSouv.setAttribute('aria-selected', 'true');
+          tabFood.classList.remove('bg-wakatake');
+          tabFood.classList.add('bg-washi');
+          tabFood.setAttribute('aria-selected', 'false');
+        } else {
+          tabFood.classList.remove('bg-washi');
+          tabFood.classList.add('bg-wakatake');
+          tabFood.setAttribute('aria-selected', 'true');
+          tabSouv.classList.remove('bg-coral');
+          tabSouv.classList.add('bg-washi');
+          tabSouv.setAttribute('aria-selected', 'false');
+        }
+      }
+
+      updateStats();
+      renderItems(true);
+    }
+
+    function selectRegion(regionId) {
+      activeRegion = regionId;
+      renderRegionBar();
+      updateStats();
+      renderItems(true);
+    }
+
+    function setStatusFilter(filter) {
+      statusFilter = filter;
+      const buttons = {
+        all: document.getElementById('statusFilterAll'),
+        todo: document.getElementById('statusFilterTodo'),
+        done: document.getElementById('statusFilterDone'),
+      };
+      Object.entries(buttons).forEach(([key, btn]) => {
+        if (!btn) return;
+        if (key === filter) {
+          btn.classList.remove('bg-washi');
+          btn.classList.add('bg-yamabuki');
+        } else {
+          btn.classList.remove('bg-yamabuki');
+          btn.classList.add('bg-washi');
+        }
+      });
+      renderItems(true);
+    }
+
+    function handleSearchInput(val) {
+      searchQuery = String(val || '').trim().toLowerCase();
+      const clearBtn = document.getElementById('btnClearSearch');
+      if (clearBtn) {
+        if (searchQuery) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+      renderItems(false);
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('searchInput');
+      if (input) input.value = '';
+      handleSearchInput('');
+    }
+
+    function renderRegionBar() {
+      const bar = document.getElementById('regionFilterBar');
+      if (!bar) return;
+
+      const allSelected = activeRegion === 'all';
+      let html = `
+        <button
+          type="button"
+          onclick="selectRegion('all')"
+          class="pb-pill px-3.5 py-1.5 text-xs sm:text-sm ${allSelected ? 'bg-yamabuki' : 'bg-washi'}"
+        >
+          🗾 全部地區
+        </button>
+      `;
+
+      regions.forEach((reg) => {
+        const isSelected = activeRegion === reg.id;
+        const bgStyle = isSelected ? `background-color: ${reg.color};` : 'background-color: #FFFCF6;';
+        html += `
+          <button
+            type="button"
+            onclick="selectRegion('${escapeHtml(reg.id)}')"
+            style="${bgStyle}"
+            class="pb-pill px-3.5 py-1.5 text-xs sm:text-sm flex items-center gap-1.5"
+          >
+            <span class="w-2.5 h-2.5 rounded-full border-[1.5px] border-ink inline-block" style="background-color: ${reg.color};"></span>
+            <span>${escapeHtml(reg.name)}</span>
+          </button>
+        `;
+      });
+
+      bar.innerHTML = html;
+    }
+
+    function updateStats() {
+      const souvItems = items.filter((i) => i.type === 'souvenir');
+      const foodItems = items.filter((i) => i.type === 'food');
+      const souvDone = souvItems.filter((i) => i.completed).length;
+      const foodDone = foodItems.filter((i) => i.completed).length;
+
+      const statSouvEl = document.getElementById('statSouvenir');
+      const statFoodEl = document.getElementById('statFood');
+      const tabCountSouvEl = document.getElementById('tabCountSouvenir');
+      const tabCountFoodEl = document.getElementById('tabCountFood');
+
+      if (statSouvEl) statSouvEl.textContent = `🎁 伴手禮 ${souvDone}/${souvItems.length}`;
+      if (statFoodEl) statFoodEl.textContent = `🍜 美食 ${foodDone}/${foodItems.length}`;
+      if (tabCountSouvEl) tabCountSouvEl.textContent = String(souvItems.length);
+      if (tabCountFoodEl) tabCountFoodEl.textContent = String(foodItems.length);
+
+      // 目前分頁與地區下的數量統計
+      const tabScoped = items.filter((i) => {
+        if (i.type !== activeTab) return false;
+        if (activeRegion !== 'all' && i.regionId !== activeRegion) return false;
+        return true;
+      });
+      const todoCount = tabScoped.filter((i) => !i.completed).length;
+      const doneCount = tabScoped.filter((i) => i.completed).length;
+
+      const allCountEl = document.getElementById('countStatusAll');
+      const todoCountEl = document.getElementById('countStatusTodo');
+      const doneCountEl = document.getElementById('countStatusDone');
+
+      if (allCountEl) allCountEl.textContent = String(tabScoped.length);
+      if (todoCountEl) todoCountEl.textContent = String(todoCount);
+      if (doneCountEl) doneCountEl.textContent = String(doneCount);
+    }
+
+    // ==================== 9. 卡片網格渲染與手繪 SVG 貼紙 ====================
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function getCategoryStickerSVG(item) {
+      const cat = String(item.category || '');
+      if (item.regionId === 'drugstore' || cat.includes('藥妝')) {
+        // 可愛急救藥妝箱 SVG
+        return `
+          <svg viewBox="0 0 80 64" class="w-16 h-14 anim-float" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="14" y="18" width="52" height="36" rx="10" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
+            <path d="M30 18V12C30 9.8 31.8 8 34 8H46C48.2 8 50 9.8 50 12V18" stroke="#3E3A39" stroke-width="3"/>
+            <rect x="36" y="26" width="8" height="20" rx="2" fill="#F2A497" stroke="#3E3A39" stroke-width="2.2"/>
+            <rect x="30" y="32" width="20" height="8" rx="2" fill="#F2A497" stroke="#3E3A39" stroke-width="2.2"/>
+          </svg>
+        `;
+      }
+      if (cat.includes('草莓') || cat.includes('甜點') || cat.includes('蛋糕') || cat.includes('布丁') || cat.includes('和菓子')) {
+        // 甘王草莓甜點 SVG
+        return `
+          <svg viewBox="0 0 80 64" class="w-16 h-14 anim-float" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M24 26C24 18 31 14 40 14C49 14 56 18 56 26C56 39 46 52 40 52C34 52 24 39 24 26Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3"/>
+            <path d="M29 15L40 20L51 15L46 9L40 14L34 9L29 15Z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle cx="35" cy="28" r="1.5" fill="#3E3A39"/>
+            <circle cx="45" cy="28" r="1.5" fill="#3E3A39"/>
+            <circle cx="40" cy="36" r="1.5" fill="#3E3A39"/>
+          </svg>
+        `;
+      }
+      if (item.type === 'food') {
+        // 熱呼呼美食拉麵碗 SVG
+        return `
+          <svg viewBox="0 0 80 64" class="w-16 h-14 anim-float" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M16 28H64C64 43 54 52 40 52C26 52 16 43 16 28Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M26 54H54" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+            <path d="M22 18L58 13M22 23L58 20" stroke="#3E3A39" stroke-width="2.8" stroke-linecap="round"/>
+            <path d="M32 10C32 7 35 7 35 10" stroke="#3E3A39" stroke-width="2.3" stroke-linecap="round"/>
+            <path d="M44 9C44 6 47 6 47 9" stroke="#3E3A39" stroke-width="2.3" stroke-linecap="round"/>
+          </svg>
+        `;
+      }
+      // 精緻伴手禮盒 SVG
+      return `
+        <svg viewBox="0 0 80 64" class="w-16 h-14 anim-float" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="18" y="24" width="44" height="30" rx="8" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3"/>
+          <path d="M40 24V54M18 37H62" stroke="#3E3A39" stroke-width="3"/>
+          <path d="M40 24C40 24 29 24 27 17C25 11 33 9 38 16L40 24Z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.6" stroke-linejoin="round"/>
+          <path d="M40 24C40 24 51 24 53 17C55 11 47 9 42 16L40 24Z" fill="#F6D27A" stroke="#3E3A39" stroke-width="2.6" stroke-linejoin="round"/>
+        </svg>
+      `;
+    }
+
+    function renderItems(withBounce = false) {
+      const grid = document.getElementById('itemsGrid');
+      const emptyEl = document.getElementById('emptyState');
+      if (!grid || !emptyEl) return;
+
+      const filtered = items.filter((item) => {
+        if (item.type !== activeTab) return false;
+        if (activeRegion !== 'all' && item.regionId !== activeRegion) return false;
+        if (statusFilter === 'todo' && item.completed) return false;
+        if (statusFilter === 'done' && !item.completed) return false;
+        if (searchQuery) {
+          const regionObj = regions.find((r) => r.id === item.regionId);
+          const haystack = [
+            item.title,
+            item.category,
+            item.branches,
+            item.address,
+            item.note,
+            regionObj?.name || '',
+          ]
+            .join(' ')
+            .toLowerCase();
+          if (!haystack.includes(searchQuery)) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyEl.classList.remove('hidden');
+        return;
+      }
+
+      emptyEl.classList.add('hidden');
+      const animClass = withBounce ? 'anim-pop' : '';
+
+      grid.innerHTML = filtered
+        .map((item, idx) => {
+          const reg = regions.find((r) => r.id === item.regionId) || { name: '九州其他', color: '#F6D27A' };
+          const trans = TRANSPORT_CONFIG[item.transport] || TRANSPORT_CONFIG.walk;
+          const isDone = Boolean(item.completed);
+          const doneLabel = item.type === 'souvenir' ? '已入手 ✓' : '完食 ✓';
+          const todoLabel = item.type === 'souvenir' ? '⬜ 標記已買' : '⬜ 標記吃過';
+
+          const searchKw = encodeURIComponent(`${reg.name} ${item.title} 九州`);
+          const googleImgUrl = `https://www.google.com/search?tbm=isch&q=${searchKw}`;
+          const mapKw = encodeURIComponent(item.mapQuery || `${reg.name} ${item.title} ${item.address || ''}`);
+          const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${mapKw}`;
+
+          // 照片區塊渲染
+          const photoHtml = item.image
+            ? `
+              <div class="pb-photo-frame h-44 w-full mb-3 group cursor-pointer" onclick="openLightbox('${escapeHtml(item.id)}')">
+                <img
+                  src="${escapeHtml(item.image)}"
+                  alt="${escapeHtml(item.title)}"
+                  class="w-full h-full object-cover"
+                  onerror="this.parentElement.innerHTML='<div class=\\'h-full flex flex-col items-center justify-center p-3 text-xs text-center\\'><span>⚠️ 圖片載入失敗</span><button type=\\'button\\' onclick=\\'event.stopPropagation(); triggerQuickCardPhotoUpload(&quot;${escapeHtml(item.id)}&quot;)\\' class=\\'pb-btn bg-yamabuki px-2.5 py-1 mt-2 text-xs\\'>📷 重新上傳</button></div>'"
+                />
+                <button
+                  type="button"
+                  onclick="event.stopPropagation(); triggerQuickCardPhotoUpload('${escapeHtml(item.id)}')"
+                  class="pb-btn bg-yamabuki px-2.5 py-1 text-xs absolute bottom-2 right-2 flex items-center gap-1"
+                  title="更換這張照片"
+                >
+                  <span>📷</span>
+                  <span>更換</span>
+                </button>
+              </div>
+            `
+            : `
+              <div class="pb-photo-empty h-36 w-full mb-3 p-3 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5 min-w-0">
+                  <div class="shrink-0">${getCategoryStickerSVG(item)}</div>
+                  <div class="min-w-0">
+                    <p class="text-xs sm:text-sm text-ink/85 truncate">尚未貼上戰利品照片</p>
+                    <p class="text-[11px] text-ink/65">拍下實物或上網找參考圖吧！</p>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1.5 shrink-0">
+                  <button
+                    type="button"
+                    onclick="triggerQuickCardPhotoUpload('${escapeHtml(item.id)}')"
+                    class="pb-btn bg-yamabuki px-2.5 py-1.5 text-xs flex items-center justify-center gap-1"
+                  >
+                    <span>📷</span>
+                    <span>上傳照片</span>
+                  </button>
+                  <a
+                    href="${googleImgUrl}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="pb-btn bg-mizuiro px-2.5 py-1.5 text-xs flex items-center justify-center gap-1"
+                  >
+                    <span>🔍</span>
+                    <span>網路搜圖</span>
+                  </a>
+                </div>
+              </div>
+            `;
+
+          // 伴手禮專屬分店區塊
+          const branchHtml =
+            item.type === 'souvenir' && item.branches
+              ? `
+                <div class="pb-subbox bg-yamabuki/25 px-3 py-2 mb-2.5 text-xs sm:text-sm">
+                  <p class="text-xs text-ink/75 mb-0.5">🏪 詳細購買分店 / 櫃位：</p>
+                  <p class="leading-snug">${escapeHtml(item.branches)}</p>
+                </div>
+              `
+              : '';
+
+          // 旅伴更新標記
+          const updatedByHtml = item.updatedBy
+            ? `<span class="text-[11px] bg-washi px-2 py-0.5 rounded-full border border-ink/50">🐻 ${escapeHtml(item.updatedBy)}</span>`
+            : '';
+
+          return `
+            <article
+              style="animation-delay: ${Math.min(idx * 35, 240)}ms;"
+              class="${isDone ? 'pb-card-done' : 'pb-card'} ${animClass} p-4 flex flex-col justify-between"
+            >
+              <div>
+                <!-- 頂部標籤列 + 完成打勾按鈕 -->
+                <div class="flex items-start justify-between gap-2 mb-2.5">
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    <span class="pb-tag" style="background-color: ${escapeHtml(reg.color)};">
+                      📍 ${escapeHtml(reg.name)}
+                    </span>
+                    <span class="pb-tag bg-washi">
+                      🏷️ ${escapeHtml(item.category)}
+                    </span>
+                    <span class="pb-tag" style="background-color: ${trans.color};">
+                      ${trans.label}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onclick="toggleComplete('${escapeHtml(item.id)}')"
+                    class="${isDone ? 'pb-stamp bg-wakatake anim-check' : 'pb-btn bg-washi px-2.5 py-1 text-xs'} shrink-0"
+                    aria-pressed="${isDone}"
+                  >
+                    ${isDone ? doneLabel : todoLabel}
+                  </button>
+                </div>
+
+                <!-- 標題列 -->
+                <div class="flex flex-wrap items-center justify-between gap-1.5 mb-2.5">
+                  <h3 class="text-lg sm:text-xl leading-snug ${isDone ? 'line-through opacity-75' : ''}">
+                    ${escapeHtml(item.title)}
+                  </h3>
+                  ${updatedByHtml}
+                </div>
+
+                <!-- 照片相框 -->
+                ${photoHtml}
+
+                <!-- 詳細購買分店資訊 (伴手禮) -->
+                ${branchHtml}
+
+                <!-- 推薦原因 / 筆記 -->
+                ${
+                  item.note
+                    ? `<p class="text-xs sm:text-sm text-ink/90 bg-washi border-2 border-ink/20 rounded-[14px] px-3 py-2 mb-2.5 leading-relaxed">💡 ${escapeHtml(item.note)}</p>`
+                    : ''
+                }
+
+                <!-- 地址與營業時間資訊 -->
+                <div class="space-y-1 text-xs text-ink/80 mb-3">
+                  ${item.address ? `<p>📍 地址：${escapeHtml(item.address)}</p>` : ''}
+                  ${item.hours ? `<p>🕒 營業：${escapeHtml(item.hours)}</p>` : ''}
+                </div>
+              </div>
+
+              <!-- 底部工具列：Google 地圖 + 編輯 + 刪除 -->
+              <div class="pt-2.5 border-t-2 border-ink/15 flex flex-wrap items-center justify-between gap-2">
+                <a
+                  href="${googleMapUrl}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="pb-btn bg-mizuiro px-3 py-1.5 text-xs sm:text-sm inline-flex items-center gap-1"
+                >
+                  <span>🗺️</span>
+                  <span>Google 地圖</span>
+                </a>
+
+                <div class="flex items-center gap-1.5">
+                  <button
+                    type="button"
+                    onclick="openItemModal('${escapeHtml(item.id)}')"
+                    class="pb-btn bg-washi px-3 py-1.5 text-xs sm:text-sm"
+                  >
+                    ✏️ 編輯
+                  </button>
+                  <button
+                    type="button"
+                    onclick="confirmDeleteItem('${escapeHtml(item.id)}')"
+                    class="pb-btn bg-coral/85 px-2.5 py-1.5 text-xs sm:text-sm"
+                    aria-label="刪除項目"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+    }
+
+    // ==================== 10. 項目新增、編輯、打勾與刪除 ====================
+    async function toggleComplete(itemId) {
+      const target = items.find((i) => i.id === itemId);
+      if (!target) return;
+
+      const nextCompleted = !target.completed;
+      target.completed = nextCompleted;
+      if (userNickname) target.updatedBy = userNickname;
+      target.updatedAt = Date.now();
+
+      updateStats();
+      renderItems(false);
+      await persistStandaloneSnapshot();
+
+      if (currentUser && db && currentRoomId) {
+        try {
+          const itemDocId = `${currentRoomId}__${itemId}`;
+          const itemRef = doc(db, 'artifacts', appId, 'public', 'data', COL_ITEMS, itemDocId);
+          await setDoc(
+            itemRef,
+            {
+              ...target,
+              roomId: currentRoomId,
+            },
+            { merge: true }
+          );
+        } catch (err) {
+          console.error('同步完成狀態失敗：', err);
+        }
+      }
+
+      const msg = nextCompleted
+        ? target.type === 'souvenir'
+          ? `🎉 已蓋章入手「${target.title}」！`
+          : `😋 已打卡完食「${target.title}」！`
+        : `↩️ 已將「${target.title}」改回待收集`;
+      showToast(msg);
+    }
+
+    function openItemModal(itemId = null) {
+      const modal = document.getElementById('itemModal');
+      const titleHeader = document.getElementById('itemModalTitle');
+      const regionSelect = document.getElementById('fieldRegion');
+      if (!modal || !regionSelect) return;
+
+      // 填充地區下拉選單
+      regionSelect.innerHTML = regions
+        .map((r) => `<option value="${escapeHtml(r.id)}">${escapeHtml(r.name)}</option>`)
+        .join('');
+
+      document.getElementById('modalImageErrorMsg').classList.add('hidden');
+
+      if (itemId) {
+        const item = items.find((i) => i.id === itemId);
+        if (!item) return;
+
+        titleHeader.innerHTML = '<span>✏️</span><span>編輯手札記錄</span>';
+        document.getElementById('fieldId').value = item.id;
+        document.getElementById('fieldTitle').value = item.title || '';
+        regionSelect.value = regions.some((r) => r.id === item.regionId) ? item.regionId : regions[0]?.id || '';
+        document.getElementById('fieldCategory').value = item.category || '';
+        document.getElementById('fieldBranches').value = item.branches || '';
+        document.getElementById('fieldAddress').value = item.address || '';
+        document.getElementById('fieldMapQuery').value = item.mapQuery || '';
+        document.getElementById('fieldNote').value = item.note || '';
+        document.getElementById('fieldHours').value = item.hours || '';
+        document.getElementById('fieldCompleted').checked = Boolean(item.completed);
+
+        const typeRadio = document.querySelector(`input[name="fieldType"][value="${item.type}"]`);
+        if (typeRadio) typeRadio.checked = true;
+        toggleBranchField(item.type);
+
+        const transRadio = document.querySelector(`input[name="fieldTransport"][value="${item.transport || 'walk'}"]`);
+        if (transRadio) transRadio.checked = true;
+
+        // 圖片與網址解析列重設
+        document.getElementById('fieldImageData').value = item.image || '';
+        const infoUrlInput = document.getElementById('fieldInfoUrl');
+        if (infoUrlInput) infoUrlInput.value = '';
+        const urlResultBox = document.getElementById('urlSearchResultBox');
+        if (urlResultBox) urlResultBox.classList.add('hidden');
+        lastParsedUrlPayload = null;
+        setModalPreviewImage(item.image || '');
+      } else {
+        titleHeader.innerHTML = '<span>✨</span><span>新增手札記錄</span>';
+        document.getElementById('itemForm').reset();
+        document.getElementById('fieldId').value = '';
+        document.getElementById('fieldImageData').value = '';
+        const infoUrlInput = document.getElementById('fieldInfoUrl');
+        if (infoUrlInput) infoUrlInput.value = '';
+        const urlResultBox = document.getElementById('urlSearchResultBox');
+        if (urlResultBox) urlResultBox.classList.add('hidden');
+        lastParsedUrlPayload = null;
+        setModalPreviewImage('');
+
+        const defaultTypeRadio = document.querySelector(`input[name="fieldType"][value="${activeTab}"]`);
+        if (defaultTypeRadio) defaultTypeRadio.checked = true;
+        toggleBranchField(activeTab);
+
+        if (activeRegion !== 'all' && regions.some((r) => r.id === activeRegion)) {
+          regionSelect.value = activeRegion;
+        }
+      }
+
+      updateModalSearchHelper();
+      modal.classList.remove('hidden');
+    }
+
+    function closeItemModal() {
+      document.getElementById('itemModal').classList.add('hidden');
+    }
+
+    function toggleBranchField(type) {
+      const wrapper = document.getElementById('branchFieldWrapper');
+      if (!wrapper) return;
+      if (type === 'souvenir') wrapper.classList.remove('hidden');
+      else wrapper.classList.add('hidden');
+    }
+
+    function fillCategory(cat) {
+      const input = document.getElementById('fieldCategory');
+      if (input) input.value = cat;
+    }
+
+    function updateModalSearchHelper() {
+      const link = document.getElementById('modalGoogleImageSearchLink');
+      if (!link) return;
+      const title = document.getElementById('fieldTitle')?.value.trim() || '';
+      const regId = document.getElementById('fieldRegion')?.value || '';
+      const regName = regions.find((r) => r.id === regId)?.name || '九州';
+      const q = encodeURIComponent(`${regName} ${title} 九州`.trim());
+      link.href = `https://www.google.com/search?tbm=isch&q=${q}`;
+    }
+
+    async function saveItemForm(event) {
+      event.preventDefault();
+
+      const existingId = document.getElementById('fieldId').value.trim();
+      const type = document.querySelector('input[name="fieldType"]:checked')?.value || 'souvenir';
+      const title = document.getElementById('fieldTitle').value.trim();
+      const regionId = document.getElementById('fieldRegion').value;
+      const category = document.getElementById('fieldCategory').value.trim();
+      const transport = document.querySelector('input[name="fieldTransport"]:checked')?.value || 'walk';
+      const branches = type === 'souvenir' ? document.getElementById('fieldBranches').value.trim() : '';
+      const address = document.getElementById('fieldAddress').value.trim();
+      const mapQuery = document.getElementById('fieldMapQuery').value.trim();
+      const note = document.getElementById('fieldNote').value.trim();
+      const hours = document.getElementById('fieldHours').value.trim();
+      const image = document.getElementById('fieldImageData').value.trim();
+      const completed = document.getElementById('fieldCompleted').checked;
+
+      if (!title || !category) {
+        showToast('⚠️ 請填寫名稱與詳細種類喔！');
+        return;
+      }
+
+      const isEdit = Boolean(existingId);
+      const itemId = existingId || `item-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+      const prevItem = isEdit ? items.find((i) => i.id === existingId) : null;
+
+      const itemPayload = {
+        id: itemId,
+        roomId: currentRoomId,
+        type,
+        title,
+        regionId,
+        category,
+        transport,
+        branches,
+        address,
+        mapQuery,
+        note,
+        hours,
+        image,
+        completed,
+        updatedBy: userNickname || prevItem?.updatedBy || '',
+        updatedAt: Date.now(),
+        sortOrder: prevItem?.sortOrder ?? items.length + 1,
+      };
+
+      // 先更新本機狀態讓畫面即時反應
+      if (isEdit) {
+        const idx = items.findIndex((i) => i.id === existingId);
+        if (idx !== -1) items[idx] = itemPayload;
+      } else {
+        items.unshift(itemPayload);
+      }
+
+      // 若新增項目的分類與目前分頁不同，自動切換至對應分頁方便檢視
+      if (activeTab !== type) {
+        switchTab(type);
+      } else {
+        updateStats();
+        renderItems(true);
+      }
+
+      closeItemModal();
+      await persistStandaloneSnapshot();
+
+      // 寫入雲端 Firestore
+      if (currentUser && db && currentRoomId) {
+        try {
+          const itemDocId = `${currentRoomId}__${itemId}`;
+          const itemRef = doc(db, 'artifacts', appId, 'public', 'data', COL_ITEMS, itemDocId);
+          await setDoc(itemRef, itemPayload, { merge: true });
+        } catch (err) {
+          console.error('儲存項目至雲端失敗：', err);
+          showToast('⚠️ 雲端同步異常（照片檔案可能過大），已暫存於目前畫面');
+          return;
+        }
+      }
+
+      showToast(isEdit ? `💾 已更新「${title}」！` : `🎉 已新增「${title}」至手札！`);
+    }
+
+    function confirmDeleteItem(itemId) {
+      const target = items.find((i) => i.id === itemId);
+      if (!target) return;
+      openConfirmModal(
+        '刪除手札項目',
+        `確定要刪除「${target.title}」嗎？刪除後會同步從共享手札移除喔！`,
+        async () => {
+          items = items.filter((i) => i.id !== itemId);
+          updateStats();
+          renderItems(false);
+          await persistStandaloneSnapshot();
+
+          if (currentUser && db && currentRoomId) {
+            try {
+              const itemDocId = `${currentRoomId}__${itemId}`;
+              await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', COL_ITEMS, itemDocId));
+            } catch (err) {
+              console.error('從雲端刪除項目失敗：', err);
+            }
+          }
+          showToast(`🗑️ 已刪除「${target.title}」`);
+        }
+      );
+    }
+
+    // ==================== 11. 圖片上傳壓縮、剪貼簿貼圖、URL 與燈箱預覽 ====================
+    function compressImageFile(file, maxDim = 720, quality = 0.78) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let { width, height } = img;
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function setModalPreviewImage(src) {
+      const box = document.getElementById('modalImagePreviewBox');
+      const removeBtn = document.getElementById('btnRemoveModalImage');
+      const errMsg = document.getElementById('modalImageErrorMsg');
+      if (!box || !removeBtn) return;
+
+      errMsg.classList.add('hidden');
+      if (src) {
+        box.className = 'pb-photo-frame h-44 w-full flex items-center justify-center bg-white overflow-hidden';
+        box.innerHTML = `<img src="${escapeHtml(src)}" alt="預覽照片" class="max-h-full w-auto max-w-full object-contain" />`;
+        removeBtn.classList.remove('hidden');
+      } else {
+        box.className = 'pb-photo-empty h-44 w-full flex flex-col items-center justify-center text-center p-3 overflow-hidden';
+        box.innerHTML = `
+          <span class="text-2xl mb-1">📷</span>
+          <p class="text-xs sm:text-sm text-ink/80">尚未選擇圖片（支援上傳、搜圖或直接按 Ctrl+V 貼上截圖）</p>
+        `;
+        removeBtn.classList.add('hidden');
+      }
+    }
+
+    async function handleModalFileUpload(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        const compressedDataUrl = await compressImageFile(file);
+        document.getElementById('fieldImageData').value = compressedDataUrl;
+        setModalPreviewImage(compressedDataUrl);
+        showToast('🖼️ 照片已壓縮並載入預覽！');
+      } catch (err) {
+        console.error('圖片處理失敗：', err);
+        showToast('⚠️ 圖片讀取失敗，請換一張試試');
+      }
+      event.target.value = '';
+    }
+
+    function removeModalImage() {
+      document.getElementById('fieldImageData').value = '';
+      setModalPreviewImage('');
+    }
+
+    // ==================== 網址自動解析與填寫詳細分店、地址、推薦原因、營業時間 ====================
+    function extractKeywordsFromUrl(rawUrl) {
+      try {
+        const u = new URL(rawUrl);
+        const queryCandidates = ['q', 'query', 'keyword', 'keywords', 'search', 's', 'k'];
+        for (const key of queryCandidates) {
+          const val = u.searchParams.get(key);
+          if (val && val.trim()) {
+            return decodeURIComponent(val.replace(/\+/g, ' ')).trim();
+          }
+        }
+
+        // 針對 Google Maps /maps/place/地標名稱/ 網址提取名稱
+        const placeMatch = u.pathname.match(/\/maps\/place\/([^/]+)/);
+        if (placeMatch && placeMatch[1]) {
+          return decodeURIComponent(placeMatch[1].replace(/\+/g, ' ')).trim();
+        }
+
+        const segments = u.pathname
+          .split('/')
+          .map((seg) => {
+            try {
+              return decodeURIComponent(seg);
+            } catch {
+              return seg;
+            }
+          })
+          .filter(
+            (seg) =>
+              seg &&
+              seg.length > 1 &&
+              !/^\d+$/.test(seg) &&
+              !['p', 'reel', 'reels', 'posts', 'post', 'article', 'articles', 'jp', 'tw', 'zh-tw', 'entry', 'archives', 'index.html'].includes(
+                seg.toLowerCase()
+              )
+          );
+
+        if (segments.length > 0) {
+          const lastSeg = segments[segments.length - 1]
+            .replace(/\.(html?|php|aspx?)$/i, '')
+            .replace(/[-_]+/g, ' ')
+            .trim();
+          if (lastSeg && !/^[a-zA-Z0-9]{18,}$/.test(lastSeg)) {
+            return lastSeg;
+          }
+        }
+        return u.hostname.replace(/^www\./, '');
+      } catch {
+        return rawUrl;
+      }
+    }
+
+    function inferDetailedFieldsFromContext(combinedText, host, rawUrl) {
+      const lower = String(combinedText || '').toLowerCase();
+
+      // 1. 比對內建九州精選資料庫關鍵字，若命中可直接帶出完整分店、地址、推薦原因與營業時間
+      const matchedPreset = DEFAULT_ITEMS.find((preset) => {
+        const coreName = preset.title.split('（')[0].trim().toLowerCase();
+        return coreName.length >= 2 && lower.includes(coreName);
+      });
+
+      // 2. 判斷分類 (souvenir vs food)
+      const souvenirKeywords = ['伴手禮', '手信', '藥妝', '唐吉訶德', '免稅', '餅乾', '仙貝', '禮盒', '布丁', '蛋糕', '麻糬', '和菓子', '銘菓', 'お土産', '薬局', '買物'];
+      const foodKeywords = ['拉麵', '美食', '餐廳', '咖啡', '丼', '漢堡排', '牛腸鍋', '燒咖哩', '天丼', '釜飯', '食堂', '冰淇淋', 'tabelog', '食べログ', 'ランチ', 'グルメ'];
+
+      let detectedType = matchedPreset?.type || null;
+      if (!detectedType) {
+        if (souvenirKeywords.some((kw) => lower.includes(kw))) detectedType = 'souvenir';
+        else if (foodKeywords.some((kw) => lower.includes(kw))) detectedType = 'food';
+      }
+
+      // 3. 判斷所屬地區與預設區域細節
+      const regionTemplates = [
+        {
+          id: 'drugstore',
+          kws: ['藥妝', '唐吉訶德', '大國', '松本清', '合利他命', '百保能', '休足時間', 'eve', 'ドラッグ'],
+          defaultBranches: '博多車站筑紫口大國藥妝、天神地下街松本清、唐吉訶德中洲店 / 天神本店（24H免稅）',
+          defaultAddress: '福岡市博多區博多駅中央街 / 天神商圈周邊免稅藥妝店',
+          defaultHours: '09:00–22:30（唐吉訶德中洲店・天神本店為 24 小時營業）',
+          defaultTransport: 'train',
+        },
+        {
+          id: 'fukuoka',
+          kws: ['福岡', '博多', '天神', '中洲', '明太子', '努努雞', '一雙', '極味屋', '博多阪急', 'マイング'],
+          defaultBranches: '博多車站 Ming（マイング）名店街 1F、博多阪急 B1F、福岡機場國內/國際線伴手禮店',
+          defaultAddress: '福岡市博多區博多駅中央街1-1（JR博多站周邊）',
+          defaultHours: '09:00–21:00（百貨專櫃多為 10:00–20:00）',
+          defaultTransport: 'train',
+        },
+        {
+          id: 'mojiko',
+          kws: ['門司港', '北九州', '關門海峽', '燒咖哩', '海峽廣場'],
+          defaultBranches: '門司港懷舊海峽廣場 1F 特產館、JR 門司港站銘品館',
+          defaultAddress: '福岡縣北九州市門司區港町5-1（門司港懷舊區）',
+          defaultHours: '10:00–20:00（部分餐廳營業至 19:30）',
+          defaultTransport: 'train',
+        },
+        {
+          id: 'beppu',
+          kws: ['別府', '明礬', '鐵輪', '地獄蒸', '岡本屋'],
+          defaultBranches: 'JR 別府車站銘品藏、明礬溫泉賣店、鐵輪溫泉特產街',
+          defaultAddress: '大分縣別府市駅前町 / 鐵輪・明礬溫泉區',
+          defaultHours: '09:00–18:30（部分伴手禮售完提前打烊）',
+          defaultTransport: 'car',
+        },
+        {
+          id: 'yufuin',
+          kws: ['由布院', '湯布院', '金鱗湖', 'b-speak', 'milch', '由布まぶし', '湯之坪'],
+          defaultBranches: '由布院湯之坪街道本店、JR 由布院站前特產店',
+          defaultAddress: '大分縣由布市湯布院町川上（湯之坪街道沿線）',
+          defaultHours: '09:30–17:30（人氣甜點建議中午前前往購買）',
+          defaultTransport: 'walk',
+        },
+        {
+          id: 'aso',
+          kws: ['阿蘇', '熊本', '草千里', '赤牛', '澤西牛', '道の駅'],
+          defaultBranches: '道之驛阿蘇（道の駅 阿蘇，JR阿蘇站旁）、草千里休息站賣店',
+          defaultAddress: '熊本縣阿蘇市黑川1440-1（阿蘇站・草千里周邊）',
+          defaultHours: '09:00–18:00（餐飲名店多為 11:00–15:00）',
+          defaultTransport: 'car',
+        },
+        {
+          id: 'itoshima',
+          kws: ['糸島', '二見浦', '夫婦岩', '花鹽', '志摩'],
+          defaultBranches: '糸島志摩海濱直賣所、新三郎商店糸島本店',
+          defaultAddress: '福岡縣糸島市志摩海濱沿線（縣道54號周邊）',
+          defaultHours: '10:00–17:30（依日落與天候狀況調整）',
+          defaultTransport: 'car',
+        },
+      ];
+
+      let matchedRegionTpl = regionTemplates.find((tpl) => tpl.kws.some((kw) => lower.includes(kw))) || null;
+      const detectedRegionId = matchedPreset?.regionId || matchedRegionTpl?.id || 'fukuoka';
+      if (!matchedRegionTpl) {
+        matchedRegionTpl = regionTemplates.find((tpl) => tpl.id === detectedRegionId) || regionTemplates[1];
+      }
+
+      // 4. 判斷詳細種類
+      let detectedCategory = matchedPreset?.category || '';
+      if (!detectedCategory) {
+        if (lower.includes('藥妝') || lower.includes('唐吉訶德')) detectedCategory = '常備藥妝';
+        else if (lower.includes('拉麵')) detectedCategory = '泡系豚骨拉麵';
+        else if (lower.includes('布丁') || lower.includes('蛋糕') || lower.includes('草莓') || lower.includes('餅')) detectedCategory = '限定甜點禮盒';
+        else if (lower.includes('海鮮') || lower.includes('海景')) detectedCategory = '海景料理';
+        else if (lower.includes('鍋')) detectedCategory = '鄉土鍋物';
+        else if (detectedType === 'souvenir') detectedCategory = '在地名產';
+        else if (detectedType === 'food') detectedCategory = '九州特色美食';
+        else detectedCategory = '九州精選推薦';
+      }
+
+      return {
+        matchedPreset,
+        detectedType: detectedType || 'souvenir',
+        detectedRegionId,
+        detectedCategory,
+        detectedTransport: matchedPreset?.transport || matchedRegionTpl.defaultTransport || 'walk',
+        fallbackBranches: matchedPreset?.branches || matchedRegionTpl.defaultBranches,
+        fallbackAddress: matchedPreset?.address || matchedRegionTpl.defaultAddress,
+        fallbackHours: matchedPreset?.hours || matchedRegionTpl.defaultHours,
+        fallbackNote:
+          matchedPreset?.note ||
+          `來自「${host}」的九州熱門推薦清單！建議出發前確認現場庫存或排隊人潮，可搭配 Google 地圖導航前往。`,
+      };
+    }
+
+    function extractStructuredFieldsFromHtml(htmlText, fallbackKeywords, rawUrl) {
+      const docParser = new DOMParser();
+      const htmlDoc = docParser.parseFromString(htmlText, 'text/html');
+
+      let ogTitle =
+        htmlDoc.querySelector('meta[property="og:title"]')?.getAttribute('content') ||
+        htmlDoc.querySelector('title')?.textContent ||
+        '';
+      let ogDesc =
+        htmlDoc.querySelector('meta[property="og:description"]')?.getAttribute('content') ||
+        htmlDoc.querySelector('meta[name="description"]')?.getAttribute('content') ||
+        '';
+      let ogImage = htmlDoc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+
+      let ldAddress = '';
+      let ldHours = '';
+      let ldName = '';
+      let ldDesc = '';
+
+      // 解析 JSON-LD 結構化商家資料（常見於 Tabelog、官網、旅遊文章）
+      const ldScripts = htmlDoc.querySelectorAll('script[type="application/ld+json"]');
+      ldScripts.forEach((scriptEl) => {
+        try {
+          const json = JSON.parse(scriptEl.textContent || '{}');
+          const candidates = Array.isArray(json) ? json : json['@graph'] ? json['@graph'] : [json];
+          candidates.forEach((node) => {
+            if (!node || typeof node !== 'object') return;
+            if (!ldName && typeof node.name === 'string') ldName = node.name;
+            if (!ldDesc && typeof node.description === 'string') ldDesc = node.description;
+            if (!ldAddress && node.address) {
+              if (typeof node.address === 'string') {
+                ldAddress = node.address;
+              } else if (typeof node.address === 'object') {
+                ldAddress = [
+                  node.address.postalCode ? `〒${node.address.postalCode}` : '',
+                  node.address.addressRegion || '',
+                  node.address.addressLocality || '',
+                  node.address.streetAddress || '',
+                ]
+                  .filter(Boolean)
+                  .join(' ');
+              }
+            }
+            if (!ldHours && node.openingHours) {
+              ldHours = Array.isArray(node.openingHours) ? node.openingHours.join('、') : String(node.openingHours);
+            }
+          });
+        } catch {
+          // 忽略非標準 JSON-LD
+        }
+      });
+
+      // 從網頁純文字中比對日本地址、營業時間與分店資訊
+      const bodyText = (htmlDoc.body?.textContent || '').replace(/\s+/g, ' ');
+
+      const addrMatch =
+        bodyText.match(/〒\d{3}-\d{4}\s*[^\s。、「」【】]{4,45}/) ||
+        bodyText.match(/(?:福岡県|大分県|熊本県|佐賀県|長崎県|宮崎県|鹿児島県|福岡市|北九州市|別府市|由布市|阿蘇市|糸島市)[^\s。、「」【】]{3,42}/);
+      const regexAddress = addrMatch ? addrMatch[0].trim() : '';
+
+      const hoursMatch =
+        bodyText.match(/(?:営業時間|営業|OPEN|開店時間)[：:\s]*([0-9０-９]{1,2}[:：][0-9０-９]{2}\s*[〜～\-–]\s*[0-9０-９]{1,2}[:：][0-9０-９]{2}[^。、【】]{0,28})/) ||
+        bodyText.match(/([0-9]{1,2}:[0-9]{2}\s*[〜～\-–]\s*[0-9]{1,2}:[0-9]{2}(?:\s*[（(][^）)]{1,20}[）)])?)/);
+      const regexHours = hoursMatch ? (hoursMatch[1] || hoursMatch[0]).trim() : '';
+
+      const branchMatch = bodyText.match(
+        /(?:取扱店舗|販売店舗|主な店舗|分店資訊|購買地點|店舗一覧)[：:\s]*([^。！？]{4,65})/
+      );
+      const regexBranches = branchMatch ? branchMatch[1].trim() : '';
+
+      return {
+        title: (ldName || ogTitle || fallbackKeywords).replace(/\s+/g, ' ').trim(),
+        desc: (ldDesc || ogDesc).replace(/\s+/g, ' ').trim(),
+        image: ogImage.trim(),
+        address: (ldAddress || regexAddress).trim(),
+        hours: (ldHours || regexHours).trim(),
+        branches: regexBranches,
+      };
+    }
+
+    async function searchInfoFromUrl() {
+      const inputEl = document.getElementById('fieldInfoUrl');
+      const btnEl = document.getElementById('btnSearchInfoUrl');
+      let rawUrl = (inputEl?.value || '').trim();
+
+      if (!rawUrl) {
+        showToast('⚠️ 請先貼上文章、店家或地圖網址喔！');
+        return;
+      }
+      if (!/^https?:\/\//i.test(rawUrl)) {
+        rawUrl = `https://${rawUrl}`;
+        inputEl.value = rawUrl;
+      }
+
+      let parsedUrlObj = null;
+      try {
+        parsedUrlObj = new URL(rawUrl);
+      } catch {
+        showToast('⚠️ 網址格式似乎不正確，請重新確認');
+        return;
+      }
+
+      if (btnEl) {
+        btnEl.disabled = true;
+        btnEl.innerHTML = '<span>⏳</span><span>解析填寫中...</span>';
+      }
+
+      const host = parsedUrlObj.hostname.replace(/^www\./, '');
+      const fallbackKeywords = extractKeywordsFromUrl(rawUrl);
+      let extracted = {
+        title: fallbackKeywords,
+        desc: '',
+        image: '',
+        address: '',
+        hours: '',
+        branches: '',
+      };
+
+      // 嘗試透過 CORS 代理抓取網頁內容並解析結構化欄位
+      const proxyCandidates = [
+        async () => {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 4500);
+          const resp = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rawUrl)}`, {
+            signal: controller.signal,
+          });
+          clearTimeout(timer);
+          if (!resp.ok) return null;
+          const data = await resp.json();
+          return data?.contents || null;
+        },
+        async () => {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 4500);
+          const resp = await fetch(`https://corsproxy.io/?${encodeURIComponent(rawUrl)}`, {
+            signal: controller.signal,
+          });
+          clearTimeout(timer);
+          if (!resp.ok) return null;
+          return await resp.text();
+        },
+      ];
+
+      for (const fetchFn of proxyCandidates) {
+        try {
+          const htmlContent = await fetchFn();
+          if (htmlContent && typeof htmlContent === 'string' && htmlContent.includes('<')) {
+            extracted = extractStructuredFieldsFromHtml(htmlContent, fallbackKeywords, rawUrl);
+            break;
+          }
+        } catch (err) {
+          console.warn('代理讀取略過，嘗試下一備援方式：', err);
+        }
+      }
+
+      const combinedText = `${extracted.title} ${extracted.desc} ${extracted.branches} ${extracted.address} ${fallbackKeywords} ${rawUrl}`;
+      const inferred = inferDetailedFieldsFromContext(combinedText, host, rawUrl);
+
+      const finalTitle =
+        inferred.matchedPreset?.title ||
+        (extracted.title && extracted.title !== host ? extracted.title.slice(0, 55) : fallbackKeywords);
+      const finalBranches =
+        inferred.detectedType === 'souvenir'
+          ? extracted.branches || inferred.fallbackBranches
+          : '';
+      const finalAddress = extracted.address || inferred.fallbackAddress;
+      const finalHours = extracted.hours || inferred.fallbackHours;
+      const baseRecommendation = extracted.desc
+        ? `${extracted.desc.slice(0, 120)}${extracted.desc.length > 120 ? '...' : ''}`
+        : inferred.fallbackNote;
+      const finalNote = `${baseRecommendation}\n參考來源（${host}）：${rawUrl}`;
+
+      lastParsedUrlPayload = {
+        url: rawUrl,
+        host,
+        title: finalTitle,
+        detectedType: inferred.detectedType,
+        detectedRegionId: inferred.detectedRegionId,
+        detectedCategory: inferred.detectedCategory,
+        detectedTransport: inferred.detectedTransport,
+        branches: finalBranches,
+        address: finalAddress,
+        mapQuery: `${finalTitle} ${finalAddress}`.slice(0, 60),
+        note: finalNote,
+        hours: finalHours,
+        image: extracted.image,
+      };
+
+      // 更新解析結果摘要卡片
+      const resultBox = document.getElementById('urlSearchResultBox');
+      const titleTextEl = document.getElementById('urlParsedTitleText');
+      const branchesRow = document.getElementById('urlParsedBranchesRow');
+      const branchesText = document.getElementById('urlParsedBranchesText');
+      const addrRow = document.getElementById('urlParsedAddressRow');
+      const addrText = document.getElementById('urlParsedAddressText');
+      const noteRow = document.getElementById('urlParsedNoteRow');
+      const noteText = document.getElementById('urlParsedNoteText');
+      const hoursRow = document.getElementById('urlParsedHoursRow');
+      const hoursText = document.getElementById('urlParsedHoursText');
+
+      if (titleTextEl) titleTextEl.textContent = `${finalTitle}（${inferred.detectedCategory}）`;
+
+      if (branchesRow && branchesText) {
+        if (finalBranches) {
+          branchesText.textContent = finalBranches;
+          branchesRow.classList.remove('hidden');
+        } else {
+          branchesRow.classList.add('hidden');
+        }
+      }
+      if (addrRow && addrText) {
+        addrText.textContent = finalAddress;
+        addrRow.classList.remove('hidden');
+      }
+      if (noteRow && noteText) {
+        noteText.textContent = baseRecommendation;
+        noteRow.classList.remove('hidden');
+      }
+      if (hoursRow && hoursText) {
+        hoursText.textContent = finalHours;
+        hoursRow.classList.remove('hidden');
+      }
+
+      const encodedTerm = encodeURIComponent(`${finalTitle} 九州`);
+      const infoLinkEl = document.getElementById('urlSearchGoogleInfoLink');
+      const imgLinkEl = document.getElementById('urlSearchGoogleImgLink');
+      const mapLinkEl = document.getElementById('urlSearchGoogleMapLink');
+      if (infoLinkEl) infoLinkEl.href = `https://www.google.com/search?q=${encodedTerm}`;
+      if (imgLinkEl) imgLinkEl.href = `https://www.google.com/search?tbm=isch&q=${encodedTerm}`;
+      if (mapLinkEl) mapLinkEl.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lastParsedUrlPayload.mapQuery)}`;
+
+      if (resultBox) resultBox.classList.remove('hidden');
+
+      // 自動將解析到的分店、地址、推薦原因、營業時間等填入表單欄位
+      applyParsedUrlDataToForm(false);
+
+      if (btnEl) {
+        btnEl.disabled = false;
+        btnEl.innerHTML = '<span>🔍</span><span>自動解析填寫</span>';
+      }
+
+      showToast('✨ 已解析網址並自動填寫分店、地址、推薦原因與營業時間！');
+    }
+
+    function applyParsedUrlDataToForm(forceOverwrite = false) {
+      if (!lastParsedUrlPayload) return;
+      const {
+        title,
+        detectedType,
+        detectedRegionId,
+        detectedCategory,
+        detectedTransport,
+        branches,
+        address,
+        mapQuery,
+        note,
+        hours,
+        image,
+      } = lastParsedUrlPayload;
+
+      const titleInput = document.getElementById('fieldTitle');
+      if (titleInput && (forceOverwrite || !titleInput.value.trim()) && title) {
+        titleInput.value = title;
+      }
+
+      if (detectedType) {
+        const typeRadio = document.querySelector(`input[name="fieldType"][value="${detectedType}"]`);
+        if (typeRadio) {
+          typeRadio.checked = true;
+          toggleBranchField(detectedType);
+        }
+      }
+
+      const regionSelect = document.getElementById('fieldRegion');
+      if (regionSelect && detectedRegionId && regions.some((r) => r.id === detectedRegionId)) {
+        regionSelect.value = detectedRegionId;
+      }
+
+      const catInput = document.getElementById('fieldCategory');
+      if (catInput && (forceOverwrite || !catInput.value.trim()) && detectedCategory) {
+        catInput.value = detectedCategory;
+      }
+
+      if (detectedTransport) {
+        const transRadio = document.querySelector(`input[name="fieldTransport"][value="${detectedTransport}"]`);
+        if (transRadio) transRadio.checked = true;
+      }
+
+      const branchInput = document.getElementById('fieldBranches');
+      if (branchInput && detectedType === 'souvenir' && (forceOverwrite || !branchInput.value.trim()) && branches) {
+        branchInput.value = branches;
+      }
+
+      const addrInput = document.getElementById('fieldAddress');
+      if (addrInput && (forceOverwrite || !addrInput.value.trim()) && address) {
+        addrInput.value = address;
+      }
+
+      const mapInput = document.getElementById('fieldMapQuery');
+      if (mapInput && (forceOverwrite || !mapInput.value.trim()) && mapQuery) {
+        mapInput.value = mapQuery;
+      }
+
+      const noteInput = document.getElementById('fieldNote');
+      if (noteInput && note) {
+        if (forceOverwrite || !noteInput.value.trim()) {
+          noteInput.value = note;
+        } else if (!noteInput.value.includes(lastParsedUrlPayload.url)) {
+          noteInput.value = `${noteInput.value.trim()}\n${note}`;
+        }
+      }
+
+      const hoursInput = document.getElementById('fieldHours');
+      if (hoursInput && (forceOverwrite || !hoursInput.value.trim()) && hours) {
+        hoursInput.value = hours;
+      }
+
+      // 若網頁有提供 og:image 且目前尚未設定圖片，嘗試載入預覽
+      const currentImg = document.getElementById('fieldImageData')?.value;
+      if (image && /^https?:\/\//i.test(image) && (forceOverwrite || !currentImg)) {
+        const probe = new Image();
+        probe.onload = () => {
+          document.getElementById('fieldImageData').value = image;
+          setModalPreviewImage(image);
+        };
+        probe.src = image;
+      }
+
+      updateModalSearchHelper();
+      if (forceOverwrite) {
+        showToast('📋 已將解析出的詳細資料全部填入表單！');
+      }
+    }
+
+    // 支援在新增/編輯彈窗開啟時直接按 Ctrl+V / Cmd+V 貼上剪貼簿圖片
+    window.addEventListener('paste', async (e) => {
+      const modal = document.getElementById('itemModal');
+      if (!modal || modal.classList.contains('hidden')) return;
+
+      const clipItems = e.clipboardData?.items;
+      if (!clipItems) return;
+
+      for (const clipItem of clipItems) {
+        if (clipItem.type.startsWith('image/')) {
+          const blob = clipItem.getAsFile();
+          if (blob) {
+            try {
+              const compressedDataUrl = await compressImageFile(blob);
+              document.getElementById('fieldImageData').value = compressedDataUrl;
+              setModalPreviewImage(compressedDataUrl);
+              showToast('📋 已從剪貼簿貼上圖片！');
+            } catch (err) {
+              console.error('剪貼簿圖片轉換失敗：', err);
+            }
+          }
+          break;
+        }
+      }
+    });
+
+    function triggerQuickCardPhotoUpload(itemId) {
+      quickUploadTargetItemId = itemId;
+      const input = document.getElementById('quickCardPhotoInput');
+      if (input) input.click();
+    }
+
+    async function handleQuickCardPhotoUpload(event) {
+      const file = event.target.files?.[0];
+      const targetId = quickUploadTargetItemId;
+      event.target.value = '';
+      if (!file || !targetId) return;
+
+      const target = items.find((i) => i.id === targetId);
+      if (!target) return;
+
+      try {
+        const compressedDataUrl = await compressImageFile(file);
+        target.image = compressedDataUrl;
+        if (userNickname) target.updatedBy = userNickname;
+        target.updatedAt = Date.now();
+
+        renderItems(false);
+        await persistStandaloneSnapshot();
+        if (lightboxCurrentItemId === targetId) {
+          document.getElementById('lightboxImg').src = compressedDataUrl;
+        }
+
+        if (currentUser && db && currentRoomId) {
+          const itemDocId = `${currentRoomId}__${targetId}`;
+          const itemRef = doc(db, 'artifacts', appId, 'public', 'data', COL_ITEMS, itemDocId);
+          await setDoc(itemRef, { ...target, roomId: currentRoomId }, { merge: true });
+        }
+
+        showToast(`📷 已更新「${target.title}」的照片！`);
+      } catch (err) {
+        console.error('快速上傳照片失敗：', err);
+        showToast('⚠️ 照片上傳或同步失敗，請稍後再試');
+      }
+    }
+
+    function openLightbox(itemId) {
+      const item = items.find((i) => i.id === itemId);
+      if (!item || !item.image) return;
+
+      lightboxCurrentItemId = itemId;
+      const reg = regions.find((r) => r.id === item.regionId) || { name: '九州', color: '#F6D27A' };
+
+      const badge = document.getElementById('lightboxRegionBadge');
+      badge.textContent = `📍 ${reg.name}`;
+      badge.style.backgroundColor = reg.color;
+
+      document.getElementById('lightboxTitle').textContent = item.title;
+      document.getElementById('lightboxImg').src = item.image;
+
+      const changeBtn = document.getElementById('btnLightboxChangePhoto');
+      changeBtn.onclick = () => triggerQuickCardPhotoUpload(itemId);
+
+      document.getElementById('lightboxModal').classList.remove('hidden');
+    }
+
+    function closeLightbox() {
+      lightboxCurrentItemId = null;
+      document.getElementById('lightboxModal').classList.add('hidden');
+    }
+
+    // ==================== 12. 地區管理與 JSON 備份/還原 ====================
+    function openRegionModal() {
+      renderRegionManageList();
+      document.getElementById('regionModal').classList.remove('hidden');
+    }
+
+    function closeRegionModal() {
+      document.getElementById('regionModal').classList.add('hidden');
+    }
+
+    function renderRegionManageList() {
+      const listEl = document.getElementById('regionManageList');
+      if (!listEl) return;
+
+      listEl.innerHTML = regions
+        .map((reg) => {
+          const count = items.filter((i) => i.regionId === reg.id).length;
+
+          return `
+            <div class="pb-subbox bg-white px-3 py-2.5 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="w-4 h-4 rounded-full border-2 border-ink shrink-0" style="background-color: ${escapeHtml(reg.color)};"></span>
+                <span class="text-sm truncate">${escapeHtml(reg.name)}</span>
+                <span class="text-xs text-ink/65 shrink-0">(${count}筆)</span>
+              </div>
+              <div class="flex items-center shrink-0">
+                ${
+                  regions.length > 1
+                    ? `<button type="button" onclick="confirmDeleteRegion('${escapeHtml(reg.id)}')" class="text-xs bg-coral/80 px-2 py-0.5 rounded-lg border-2 border-ink" title="刪除地區">✕</button>`
+                    : ''
+                }
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+    }
+
+    async function addNewRegion(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById('newRegionName');
+      const name = (nameInput?.value || '').trim();
+      if (!name) return;
+
+      const color = document.querySelector('input[name="newRegionColor"]:checked')?.value || '#F2A497';
+      const regId = `reg-${Date.now()}`;
+      const newReg = {
+        id: regId,
+        roomId: currentRoomId,
+        name,
+        color,
+        sortOrder: regions.length + 1,
+      };
+
+      regions.push(newReg);
+      nameInput.value = '';
+      renderRegionBar();
+      renderRegionManageList();
+      await persistStandaloneSnapshot();
+
+      if (currentUser && db && currentRoomId) {
+        try {
+          const regDocId = `${currentRoomId}__${regId}`;
+          await setDoc(doc(db, 'artifacts', appId, 'public', 'data', COL_REGIONS, regDocId), newReg, { merge: true });
+        } catch (err) {
+          console.error('新增地區至雲端失敗：', err);
+        }
+      }
+
+      showToast(`🗺️ 已新增地區「${name}」！`);
+    }
+
+    async function changeRegionColor(regionId, newColor) {
+      const reg = regions.find((r) => r.id === regionId);
+      if (!reg) return;
+      reg.color = newColor;
+
+      renderRegionBar();
+      renderRegionManageList();
+      renderItems(false);
+      await persistStandaloneSnapshot();
+
+      if (currentUser && db && currentRoomId) {
+        try {
+          const regDocId = `${currentRoomId}__${regionId}`;
+          await setDoc(
+            doc(db, 'artifacts', appId, 'public', 'data', COL_REGIONS, regDocId),
+            { ...reg, roomId: currentRoomId },
+            { merge: true }
+          );
+        } catch (err) {
+          console.error('更新地區顏色失敗：', err);
+        }
+      }
+    }
+
+    function confirmDeleteRegion(regionId) {
+      const reg = regions.find((r) => r.id === regionId);
+      if (!reg) return;
+      openConfirmModal(
+        '刪除地區標籤',
+        `確定要刪除「${reg.name}」嗎？該地區下的項目仍會保留在「全部地區」中。`,
+        async () => {
+          regions = regions.filter((r) => r.id !== regionId);
+          if (activeRegion === regionId) activeRegion = 'all';
+          renderRegionBar();
+          renderRegionManageList();
+          renderItems(false);
+          await persistStandaloneSnapshot();
+
+          if (currentUser && db && currentRoomId) {
+            try {
+              const regDocId = `${currentRoomId}__${regionId}`;
+              await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', COL_REGIONS, regDocId));
+            } catch (err) {
+              console.error('刪除雲端地區失敗：', err);
+            }
+          }
+          showToast(`🗑️ 已移除地區「${reg.name}」`);
+        }
+      );
+    }
+
+    function exportBackupJSON() {
+      const payload = {
+        app: 'kyushu-travel-journal',
+        version: 2,
+        exportedAt: new Date().toISOString(),
+        roomId: currentRoomId,
+        regions,
+        items,
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+      a.href = url;
+      a.download = `kyushu-journal-backup-${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('⬇️ 已匯出完整 JSON 備份檔（含照片）！');
+    }
+
+    function importBackupJSON(event) {
+      const file = event.target.files?.[0];
+      event.target.value = '';
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!Array.isArray(parsed.items)) {
+            showToast('⚠️ 備份檔格式不正確，找不到手札項目');
+            return;
+          }
+
+          if (Array.isArray(parsed.regions) && parsed.regions.length > 0) {
+            regions = parsed.regions;
+          }
+          items = parsed.items;
+          renderAll();
+          renderRegionManageList();
+          await persistStandaloneSnapshot();
+
+          if (currentUser && db && currentRoomId) {
+            for (const reg of regions) {
+              const regDocId = `${currentRoomId}__${reg.id}`;
+              await setDoc(
+                doc(db, 'artifacts', appId, 'public', 'data', COL_REGIONS, regDocId),
+                { ...reg, roomId: currentRoomId },
+                { merge: true }
+              );
+            }
+            for (const item of items) {
+              const itemDocId = `${currentRoomId}__${item.id}`;
+              await setDoc(
+                doc(db, 'artifacts', appId, 'public', 'data', COL_ITEMS, itemDocId),
+                { ...item, roomId: currentRoomId },
+                { merge: true }
+              );
+            }
+          }
+
+          closeRegionModal();
+          showToast(`⬆️ 已成功還原 ${items.length} 筆手札記錄！`);
+        } catch (err) {
+          console.error('匯入備份檔失敗：', err);
+          showToast('⚠️ 無法讀取 JSON 備份檔，請確認檔案未損毀');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function copyChecklistText() {
+      const souv = items.filter((i) => i.type === 'souvenir');
+      const food = items.filter((i) => i.type === 'food');
+
+      const formatList = (arr) =>
+        arr
+          .map((item) => {
+            const regName = regions.find((r) => r.id === item.regionId)?.name || '九州';
+            const mark = item.completed ? '[✓]' : '[ ]';
+            return `${mark} 【${regName}】${item.title}${item.branches ? `（分店：${item.branches}）` : ''}`;
+          })
+          .join('\n');
+
+      const text = [
+        '🗾 九州旅手帳・必買伴手禮＆必吃美食清單',
+        '========================',
+        '🎁 必買伴手禮＆藥妝：',
+        formatList(souv),
+        '',
+        '🍜 必吃美食：',
+        formatList(food),
+      ].join('\n');
+
+      copyTextFallback(text);
+      showToast('📋 已複製純文字採買清單到剪貼簿！');
+    }
+
+    function confirmResetDefault() {
+      openConfirmModal(
+        '恢復九州預設清單',
+        '確定要重新載入預設的 7 個九州地區與 23 筆精選伴手禮／美食清單嗎？',
+        async () => {
+          regions = JSON.parse(JSON.stringify(DEFAULT_REGIONS));
+          items = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+          activeRegion = 'all';
+          renderAll();
+          await persistStandaloneSnapshot();
+
+          if (currentUser && db && currentRoomId) {
+            await seedDefaultRoomData(currentRoomId);
+          }
+          showToast('🔄 已恢復九州預設精選清單！');
+        }
+      );
+    }
+
+    // ==================== 13. 確認彈窗與繪本輕提示 (Toast) ====================
+    function openConfirmModal(title, message, onConfirm) {
+      document.getElementById('confirmTitle').textContent = title;
+      document.getElementById('confirmMessage').textContent = message;
+      pendingConfirmCallback = onConfirm;
+
+      const execBtn = document.getElementById('btnConfirmExecute');
+      execBtn.onclick = async () => {
+        const cb = pendingConfirmCallback;
+        closeConfirmModal();
+        if (typeof cb === 'function') await cb();
+      };
+
+      document.getElementById('confirmModal').classList.remove('hidden');
+    }
+
+    function closeConfirmModal() {
+      pendingConfirmCallback = null;
+      document.getElementById('confirmModal').classList.add('hidden');
+    }
+
+    let toastTimer = null;
+    function showToast(message) {
+      const banner = document.getElementById('toastBanner');
+      const textEl = document.getElementById('toastText');
+      if (!banner || !textEl) return;
+
+      textEl.textContent = message;
+      banner.classList.remove('hidden');
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 3000);
+    }
+
+    // ==================== 14. 掛載全域函式供 HTML 事件呼叫並啟動 ====================
+    Object.assign(window, {
+      toggleMotionPref,
+      openCloudModal,
+      closeCloudModal,
+      saveCustomCloudConfig,
+      clearCustomCloudConfig,
+      copyRoomCode,
+      copyShareInviteLink,
+      saveNicknameSetting,
+      joinCloudRoom,
+      createNewCloudRoom,
+      openRegionModal,
+      closeRegionModal,
+      addNewRegion,
+      changeRegionColor,
+      confirmDeleteRegion,
+      exportBackupJSON,
+      importBackupJSON,
+      switchTab,
+      selectRegion,
+      setStatusFilter,
+      handleSearchInput,
+      clearSearch,
+      toggleComplete,
+      openItemModal,
+      closeItemModal,
+      toggleBranchField,
+      fillCategory,
+      updateModalSearchHelper,
+      saveItemForm,
+      confirmDeleteItem,
+      handleModalFileUpload,
+      removeModalImage,
+      searchInfoFromUrl,
+      applyParsedUrlDataToForm,
+      triggerQuickCardPhotoUpload,
+      handleQuickCardPhotoUpload,
+      openLightbox,
+      closeLightbox,
+      copyChecklistText,
+      confirmResetDefault,
+      closeConfirmModal,
+    });
+
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+  </script>
+</body>
+</html>
