@@ -432,7 +432,7 @@
             把九州的美味與戰利品通通收進手札！
           </h2>
           <p id="bannerSubtitle" class="text-sm text-ink/85">
-            支援雲端即時同步與旅伴多人共享！上傳照片、一鍵搜圖與打勾進度都會即時同步給同行夥伴。
+            支援雲端即時同步與旅伴多人共享！貼上網址智慧解析、上傳照片與打勾進度都會永久保存並即時同步。
           </p>
         </div>
 
@@ -592,6 +592,91 @@
         ＋ 立即新增一筆記錄
       </button>
     </section>
+
+    <!-- ==================== 原始貼上網址速查表 ==================== -->
+    <section id="urlLookupSection" class="pb-card bg-washi p-4 sm:p-5 mt-6" aria-labelledby="urlLookupTitle">
+      <div class="flex flex-wrap items-center justify-between gap-2.5 pb-3 border-b-[3px] border-ink">
+        <div class="flex items-center gap-2">
+          <span class="w-9 h-9 rounded-[14px] bg-mizuiro border-[2.5px] border-ink flex items-center justify-center text-base shrink-0 shadow-[2px_2px_0px_#3E3A39]">
+            🔗
+          </span>
+          <div>
+            <h2 id="urlLookupTitle" class="text-base sm:text-lg leading-tight flex items-center gap-2">
+              <span>原始貼上網址速查表</span>
+              <span id="urlLookupCountBadge" class="bg-yamabuki text-xs px-2.5 py-0.5 rounded-full border-2 border-ink">
+                0 筆
+              </span>
+            </h2>
+            <p class="text-xs text-ink/75 mt-0.5">
+              自動記錄貼上解析或儲存的原始參考連結，方便隨時回頭查閱來源
+            </p>
+          </div>
+        </div>
+
+        <button
+          id="btnToggleUrlTable"
+          type="button"
+          onclick="toggleUrlTableCollapse()"
+          class="pb-btn bg-washi px-3 py-1.5 text-xs sm:text-sm flex items-center gap-1"
+          aria-expanded="true"
+        >
+          <span id="urlTableToggleText">收合表格</span>
+          <span id="urlTableToggleIcon">▴</span>
+        </button>
+      </div>
+
+      <div id="urlLookupBody" class="mt-3.5 space-y-3">
+        <!-- 表格內快速搜尋列 -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <div class="relative flex-1">
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm pointer-events-none">🔎</span>
+            <input
+              id="urlTableSearchInput"
+              type="text"
+              oninput="handleUrlTableSearch(this.value)"
+              placeholder="快速搜尋關聯店名、地區或原始網址..."
+              class="pb-input pl-9 pr-8 py-1.5 text-xs sm:text-sm bg-white"
+            />
+            <button
+              id="btnClearUrlTableSearch"
+              type="button"
+              onclick="clearUrlTableSearch()"
+              class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-xs bg-coral px-1.5 py-0.5 rounded-full border border-ink"
+              aria-label="清除網址搜尋"
+            >
+              ✕
+            </button>
+          </div>
+          <button
+            type="button"
+            onclick="openItemModal()"
+            class="pb-btn bg-yamabuki px-3.5 py-1.5 text-xs sm:text-sm shrink-0 flex items-center justify-center gap-1"
+          >
+            <span>＋</span>
+            <span>貼上新網址</span>
+          </button>
+        </div>
+
+        <!-- 繪本風粗線框表格容器 -->
+        <div class="border-[3px] border-ink rounded-[18px] overflow-hidden bg-white shadow-[3px_3px_0px_#3E3A39]">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-[600px]">
+              <thead>
+                <tr class="bg-yamabuki/60 border-b-[3px] border-ink text-xs sm:text-sm">
+                  <th class="py-2.5 px-3 font-normal w-[30%]">關聯項目 / 地區</th>
+                  <th class="py-2.5 px-3 font-normal w-[42%]">原始貼上網址</th>
+                  <th class="py-2.5 px-3 font-normal w-[13%]">記錄時間</th>
+                  <th class="py-2.5 px-3 font-normal text-right w-[15%]">操作</th>
+                </tr>
+              </thead>
+              <tbody id="urlLookupTableBody" class="divide-y-2 divide-ink/15 text-xs sm:text-sm">
+                <!-- 由 JS 動態渲染原始網址列 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- ==================== 頁尾 (Footer) ==================== -->
@@ -608,6 +693,7 @@
       </div>
     </div>
   </footer>
+
   <!-- ==================== 右下角懸浮新增按鈕 (FAB，避開底部工具列與平台浮水印) ==================== -->
   <button
     type="button"
@@ -717,7 +803,7 @@
             <p class="text-xs sm:text-sm text-ink/80">尚未選擇圖片（支援上傳、搜圖或直接按 Ctrl+V 貼上截圖）</p>
           </div>
           <p id="modalImageErrorMsg" class="hidden text-xs text-[#B9382C] bg-coral/35 px-2.5 py-1.5 rounded-xl border-2 border-ink">
-            ⚠️ 該圖片網址無法載入（可能受網站防盜連限制），建議改用「Google 搜圖後右鍵複製圖片 → 在此按 Ctrl+V 貼上」或直接上傳本機圖片！
+            ⚠️ 圖片無法載入，建議改用「Google 搜圖後右鍵複製圖片 → 在此按 Ctrl+V 貼上」或直接上傳本機圖片！
           </p>
 
           <!-- 操作按鈕列：上傳本機圖片 & Google 搜圖幫手 -->
@@ -750,13 +836,31 @@
         <div class="pb-subbox p-3.5 bg-mizuiro/20 space-y-2.5">
           <label for="fieldInfoUrl" class="block text-sm flex items-center gap-1.5">
             <span>🔗</span>
-            <span>貼上網址自動解析並填寫分店、地址、推薦原因與營業時間</span>
+            <span>貼上網址自動上網查詢並填寫分店、地址、推薦原因與營業時間</span>
           </label>
+
+          <!-- 解析類型鎖定標籤（避免藥妝被誤判為伴手禮） -->
+          <div class="flex flex-wrap items-center gap-1.5 text-xs">
+            <span class="text-ink/75">解析類型：</span>
+            <button type="button" id="intentBtn-auto" onclick="setUrlParseIntent('auto')" class="pb-pill bg-yamabuki px-2.5 py-0.5">
+              ✨ 自動判斷
+            </button>
+            <button type="button" id="intentBtn-drugstore" onclick="setUrlParseIntent('drugstore')" class="pb-pill bg-washi px-2.5 py-0.5">
+              💊 藥妝美妝
+            </button>
+            <button type="button" id="intentBtn-souvenir" onclick="setUrlParseIntent('souvenir')" class="pb-pill bg-washi px-2.5 py-0.5">
+              🎁 伴手禮點心
+            </button>
+            <button type="button" id="intentBtn-food" onclick="setUrlParseIntent('food')" class="pb-pill bg-washi px-2.5 py-0.5">
+              🍜 美食餐廳
+            </button>
+          </div>
+
           <div class="flex gap-2">
             <input
               id="fieldInfoUrl"
-              type="url"
-              placeholder="貼上部落格、Tabelog、IG 或 Google 地圖網址..."
+              type="text"
+              placeholder="貼上藥妝商品頁、部落格、Tabelog、IG 網址或品名..."
               class="pb-input py-1.5 text-xs sm:text-sm flex-1 bg-white"
             />
             <button
@@ -766,26 +870,34 @@
               class="pb-btn bg-yamabuki px-3.5 py-1.5 text-xs sm:text-sm shrink-0 flex items-center gap-1"
             >
               <span>🔍</span>
-              <span>自動解析填寫</span>
+              <span>智慧解析</span>
             </button>
           </div>
-          <p class="text-[11px] text-ink/75">
-            貼上連結後將自動解析網頁資訊，並自動填入下方「名稱、詳細購買分店、地址、推薦原因、營業時間與地圖關鍵字」。
+          <div class="flex items-center gap-2">
+            <input
+              id="fieldInfoHint"
+              type="text"
+              placeholder="補充商品或店名關鍵字（選填，貼 IG / Threads 短網址時建議補充）"
+              class="pb-input py-1.5 text-xs bg-white/90"
+            />
+          </div>
+          <p id="urlParseStatusHint" class="text-[11px] text-ink/75">
+            貼上連結後將自動查證網頁內容並區分「藥妝美妝 / 伴手禮 / 美食」，填入對應分店與資訊。
           </p>
 
           <!-- 解析結果摘要與一鍵套用卡片 -->
           <div id="urlSearchResultBox" class="hidden bg-white border-2 border-ink rounded-[14px] p-3 space-y-2 text-xs">
             <div class="flex items-start justify-between gap-2 pb-1.5 border-b border-ink/15">
               <div class="min-w-0">
-                <p class="text-[11px] text-ink/65">✨ 已解析網址來源並產生以下詳細資料：</p>
+                <p id="urlParsedSourceBadge" class="text-[11px] text-ink/65">✨ 已解析網址來源並產生以下詳細資料：</p>
                 <p id="urlParsedTitleText" class="text-sm leading-snug break-words"></p>
               </div>
               <button
                 type="button"
-                onclick="applyParsedUrlDataToForm(true)"
+                onclick="applyParsedUrlDataToForm(true, true)"
                 class="pb-btn bg-wakatake px-2.5 py-1 text-[11px] shrink-0"
               >
-                全部填入表單
+                重新套用
               </button>
             </div>
 
@@ -794,6 +906,12 @@
               <p id="urlParsedAddressRow" class="hidden">📍 <strong>地址位置：</strong><span id="urlParsedAddressText"></span></p>
               <p id="urlParsedNoteRow" class="hidden">💡 <strong>推薦原因：</strong><span id="urlParsedNoteText"></span></p>
               <p id="urlParsedHoursRow" class="hidden">🕒 <strong>營業時間：</strong><span id="urlParsedHoursText"></span></p>
+            </div>
+
+            <!-- 搜尋參考來源標籤 -->
+            <div id="urlParsedCitationsRow" class="hidden pt-1 border-t border-ink/10">
+              <p class="text-[10px] text-ink/60 mb-1">📚 查證參考來源：</p>
+              <div id="urlParsedCitationsList" class="flex flex-wrap gap-1"></div>
             </div>
 
             <div class="flex flex-wrap gap-1.5 pt-1">
@@ -868,16 +986,10 @@
           <textarea id="fieldBranches" rows="2" placeholder="例如：博多車站 MING 1F、博多阪急 B1、福岡機場國內線 2F" class="pb-input"></textarea>
         </div>
 
-        <!-- 地址備註 + Google 地圖搜尋關鍵字 -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label for="fieldAddress" class="block text-sm mb-1">📍 地址 / 位置備註</label>
-            <input id="fieldAddress" type="text" placeholder="例如：福岡市博多區博多駅中央街1-1" class="pb-input" />
-          </div>
-          <div>
-            <label for="fieldMapQuery" class="block text-sm mb-1">🗺️ Google 地圖搜尋關鍵字</label>
-            <input id="fieldMapQuery" type="text" placeholder="留空則自動帶入名稱與地址" class="pb-input" />
-          </div>
+        <!-- 地址 / 位置備註 -->
+        <div>
+          <label for="fieldAddress" class="block text-sm mb-1">📍 地址 / 位置備註（點擊卡片「Google 地圖」將直接依名稱與地址搜尋）</label>
+          <input id="fieldAddress" type="text" placeholder="例如：福岡市博多區博多駅中央街1-1" class="pb-input" />
         </div>
 
         <!-- 推薦原因 & 營業時間 -->
@@ -1178,8 +1290,8 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     // ==================== 1A. 瀏覽器大容量本機資料庫 (IndexedDB，供匯出後獨立網站永久保存) ====================
     const IDB_NAME = 'KyushuTravelJournalDB';
@@ -1256,6 +1368,7 @@
       await idbSet('kyushu_journal_snapshot_v1', {
         regions,
         items,
+        urlLogs,
         userNickname,
         reduceMotion,
         savedAt: Date.now(),
@@ -1263,7 +1376,6 @@
     }
 
     // ==================== 1B. 雲端初始化與集合常數 ====================
-    // 若匯出 HTML 後想直接在程式碼內寫入自己的 Firebase 設定，可填入下方物件（或透過網頁「共享手札」視窗貼上）
     const CUSTOM_FIREBASE_CONFIG = null;
 
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
@@ -1299,6 +1411,7 @@
     const COL_ROOMS = 'kyushu_journal_rooms';
     const COL_REGIONS = 'kyushu_journal_regions';
     const COL_ITEMS = 'kyushu_journal_items';
+    const COL_URLS = 'kyushu_journal_urls';
 
     const BRAND_COLORS = [
       { hex: '#F2A497', name: '珊瑚粉' },
@@ -1333,7 +1446,6 @@
 
     // ==================== 3. 精選預載九州必買伴手禮(13筆)與必吃美食(10筆) ====================
     const DEFAULT_ITEMS = [
-      // ---------- 🎁 必買伴手禮（共 13 項，含九州伴手禮與必買日本藥妝） ----------
       {
         id: 'souv-01',
         type: 'souvenir',
@@ -1347,6 +1459,7 @@
         note: '福岡超人氣「冰著吃」炸雞翅！外皮裹滿甜鹹微辣秘製醬汁與白芝麻，越冰越酥脆涮嘴，買回飯店配啤酒超適合（需冷凍/冷藏保存）。',
         hours: '09:00–21:00（博多Ming店）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 1,
       },
@@ -1363,6 +1476,7 @@
         note: '加入博多明太子、花枝與章魚烘烤的薄脆仙貝！推薦必買原味、美乃滋與福岡限定蔥香口味，獨立包裝適合帶回台灣分送同事親友。',
         hours: '09:00–21:00',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 2,
       },
@@ -1379,6 +1493,7 @@
         note: '使用福岡特產「甘王草莓」製作的立體草莓造型脆餅！酥脆餅乾夾入濃郁生奶油巧克力與香甜草莓乾，顏值極高，下午常提前完售。',
         hours: '10:00–20:00（售完為止）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 3,
       },
@@ -1395,6 +1510,7 @@
         note: '裹滿九州產香濃黃豆粉的軟Q麻糬，淋上附贈的黑糖蜜一起享用，甜而不膩、口感細緻，是長輩最喜愛的博多經典銘菓。',
         hours: '08:00–21:00（博多站筑紫口店）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 4,
       },
@@ -1411,6 +1527,7 @@
         note: '門司港曾是日本香蕉貿易重鎮，當地限定的香蕉年輪蛋糕、香蕉夾心餅乾與名店「伽哩本舗」燒咖哩調理包都是必帶戰利品。',
         hours: '10:00–20:00',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 5,
       },
@@ -1427,6 +1544,7 @@
         note: '昭和63年流傳至今的元祖地獄蒸布丁！利用天然硫磺溫泉蒸氣慢蒸而成，微苦焦糖配濃郁蛋香，現場內用一顆再外帶保冷禮盒。',
         hours: '08:30–18:30（布丁常於傍晚前售罄）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 6,
       },
@@ -1443,6 +1561,7 @@
         note: '由布院頂級旅館「山莊無量塔」監製的生乳蛋糕捲！僅使用麵粉、砂糖、雞蛋與鮮奶油烘焙，海綿蛋糕蓬鬆濕潤、奶香清爽不膩。',
         hours: '10:00–17:00（小條裝常於中午前完售）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 7,
       },
@@ -1459,6 +1578,7 @@
         note: '連續榮獲世界食品品質評鑑金賞！使用由布院產鮮奶與起司烘烤，現烤熱吃會爆漿流心，冷藏後則像綿密生乳酪蛋糕，也推出常溫起司餅乾禮盒。',
         hours: '09:30–17:30',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 8,
       },
@@ -1475,6 +1595,7 @@
         note: '阿蘇小國鄉稀有的澤西牛（Jersey）鮮乳乳脂肪含量高、香氣特別濃醇！澤西牛乳布丁、鮮乳夾心餅與牛奶糖都是自駕途中必掃伴手禮。',
         hours: '09:00–18:00',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 9,
       },
@@ -1491,6 +1612,7 @@
         note: '以玄界灘海水古法日曬慢煮的天然海鹽！招牌「花鹽布丁」淋上焦糖醬並撒上結晶花鹽，鹹甜交織超驚豔，推薦順便帶一包炊飯糰超好吃的「炊塩」。',
         hours: '10:00–17:00（遇惡劣天候可能臨時公休）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 10,
       },
@@ -1507,6 +1629,7 @@
         note: '日本家庭必備綜合感冒常備藥（44包盒裝），旅途中感覺喉嚨微癢或著涼時及時補充超安心，結帳記得攜帶護照辦理免稅。',
         hours: '09:00–22:30（唐吉訶德中洲店為 24 小時營業）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 11,
       },
@@ -1523,6 +1646,7 @@
         note: '針對頭痛、肩頸痠痛與生理痛的速效加強版（藍盒 DX），添加氧化鎂保護胃黏膜，是台灣旅客到日本藥妝店必補貨的常備清單。',
         hours: '24小時營業（唐吉訶德天神本店）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 12,
       },
@@ -1539,11 +1663,10 @@
         note: '九州自由行每天走兩萬步必備！晚上回飯店貼上清涼「休足時間」舒緩小腿與腳底；合利他命 EX PLUS（270錠）則是幫家人代購的熱門首選。',
         hours: '24小時營業（唐吉訶德中洲店）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 13,
       },
-
-      // ---------- 🍜 必吃美食（共 10 項） ----------
       {
         id: 'food-01',
         type: 'food',
@@ -1557,6 +1680,7 @@
         note: '被稱為「豚骨卡布奇諾」的博多泡系拉麵名店！湯頭熬煮至表面浮現細密乳化泡沫，豚骨香氣極濃郁卻不死鹹，推薦加點半熟味玉與一口煎餃。',
         hours: '11:00–24:00（湯頭售完提前打烊）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 14,
       },
@@ -1573,6 +1697,7 @@
         note: '福岡代表性鄉土料理！招牌「味噌口味牛腸鍋」使用九州產和牛小腸，肥美彈牙無腥味，湯頭濃醇甘甜，最後一定要加點強棒麵（ちゃんぽん麺）吸飽精華。',
         hours: '11:00–23:00（建議提前線上預約）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 15,
       },
@@ -1589,6 +1714,7 @@
         note: '使用佐賀伊萬里牛與九州產黑毛和牛製作的手打漢堡排，表面微煎後上桌，自己用筷子夾小塊在滾燙小圓鐵石上煎至喜愛熟度，搭配白飯、味噌湯與霜淇淋吃到飽！',
         hours: '11:00–22:00（建議避開正餐尖峰時段）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 16,
       },
@@ -1605,6 +1731,7 @@
         note: '門司港發祥靈魂美食！在濃郁香料咖哩飯上打入一顆半熟蛋並鋪滿雙層起司進烤箱焗烤，窗邊座位還能直接欣賞關門海峽與門司港懷舊建築群。',
         hours: '11:00–20:00（L.O. 19:30）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 17,
       },
@@ -1621,6 +1748,7 @@
         note: '利用別府鐵輪溫泉 98 度高溫噴氣親自體驗蒸煮海鮮、大分地瓜、玉米與溫泉蛋！零油脂純天然蒸氣完全鎖住食材鮮甜，好玩又健康。',
         hours: '10:00–19:00（最終受理 18:00，每月第3個週三公休）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 18,
       },
@@ -1637,6 +1765,7 @@
         note: '別府創業超過 90 年的超人氣和食老店！招牌「特上天丼」兩尾大炸蝦直立擺盤超霸氣，麵衣酥脆不油膩，淋上祖傳秘製微甜醬汁超級下飯。',
         hours: '11:00–14:00、17:00–21:00（週二公休）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 19,
       },
@@ -1653,6 +1782,7 @@
         note: '由布院排隊第一名美食！直火陶鍋現炊的「豐後牛釜飯」，一吃品嚐炭烤和牛原味、二吃拌入柚子胡椒與小菜、三吃淋上高湯變成香氣四溢的鍋巴茶泡飯！',
         hours: '11:00–16:00、17:30–21:00（週四公休，建議開店前30分排隊）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 20,
       },
@@ -1669,6 +1799,7 @@
         note: '傳承百年的阿蘇排隊名店！粉嫩三分熟的阿蘇放牧「赤牛排」鋪滿整碗白飯，戳破半熟溫泉蛋拌著特製味噌醬與芥末享用，肉質軟嫩鮮甜無比。',
         hours: '11:00–15:00（週三公休，建議早上 10:00 先到現場抽號碼牌）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 21,
       },
@@ -1685,6 +1816,7 @@
         note: '整面落地窗無敵海景第一排！一邊眺望湛藍玄界灘與櫻井二見浦「夫婦岩・白色鳥居」，一邊大啖鋪滿當日現流生魚片、海膽與鮭魚卵的豪華海鮮丼。',
         hours: '11:00–17:30（週六日營業至 18:00）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 22,
       },
@@ -1701,6 +1833,7 @@
         note: '停靠在糸島蔚藍海岸邊的英國紅色雙層巴士咖啡廳！買一支手作義式冰淇淋（推薦甘王草莓與海鹽牛奶雙球），走上巴士二樓吹海風看海超愜意。',
         hours: '11:00–日落（遇雨天可能提早打烊）',
         image: '',
+        sourceUrl: '',
         completed: false,
         sortOrder: 23,
       },
@@ -1712,29 +1845,37 @@
     let userNickname = '';
     let unsubscribeRegions = null;
     let unsubscribeItems = null;
+    let unsubscribeUrls = null;
 
     let regions = JSON.parse(JSON.stringify(DEFAULT_REGIONS));
     let items = [];
+    let urlLogs = [];
     let activeTab = 'souvenir'; // 'souvenir' | 'food'
     let activeRegion = 'all';
     let statusFilter = 'all'; // 'all' | 'todo' | 'done'
     let searchQuery = '';
+    let urlTableSearchQuery = '';
+    let isUrlTableCollapsed = false;
     let reduceMotion = false;
     let pendingConfirmCallback = null;
     let quickUploadTargetItemId = null;
     let lightboxCurrentItemId = null;
     let lastParsedUrlPayload = null;
+    let urlParseIntent = 'auto'; // 'auto' | 'drugstore' | 'souvenir' | 'food'
 
     // ==================== 5. 驗證與雲端即時同步啟動 ====================
     async function initApp() {
       reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // 1. 優先從瀏覽器大容量本機資料庫 (IndexedDB) 載入已保存的手札進度與照片（確保匯出後重新整理資料永不消失）
+      // 1. 優先從瀏覽器大容量本機資料庫 (IndexedDB) 載入已保存的手札進度與照片
       const savedSnapshot = await idbGet('kyushu_journal_snapshot_v1');
       if (savedSnapshot && Array.isArray(savedSnapshot.items)) {
         items = savedSnapshot.items;
         if (Array.isArray(savedSnapshot.regions) && savedSnapshot.regions.length > 0) {
           regions = savedSnapshot.regions;
+        }
+        if (Array.isArray(savedSnapshot.urlLogs)) {
+          urlLogs = savedSnapshot.urlLogs;
         }
         if (typeof savedSnapshot.userNickname === 'string') {
           userNickname = savedSnapshot.userNickname;
@@ -1747,6 +1888,7 @@
         await persistStandaloneSnapshot();
       }
 
+      syncUrlLogsFromItems();
       applyMotionPreference();
 
       // 若環境未內建雲端設定，檢查使用者是否曾在「共享手札」設定過自訂雲端專案
@@ -1781,7 +1923,6 @@
 
       updateSyncStatusUI('syncing', '連線中...');
 
-      // 逾時保護：若 8 秒內雲端驗證未回應，自動切換為本機可用代碼不卡死
       let authCompleted = false;
       const authTimeoutId = setTimeout(() => {
         if (!authCompleted) {
@@ -1794,7 +1935,6 @@
         }
       }, 8000);
 
-      // 先完成 Firebase 驗證登入，再執行任何 Firestore 讀寫
       let userCred = null;
       try {
         if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -1829,17 +1969,13 @@
       const fullUidEl = document.getElementById('cloudFullUserId');
       if (fullUidEl) fullUidEl.textContent = user.uid;
 
-      // 驗證完成後立刻產生並顯示房間代碼（不等待遠端讀取）
       const fallbackRoom = `KYUSHU-${user.uid.slice(0, 6).toUpperCase()}`;
       if (!currentRoomId) {
         currentRoomId = urlRoom || fallbackRoom;
       }
       updateRoomDisplayUI();
 
-      // 立即連線至該手札房間並監聽即時資料
       connectToRoom(currentRoomId);
-
-      // 同步在背景讀取個人雲端偏好（暱稱、動態設定與上次使用的房間）
       resolveUserRoomAndPrefs(user, urlRoom, fallbackRoom);
     }
 
@@ -1879,7 +2015,6 @@
         connectToRoom(currentRoomId);
       }
 
-      // 將目前房間與偏好寫入個人雲端設定（RULE 1 路徑）
       try {
         await setDoc(
           prefRef,
@@ -1902,8 +2037,8 @@
       updateSyncStatusUI('syncing', '同步中...');
       if (typeof unsubscribeRegions === 'function') unsubscribeRegions();
       if (typeof unsubscribeItems === 'function') unsubscribeItems();
+      if (typeof unsubscribeUrls === 'function') unsubscribeUrls();
 
-      // 若 10 秒內尚未收到快照回應，自動切換為就緒狀態避免一直顯示同步中
       let firstSnapshotReceived = false;
       const syncTimeoutId = setTimeout(() => {
         if (!firstSnapshotReceived) {
@@ -1911,7 +2046,6 @@
         }
       }, 10000);
 
-      // 優先掛載即時監聽，讓畫面在最短時間內取得雲端資料
       const regionsColRef = collection(db, 'artifacts', appId, 'public', 'data', COL_REGIONS);
       unsubscribeRegions = onSnapshot(
         regionsColRef,
@@ -1927,6 +2061,7 @@
           regions = list.length > 0 ? list : JSON.parse(JSON.stringify(DEFAULT_REGIONS));
           renderRegionBar();
           renderItems(false);
+          renderUrlLookupTable();
           if (!document.getElementById('regionModal').classList.contains('hidden')) {
             renderRegionManageList();
           }
@@ -1937,7 +2072,6 @@
         }
       );
 
-      // 監聽公共項目集合（RULE 1 & RULE 2：僅使用簡單 collection() 查詢，在 JS 記憶體篩選排序）
       const itemsColRef = collection(db, 'artifacts', appId, 'public', 'data', COL_ITEMS);
       unsubscribeItems = onSnapshot(
         itemsColRef,
@@ -1955,13 +2089,14 @@
           list.sort((a, b) => (a.sortOrder || 9999) - (b.sortOrder || 9999));
           if (list.length > 0) {
             items = list;
+            syncUrlLogsFromItems();
             persistStandaloneSnapshot();
           }
           updateStats();
           renderItems(false);
+          renderUrlLookupTable();
           updateSyncStatusUI('online', '已同步');
 
-          // 若大圖預覽開啟中，同步更新預覽照片
           if (lightboxCurrentItemId) {
             const current = items.find((i) => i.id === lightboxCurrentItemId);
             if (current && current.image) {
@@ -1977,7 +2112,37 @@
         }
       );
 
-      // 背景檢查此手札房間是否為全新房間，若是則寫入預設九州資料（不阻塞畫面顯示）
+      const urlsColRef = collection(db, 'artifacts', appId, 'public', 'data', COL_URLS);
+      unsubscribeUrls = onSnapshot(
+        urlsColRef,
+        (snapshot) => {
+          const remoteLogs = [];
+          snapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            if (data && data.roomId === roomId && data.url) {
+              remoteLogs.push(data);
+            }
+          });
+          if (remoteLogs.length > 0) {
+            const mergedMap = new Map();
+            urlLogs.forEach((l) => mergedMap.set(l.url, l));
+            remoteLogs.forEach((l) => {
+              const existing = mergedMap.get(l.url);
+              if (!existing || (l.updatedAt || l.createdAt || 0) >= (existing.updatedAt || existing.createdAt || 0)) {
+                mergedMap.set(l.url, l);
+              }
+            });
+            urlLogs = Array.from(mergedMap.values()).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            syncUrlLogsFromItems();
+            persistStandaloneSnapshot();
+            renderUrlLookupTable();
+          }
+        },
+        (error) => {
+          console.error('監聽原始網址記錄失敗：', error);
+        }
+      );
+
       try {
         const roomRef = doc(db, 'artifacts', appId, 'public', 'data', COL_ROOMS, roomId);
         const roomSnap = await getDoc(roomRef);
@@ -1992,7 +2157,6 @@
     async function seedDefaultRoomData(roomId) {
       if (!currentUser || !db || !roomId) return;
       try {
-        // 先寫入地區與項目資料，最後再建立房間標記檔，避免網路中斷導致只寫入一半
         for (const reg of DEFAULT_REGIONS) {
           const regDocId = `${roomId}__${reg.id}`;
           const regRef = doc(db, 'artifacts', appId, 'public', 'data', COL_REGIONS, regDocId);
@@ -2200,6 +2364,7 @@
       currentRoomId = newCode;
       items = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
       regions = JSON.parse(JSON.stringify(DEFAULT_REGIONS));
+      urlLogs = [];
       updateRoomDisplayUI();
       renderAll();
 
@@ -2259,6 +2424,7 @@
       renderRegionBar();
       updateStats();
       renderItems(false);
+      renderUrlLookupTable();
     }
 
     function switchTab(tab) {
@@ -2381,7 +2547,6 @@
       if (tabCountSouvEl) tabCountSouvEl.textContent = String(souvItems.length);
       if (tabCountFoodEl) tabCountFoodEl.textContent = String(foodItems.length);
 
-      // 目前分頁與地區下的數量統計
       const tabScoped = items.filter((i) => {
         if (i.type !== activeTab) return false;
         if (activeRegion !== 'all' && i.regionId !== activeRegion) return false;
@@ -2412,7 +2577,6 @@
     function getCategoryStickerSVG(item) {
       const cat = String(item.category || '');
       if (item.regionId === 'drugstore' || cat.includes('藥妝')) {
-        // 可愛急救藥妝箱 SVG
         return `
           <svg viewBox="0 0 80 64" class="w-16 h-14 anim-float" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <rect x="14" y="18" width="52" height="36" rx="10" fill="#F6D27A" stroke="#3E3A39" stroke-width="3"/>
@@ -2423,7 +2587,6 @@
         `;
       }
       if (cat.includes('草莓') || cat.includes('甜點') || cat.includes('蛋糕') || cat.includes('布丁') || cat.includes('和菓子')) {
-        // 甘王草莓甜點 SVG
         return `
           <svg viewBox="0 0 80 64" class="w-16 h-14 anim-float" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M24 26C24 18 31 14 40 14C49 14 56 18 56 26C56 39 46 52 40 52C34 52 24 39 24 26Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3"/>
@@ -2435,7 +2598,6 @@
         `;
       }
       if (item.type === 'food') {
-        // 熱呼呼美食拉麵碗 SVG
         return `
           <svg viewBox="0 0 80 64" class="w-16 h-14 anim-float" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M16 28H64C64 43 54 52 40 52C26 52 16 43 16 28Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
@@ -2446,7 +2608,6 @@
           </svg>
         `;
       }
-      // 精緻伴手禮盒 SVG
       return `
         <svg viewBox="0 0 80 64" class="w-16 h-14 anim-float" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <rect x="18" y="24" width="44" height="30" rx="8" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3"/>
@@ -2503,10 +2664,14 @@
 
           const searchKw = encodeURIComponent(`${reg.name} ${item.title} 九州`);
           const googleImgUrl = `https://www.google.com/search?tbm=isch&q=${searchKw}`;
-          const mapKw = encodeURIComponent(item.mapQuery || `${reg.name} ${item.title} ${item.address || ''}`);
+          const cleanAddr = (item.address || '').replace(/（.*?）/g, '').trim();
+          const mapKw = encodeURIComponent(
+            cleanAddr && !cleanAddr.includes('周邊')
+              ? `${item.title} ${cleanAddr}`
+              : `${reg.name} ${item.title}`
+          );
           const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${mapKw}`;
 
-          // 照片區塊渲染
           const photoHtml = item.image
             ? `
               <div class="pb-photo-frame h-44 w-full mb-3 group cursor-pointer" onclick="openLightbox('${escapeHtml(item.id)}')">
@@ -2558,7 +2723,6 @@
               </div>
             `;
 
-          // 伴手禮專屬分店區塊
           const branchHtml =
             item.type === 'souvenir' && item.branches
               ? `
@@ -2569,7 +2733,6 @@
               `
               : '';
 
-          // 旅伴更新標記
           const updatedByHtml = item.updatedBy
             ? `<span class="text-[11px] bg-washi px-2 py-0.5 rounded-full border border-ink/50">🐻 ${escapeHtml(item.updatedBy)}</span>`
             : '';
@@ -2713,12 +2876,15 @@
       const regionSelect = document.getElementById('fieldRegion');
       if (!modal || !regionSelect) return;
 
-      // 填充地區下拉選單
       regionSelect.innerHTML = regions
         .map((r) => `<option value="${escapeHtml(r.id)}">${escapeHtml(r.name)}</option>`)
         .join('');
 
       document.getElementById('modalImageErrorMsg').classList.add('hidden');
+      const statusHintEl = document.getElementById('urlParseStatusHint');
+      if (statusHintEl) {
+        statusHintEl.textContent = '貼上連結後將自動讀取網頁並解析資訊，為每筆連結產生專屬的「分店、地址、推薦原因與營業時間」。';
+      }
 
       if (itemId) {
         const item = items.find((i) => i.id === itemId);
@@ -2731,7 +2897,6 @@
         document.getElementById('fieldCategory').value = item.category || '';
         document.getElementById('fieldBranches').value = item.branches || '';
         document.getElementById('fieldAddress').value = item.address || '';
-        document.getElementById('fieldMapQuery').value = item.mapQuery || '';
         document.getElementById('fieldNote').value = item.note || '';
         document.getElementById('fieldHours').value = item.hours || '';
         document.getElementById('fieldCompleted').checked = Boolean(item.completed);
@@ -2743,13 +2908,15 @@
         const transRadio = document.querySelector(`input[name="fieldTransport"][value="${item.transport || 'walk'}"]`);
         if (transRadio) transRadio.checked = true;
 
-        // 圖片與網址解析列重設
         document.getElementById('fieldImageData').value = item.image || '';
         const infoUrlInput = document.getElementById('fieldInfoUrl');
-        if (infoUrlInput) infoUrlInput.value = '';
+        if (infoUrlInput) infoUrlInput.value = item.sourceUrl || extractFirstUrlFromText(item.note) || '';
+        const infoHintInput = document.getElementById('fieldInfoHint');
+        if (infoHintInput) infoHintInput.value = '';
         const urlResultBox = document.getElementById('urlSearchResultBox');
         if (urlResultBox) urlResultBox.classList.add('hidden');
         lastParsedUrlPayload = null;
+        setUrlParseIntent('auto');
         setModalPreviewImage(item.image || '');
       } else {
         titleHeader.innerHTML = '<span>✨</span><span>新增手札記錄</span>';
@@ -2758,9 +2925,12 @@
         document.getElementById('fieldImageData').value = '';
         const infoUrlInput = document.getElementById('fieldInfoUrl');
         if (infoUrlInput) infoUrlInput.value = '';
+        const infoHintInput = document.getElementById('fieldInfoHint');
+        if (infoHintInput) infoHintInput.value = '';
         const urlResultBox = document.getElementById('urlSearchResultBox');
         if (urlResultBox) urlResultBox.classList.add('hidden');
         lastParsedUrlPayload = null;
+        setUrlParseIntent('auto');
         setModalPreviewImage('');
 
         const defaultTypeRadio = document.querySelector(`input[name="fieldType"][value="${activeTab}"]`);
@@ -2806,6 +2976,9 @@
       event.preventDefault();
 
       const existingId = document.getElementById('fieldId').value.trim();
+      const isEdit = Boolean(existingId);
+      const prevItem = isEdit ? items.find((i) => i.id === existingId) : null;
+
       const type = document.querySelector('input[name="fieldType"]:checked')?.value || 'souvenir';
       const title = document.getElementById('fieldTitle').value.trim();
       const regionId = document.getElementById('fieldRegion').value;
@@ -2813,20 +2986,21 @@
       const transport = document.querySelector('input[name="fieldTransport"]:checked')?.value || 'walk';
       const branches = type === 'souvenir' ? document.getElementById('fieldBranches').value.trim() : '';
       const address = document.getElementById('fieldAddress').value.trim();
-      const mapQuery = document.getElementById('fieldMapQuery').value.trim();
       const note = document.getElementById('fieldNote').value.trim();
       const hours = document.getElementById('fieldHours').value.trim();
       const image = document.getElementById('fieldImageData').value.trim();
       const completed = document.getElementById('fieldCompleted').checked;
+
+      const rawInfoUrlInput = (document.getElementById('fieldInfoUrl')?.value || '').trim();
+      const matchedInputUrl = rawInfoUrlInput.match(/https?:\/\/[^\s]+/i)?.[0] || '';
+      const sourceUrl = matchedInputUrl || prevItem?.sourceUrl || extractFirstUrlFromText(note) || '';
 
       if (!title || !category) {
         showToast('⚠️ 請填寫名稱與詳細種類喔！');
         return;
       }
 
-      const isEdit = Boolean(existingId);
       const itemId = existingId || `item-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-      const prevItem = isEdit ? items.find((i) => i.id === existingId) : null;
 
       const itemPayload = {
         id: itemId,
@@ -2838,17 +3012,17 @@
         transport,
         branches,
         address,
-        mapQuery,
+        mapQuery: '',
         note,
         hours,
         image,
+        sourceUrl,
         completed,
         updatedBy: userNickname || prevItem?.updatedBy || '',
         updatedAt: Date.now(),
         sortOrder: prevItem?.sortOrder ?? items.length + 1,
       };
 
-      // 先更新本機狀態讓畫面即時反應
       if (isEdit) {
         const idx = items.findIndex((i) => i.id === existingId);
         if (idx !== -1) items[idx] = itemPayload;
@@ -2856,18 +3030,27 @@
         items.unshift(itemPayload);
       }
 
-      // 若新增項目的分類與目前分頁不同，自動切換至對應分頁方便檢視
+      if (sourceUrl) {
+        await recordPastedUrlEntry({
+          url: sourceUrl,
+          title,
+          regionId,
+          type,
+          itemId,
+        });
+      }
+
       if (activeTab !== type) {
         switchTab(type);
       } else {
         updateStats();
         renderItems(true);
       }
+      renderUrlLookupTable();
 
       closeItemModal();
       await persistStandaloneSnapshot();
 
-      // 寫入雲端 Firestore
       if (currentUser && db && currentRoomId) {
         try {
           const itemDocId = `${currentRoomId}__${itemId}`;
@@ -2893,6 +3076,7 @@
           items = items.filter((i) => i.id !== itemId);
           updateStats();
           renderItems(false);
+          renderUrlLookupTable();
           await persistStandaloneSnapshot();
 
           if (currentUser && db && currentRoomId) {
@@ -2908,7 +3092,878 @@
       );
     }
 
-    // ==================== 11. 圖片上傳壓縮、剪貼簿貼圖、URL 與燈箱預覽 ====================
+    // ==================== 10B. 智慧網址解析與自動填寫伴手禮／美食資訊 ====================
+    function setUrlParseIntent(intent) {
+      urlParseIntent = ['auto', 'drugstore', 'souvenir', 'food'].includes(intent) ? intent : 'auto';
+      const styles = {
+        auto: 'bg-yamabuki',
+        drugstore: 'bg-mizuiro',
+        souvenir: 'bg-coral',
+        food: 'bg-wakatake',
+      };
+      Object.keys(styles).forEach((key) => {
+        const btn = document.getElementById(`intentBtn-${key}`);
+        if (!btn) return;
+        btn.classList.remove('bg-yamabuki', 'bg-mizuiro', 'bg-coral', 'bg-wakatake', 'bg-washi');
+        btn.classList.add(key === urlParseIntent ? styles[key] : 'bg-washi');
+      });
+    }
+
+    const DRUGSTORE_DOMAIN_REGEX =
+      /cosme\.net|lipscosme|matsukiyococokara|matsukiyo|sundrug|tsuruha|welcia|cocokarafine|sugi-net|kirindo|donki|rohto|santen|taisho|lion\.co\.jp|kao\.co\.jp|shiseido|kose|kanebo|dhc\.co\.jp|fancl|orbis|canmake|cezanne|hada-labo|melano|obagi|curel|minon|anessa|allie|biore|transino|chocola|bufferin|loxonin|ota-isan|wakamoto|biofermin|salonpas|roihi|muhi|ryukakusan|alinamin/i;
+
+    const DRUGSTORE_KEYWORD_REGEX =
+      /藥妝|药妆|美妝|保養|化妝水|乳液|精華液|防曬|面膜|眼藥水|洗眼液|感冒藥|止痛藥|頭痛藥|胃藥|腸胃藥|整腸|益生菌|維他命|b群|合力他命|合利他命|百保能|大正|eve|布洛芬|龍角散|休足時間|貼布|撒隆巴斯|無比滴|蚊蟲|護唇膏|洗面乳|卸妝|粉底|腮紅|睫毛膏|染髮|牙膏|口腔|隱形眼鏡|唐吉訶德|ドン・キホーテ|大國|松本清|鶴羽|杉藥局|ウェルシア|サンドラッグ|マツモトキヨシ|ダイコク|ロート|サンテ|太田胃散|若元|表飛鳴|肌研|雪肌精|珂潤|蜜妮|安耐曬|佳麗寶|資生堂|高絲|小林製藥|蒸氣眼罩|花王|獅王|pair|痘痘藥|液體絆創膏|口內炎|防蚊|sk-ii|elixir|怡麗絲爾|cle de peau|肌膚之鑰|suqqu|rmk|three|albion|奧爾濱|decorte|黛珂|fancl|芳珂|dhc|curel|minon|蜜濃|melano|樂敦|參天|武田|第一三共|興和|kowa|曼秀雷敦|mentholatum/i;
+
+    const KYUSHU_SPOT_GUIDES = [
+      {
+        keywords: ['一蘭', 'ichiran'],
+        title: '一蘭拉麵 總本店（中洲川端）',
+        type: 'food',
+        regionId: 'fukuoka',
+        category: '天然豚骨拉麵',
+        transport: 'train',
+        branches: '一蘭 總本店（中洲川端站）、博多運河城店、天神西通店',
+        address: '福岡市博多區中洲5-3-2',
+        hours: '24小時營業（全年無休）',
+        note: '福岡發祥的天然豚骨拉麵！總本店整棟掛滿紅燈籠超氣派，可客製化麵條硬度與秘製赤紅醬汁辣度，伴手禮盒也很受歡迎。',
+      },
+      {
+        keywords: ['shinshin', 'shin-shin', '純情拉麵'],
+        title: '博多純情らーめん ShinShin',
+        regionId: 'fukuoka',
+        type: 'food',
+        category: '博多豚骨拉麵',
+        transport: 'train',
+        branches: '天神本店、博多デイトス（DEITOS 2F 博多麵街道）店、KITTE博多店',
+        address: '福岡市中央區天神3-2-19',
+        hours: '11:00–03:00（博多站店 11:00–23:00）',
+        note: '福岡在地人與明星最愛的清爽系豚骨拉麵！湯頭滑順無腥味，搭配極細麵與入口即化叉燒，建議避開正餐時段減少排隊。',
+      },
+      {
+        keywords: ['一雙', 'issou'],
+        title: '博多一雙 豚骨拉麵（博多站東本店）',
+        regionId: 'fukuoka',
+        type: 'food',
+        category: '泡系豚骨拉麵',
+        transport: 'walk',
+        branches: '',
+        address: '福岡市博多區博多駅東3-1-6',
+        hours: '11:00–24:00（湯頭售完提前打烊）',
+        note: '被稱為「豚骨卡布奇諾」的博多泡系拉麵名店！濃郁乳化泡沫湯頭搭配細麵與半熟蛋超過癮。',
+      },
+      {
+        keywords: ['極味屋', 'kiwamiya'],
+        title: '極味屋 博多店（伊萬里牛漢堡排）',
+        regionId: 'fukuoka',
+        type: 'food',
+        category: '鐵板和牛漢堡排',
+        transport: 'walk',
+        branches: '',
+        address: '福岡市博多區博多駅中央街2-1（博多巴士總站 1F）',
+        hours: '11:00–22:00',
+        note: '使用佐賀伊萬里牛與九州產黑毛和牛製作的手打漢堡排，自己在滾燙小圓鐵石上煎至喜愛熟度超療癒！',
+      },
+      {
+        keywords: ['牛腸鍋', 'もつ鍋', 'おおやま', 'ooyama'],
+        title: '博多もつ鍋 おおやま（牛腸鍋）',
+        regionId: 'fukuoka',
+        type: 'food',
+        category: '鄉土鍋物',
+        transport: 'train',
+        branches: '',
+        address: '福岡市博多區博多駅中央街1-1（JR博多城 9F）',
+        hours: '11:00–23:00',
+        note: '福岡代表性鄉土料理！招牌味噌牛腸鍋濃郁甘甜，最後加點強棒麵吸飽湯汁精華。',
+      },
+      {
+        keywords: ['努努雞', '努努鶏'],
+        title: '努努雞（冷吃炸雞）',
+        regionId: 'fukuoka',
+        type: 'souvenir',
+        category: '冰鎮名物點心',
+        transport: 'train',
+        branches: '博多阪急 B1F 專櫃、博多車站 Ming 名店街、福岡機場國內線 2F',
+        address: '福岡市博多區博多駅中央街1-1（博多マイング 1F）',
+        hours: '09:00–21:00',
+        note: '福岡超人氣「冰著吃」炸雞翅！甜鹹微辣秘製醬汁配白芝麻，越冰越酥脆。',
+      },
+      {
+        keywords: ['amanberry', '草莓奶油'],
+        title: 'Amanberry 草莓奶油夾心餅',
+        regionId: 'fukuoka',
+        type: 'souvenir',
+        category: '限定甜點禮盒',
+        transport: 'walk',
+        branches: '博多阪急 B1F 專櫃（僅此一家常設店）',
+        address: '福岡市博多區博多駅中央街1-1（博多阪急 B1F）',
+        hours: '10:00–20:00（售完為止）',
+        note: '福岡甘王草莓立體造型脆餅，夾入濃郁生奶油巧克力與草莓乾，建議早上開門即前往購買。',
+      },
+      {
+        keywords: ['明太子', 'めんべい', '福太郎', '稚加榮', '椒房庵'],
+        title: '福太郎 めんべい 明太子仙貝',
+        regionId: 'fukuoka',
+        type: 'souvenir',
+        category: '明太子名產',
+        transport: 'train',
+        branches: '博多車站 Ming 專賣店、博多阪急 B1F、福岡機場國內/國際線免稅店',
+        address: '福岡市博多區博多駅中央街1-1（博多マイング 1F）',
+        hours: '09:00–21:00',
+        note: '加入博多明太子與海鮮烘烤的薄脆仙貝，獨立包裝適合分送親友。',
+      },
+      {
+        keywords: ['b-speak', '瑞士卷', 'p-roll'],
+        title: 'B-speak P-roll 瑞士卷',
+        regionId: 'yufuin',
+        type: 'souvenir',
+        category: '限定甜點禮盒',
+        transport: 'walk',
+        branches: '由布院湯之坪街道入口本店',
+        address: '大分縣由布市湯布院町川上3040-2',
+        hours: '10:00–17:00（小條裝常於中午前完售）',
+        note: '由布院頂級旅館山莊無量塔監製的生乳蛋糕捲，海綿蛋糕蓬鬆濕潤、奶香清爽不膩。',
+      },
+      {
+        keywords: ['milch', '半熟起司'],
+        title: 'Milch 由布院半熟起司蛋糕',
+        regionId: 'yufuin',
+        type: 'souvenir',
+        category: '乳酪甜點',
+        transport: 'walk',
+        branches: '由布院湯之坪街道本店、JR 博多城 AMU EST 1F 店',
+        address: '大分縣由布市湯布院町川上3015-1',
+        hours: '09:30–17:30',
+        note: '世界食品品質評鑑金賞！現烤熱吃爆漿流心，冷藏後綿密如生乳酪蛋糕。',
+      },
+      {
+        keywords: ['由布まぶし', '豐後牛釜飯'],
+        title: '由布まぶし 心（豐後牛釜飯三吃）',
+        regionId: 'yufuin',
+        type: 'food',
+        category: '豐後牛釜飯',
+        transport: 'walk',
+        branches: '',
+        address: '大分縣由布市湯布院町川北5-3 2F',
+        hours: '11:00–16:00、17:30–21:00（週四公休）',
+        note: '直火陶鍋現炊豐後牛釜飯，可品嚐原味、拌柚子胡椒與高湯茶泡飯三種吃法！',
+      },
+      {
+        keywords: ['いまきん', '赤牛丼', 'imakin'],
+        title: 'いまきん食堂（阿蘇赤牛丼）',
+        regionId: 'aso',
+        type: 'food',
+        category: '阿蘇赤牛丼',
+        transport: 'car',
+        branches: '',
+        address: '熊本縣阿蘇市內牧290',
+        hours: '11:00–15:00（週三公休）',
+        note: '阿蘇百年排隊名店！粉嫩三分熟阿蘇赤牛排搭配半熟溫泉蛋與特製味噌醬超軟嫩。',
+      },
+      {
+        keywords: ['門司港', '燒咖哩', '伽哩本舗'],
+        title: '伽哩本舗 門司港懷舊本店（燒咖哩）',
+        regionId: 'mojiko',
+        type: 'food',
+        category: '門司港燒咖哩',
+        transport: 'train',
+        branches: '',
+        address: '福岡縣北九州市門司區港町9-2 阿波屋大樓2F',
+        hours: '11:00–20:00',
+        note: '門司港靈魂美食！香料咖哩飯鋪滿雙層起司與半熟蛋焗烤，窗邊可眺望關門海峽。',
+      },
+      {
+        keywords: ['地獄蒸', '岡本屋', '別府'],
+        title: '岡本屋賣店 地獄蒸布丁',
+        regionId: 'beppu',
+        type: 'souvenir',
+        category: '溫泉名產',
+        transport: 'car',
+        branches: '明礬溫泉 岡本屋賣店本店、JR 別府車站銘品藏',
+        address: '大分縣別府市明礬3組',
+        hours: '08:30–18:30',
+        note: '天然硫磺溫泉蒸氣慢蒸而成的元祖地獄蒸布丁，微苦焦糖配濃郁蛋香。',
+      },
+    ];
+
+    function detectRegionFromText(text, isDrugstore = false) {
+      if (isDrugstore && regions.some((r) => r.id === 'drugstore')) {
+        return 'drugstore';
+      }
+      const t = String(text || '').toLowerCase();
+      if (DRUGSTORE_KEYWORD_REGEX.test(t) || DRUGSTORE_DOMAIN_REGEX.test(t)) {
+        return regions.some((r) => r.id === 'drugstore') ? 'drugstore' : 'fukuoka';
+      }
+      if (/門司港|mojiko|北九州|小倉/.test(t)) return 'mojiko';
+      if (/別府|beppu|明礬|鐵輪/.test(t)) return 'beppu';
+      if (/由布院|湯布院|yufuin|金鱗湖/.test(t)) return 'yufuin';
+      if (/阿蘇|aso|熊本|kumamoto|草千里|黑川/.test(t)) return 'aso';
+      if (/糸島|itoshima|二見浦|芥屋/.test(t)) return 'itoshima';
+      if (/福岡|博多|天神|中洲|fukuoka|hakata|tenjin/.test(t)) return 'fukuoka';
+      return regions[0]?.id || 'fukuoka';
+    }
+
+    function classifyDrugstoreSubCategory(text) {
+      const t = String(text || '').toLowerCase();
+      if (/眼藥水|洗眼|ロート|サンテ|santen|rohto/.test(t)) return '日本眼藥水 / 護眼藥妝';
+      if (/維他命|b群|合利他命|合力他命|chocola|膠原蛋白|保健|dhc|fancl|alinamin/.test(t)) return '日本保健營養品';
+      if (/化妝水|乳液|精華|防曬|面膜|洗面|卸妝|粉底|腮紅|護唇|保養|美妝|安耐曬|肌研|雪肌精|珂潤|資生堂|佳麗寶|高絲|canmake|cezanne|elixir|obagi|melano|cosme/.test(t)) {
+        return '日系美妝保養品';
+      }
+      if (/感冒|止痛|頭痛|胃|腸|整腸|百保能|eve|龍角散|貼布|撒隆巴斯|無比滴|痘痘|絆創膏|口內炎|太田胃散|若元|表飛鳴/.test(t)) {
+        return '日本常備醫藥品';
+      }
+      return '必買日本藥妝';
+    }
+
+    function extractJsonLdInfo(htmlText) {
+      const info = { name: '', address: '', hours: '', description: '' };
+      try {
+        const scriptMatches = htmlText.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi) || [];
+        for (const block of scriptMatches) {
+          const jsonStr = block.replace(/<script[^>]*>|<\/script>/gi, '').trim();
+          const parsedObj = JSON.parse(jsonStr);
+          const list = Array.isArray(parsedObj) ? parsedObj : parsedObj['@graph'] ? parsedObj['@graph'] : [parsedObj];
+          for (const entry of list) {
+            if (!entry || typeof entry !== 'object') continue;
+            if (!info.name && entry.name) info.name = String(entry.name).trim();
+            if (!info.description && entry.description) info.description = String(entry.description).trim();
+            if (!info.address && entry.address) {
+              if (typeof entry.address === 'string') {
+                info.address = entry.address.trim();
+              } else if (typeof entry.address === 'object') {
+                info.address = [
+                  entry.address.postalCode,
+                  entry.address.addressRegion,
+                  entry.address.addressLocality,
+                  entry.address.streetAddress,
+                ]
+                  .filter(Boolean)
+                  .join(' ');
+              }
+            }
+            if (!info.hours && entry.openingHours) {
+              info.hours = Array.isArray(entry.openingHours)
+                ? entry.openingHours.join('、')
+                : String(entry.openingHours);
+            }
+          }
+        }
+      } catch (e) {
+        // 忽略非標準 JSON-LD
+      }
+      return info;
+    }
+
+    async function fetchUrlMetadataWithTimeout(targetUrl, timeoutMs = 4500) {
+      const result = {
+        pageTitle: '',
+        pageDescription: '',
+        jsonLd: { name: '', address: '', hours: '', description: '' },
+        rawSnippet: '',
+        sourceLabel: '',
+      };
+      if (!targetUrl) return result;
+
+      const controllerA = new AbortController();
+      const timerA = setTimeout(() => controllerA.abort(), timeoutMs);
+
+      const controllerB = new AbortController();
+      const timerB = setTimeout(() => controllerB.abort(), timeoutMs);
+
+      const microPromise = fetch(`https://api.microlink.io/?url=${encodeURIComponent(targetUrl)}`, {
+        signal: controllerA.signal,
+      })
+        .then((res) => (res.ok ? res.json() : null))
+        .catch(() => null)
+        .finally(() => clearTimeout(timerA));
+
+      const originsPromise = fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`, {
+        signal: controllerB.signal,
+      })
+        .then((res) => (res.ok ? res.json() : null))
+        .catch(() => null)
+        .finally(() => clearTimeout(timerB));
+
+      const [microRes, originsRes] = await Promise.all([microPromise, originsPromise]);
+
+      if (microRes && microRes.status === 'success' && microRes.data) {
+        result.pageTitle = String(microRes.data.title || '').trim();
+        result.pageDescription = String(microRes.data.description || '').trim();
+        result.sourceLabel = String(microRes.data.publisher || '').trim();
+      }
+
+      if (originsRes && typeof originsRes.contents === 'string' && originsRes.contents.length > 0) {
+        const htmlStr = originsRes.contents;
+        result.jsonLd = extractJsonLdInfo(htmlStr);
+        try {
+          const docParser = new DOMParser();
+          const parsedDoc = docParser.parseFromString(htmlStr, 'text/html');
+          const ogTitle = parsedDoc.querySelector('meta[property="og:title"]')?.getAttribute('content') || '';
+          const docTitle = parsedDoc.querySelector('title')?.textContent || '';
+          const ogDesc =
+            parsedDoc.querySelector('meta[property="og:description"]')?.getAttribute('content') ||
+            parsedDoc.querySelector('meta[name="description"]')?.getAttribute('content') ||
+            '';
+
+          if (!result.pageTitle && (ogTitle || docTitle)) {
+            result.pageTitle = (ogTitle || docTitle).trim();
+          }
+          if (!result.pageDescription && ogDesc) {
+            result.pageDescription = ogDesc.trim();
+          }
+          const bodyText = (parsedDoc.body?.textContent || '').replace(/\s+/g, ' ').trim();
+          result.rawSnippet = bodyText.slice(0, 1800);
+        } catch (e) {
+          // 忽略 DOM 解析錯誤
+        }
+      }
+
+      return result;
+    }
+
+    async function queryGeminiWithSearchForUrl({ rawUrl, extraText, hintText, intent, meta }) {
+      const apiKey = '';
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const regionListStr = regions.map((r) => `${r.id}(${r.name})`).join(', ');
+      const intentInstruction =
+        intent === 'drugstore'
+          ? '使用者已明確指定這是一筆【日本藥妝／美妝保養品】！請務必將 isDrugstore 設為 true、type 設為 "souvenir"、regionId 設為 "drugstore"，並在 branches 列出可買到的日本連鎖藥妝店（如大國藥妝、松本清、唐吉訶德 24H 福岡分店），絕對不可寫成車站伴手禮禮盒店。'
+          : intent === 'souvenir'
+            ? '使用者已指定這是一筆【伴手禮／甜點名產】，請將 type 設為 "souvenir" 並查出實際購買專櫃或分店。'
+            : intent === 'food'
+              ? '使用者已指定這是一筆【美食餐廳／咖啡廳】，請將 type 設為 "food" 並查出實際店名、日本地址與營業時間。'
+              : '請根據網址與內容精準判斷這筆資料是「日本藥妝/美妝保養品」、「九州伴手禮甜點」還是「美食餐廳」。若是藥妝、醫藥品、保健品或美妝保養品，請務必將 isDrugstore 設為 true、type 設為 "souvenir"、regionId 設為 "drugstore"，並提供日本藥妝店購買據點。';
+
+      const systemPrompt = [
+        '你是專精於「日本九州旅遊、日本藥妝美妝、伴手禮與美食」的繁體中文資料解析助手。',
+        '請利用 Google 搜尋查證使用者提供的網址、網頁標題或關鍵字，回傳最準確的結構化資料。',
+        intentInstruction,
+        `可用的 regionId 清單：${regionListStr}。`,
+        '請只回傳純 JSON 物件（不要加 ```json 標記或任何額外說明文字），格式如下：',
+        '{"title":"商品或店家正式繁體中文名稱","type":"souvenir或food","isDrugstore":true或false,"regionId":"對應的regionId","category":"詳細商品或料理種類","transport":"car或train或walk或bus","branches":"詳細購買分店或藥妝店據點（美食可留空）","address":"日本實際地址或商圈位置","hours":"營業時間與公休日提醒","note":"80字以內的特色、功效/口味與購買重點"}',
+      ].join('\n');
+
+      const userQuery = [
+        rawUrl ? `目標網址：${rawUrl}` : '',
+        hintText ? `使用者補充關鍵字：${hintText}` : '',
+        extraText ? `附加文字：${extraText}` : '',
+        meta.jsonLd.name ? `網頁結構化名稱：${meta.jsonLd.name}` : '',
+        meta.pageTitle ? `網頁標題：${meta.pageTitle}` : '',
+        meta.pageDescription ? `網頁摘要：${meta.pageDescription.slice(0, 300)}` : '',
+        meta.rawSnippet ? `網頁內文片段：${meta.rawSnippet.slice(0, 500)}` : '',
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+      const payload = {
+        contents: [{ parts: [{ text: userQuery }] }],
+        tools: [{ google_search: {} }],
+        systemInstruction: {
+          parts: [{ text: systemPrompt }],
+        },
+      };
+
+      const delays = [1000, 2000];
+      for (let attempt = 0; attempt <= delays.length; attempt++) {
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 9000);
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: controller.signal,
+          });
+          clearTimeout(timer);
+
+          if (!response.ok) {
+            if ((response.status === 429 || response.status >= 500) && attempt < delays.length) {
+              await new Promise((r) => setTimeout(r, delays[attempt]));
+              continue;
+            }
+            return null;
+          }
+
+          const result = await response.json();
+          const candidate = result?.candidates?.[0];
+          const rawText = candidate?.content?.parts?.map((p) => p.text || '').join('') || '';
+          const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+          if (!jsonMatch) return null;
+
+          const parsed = JSON.parse(jsonMatch[0]);
+          if (!parsed || !parsed.title) return null;
+
+          // 萃取 Google 搜尋參考來源
+          const citations = [];
+          if (rawUrl) {
+            let h = '原始貼上連結';
+            try {
+              h = new URL(rawUrl).hostname.replace(/^www\./, '');
+            } catch {}
+            citations.push({ label: h, url: rawUrl });
+          }
+          const attributions = candidate?.groundingMetadata?.groundingAttributions || [];
+          attributions.forEach((attr) => {
+            if (attr.web?.uri && attr.web?.title && citations.length < 4) {
+              citations.push({ label: attr.web.title.slice(0, 26), url: attr.web.uri });
+            }
+          });
+
+          const isDrugstore = intent === 'drugstore' || Boolean(parsed.isDrugstore);
+          const finalType = intent === 'food' ? 'food' : intent === 'drugstore' || intent === 'souvenir' ? 'souvenir' : parsed.type === 'food' ? 'food' : 'souvenir';
+          const validRegionIds = new Set(regions.map((r) => r.id));
+          let finalRegionId = validRegionIds.has(parsed.regionId) ? parsed.regionId : detectRegionFromText(`${parsed.title} ${parsed.category} ${parsed.note}`, isDrugstore);
+          if (isDrugstore && validRegionIds.has('drugstore')) {
+            finalRegionId = 'drugstore';
+          }
+
+          const regionName = regions.find((r) => r.id === finalRegionId)?.name || '九州';
+          let hostname = '';
+          if (rawUrl) {
+            try {
+              hostname = new URL(rawUrl).hostname.replace(/^www\./, '');
+            } catch {}
+          }
+
+          return {
+            rawUrl,
+            sourceHostname: hostname || 'AI 搜尋查證',
+            title: String(parsed.title).trim(),
+            detectedType: finalType,
+            detectedRegionId: finalRegionId,
+            detectedCategory: String(parsed.category || (isDrugstore ? '必買日本藥妝' : finalType === 'food' ? '在地人氣美食' : '九州在地伴手禮')).trim(),
+            detectedTransport: ['car', 'train', 'walk', 'bus'].includes(parsed.transport) ? parsed.transport : 'walk',
+            detectedBranches:
+              finalType === 'souvenir'
+                ? String(
+                    parsed.branches ||
+                      (isDrugstore
+                        ? '大國藥妝 博多筑紫口店、松本清 天神地下街店、唐吉訶德 中洲店（24H營業）'
+                        : `${regionName}車站伴手禮專賣街、百貨 B1 專櫃`)
+                  ).trim()
+                : '',
+            detectedAddress: String(parsed.address || '').trim(),
+            detectedNote: String(parsed.note || '').trim(),
+            detectedHours: String(parsed.hours || '').trim(),
+            mapQuery: `${regionName} ${parsed.title}`.trim(),
+            citations,
+          };
+        } catch (err) {
+          if (attempt < delays.length) {
+            await new Promise((r) => setTimeout(r, delays[attempt]));
+            continue;
+          }
+          return null;
+        }
+      }
+      return null;
+    }
+
+    function inferKyushuDetailsFromText({ rawUrl, extraText, hintText, intent, meta }) {
+      let hostname = '';
+      let decodedPath = '';
+      let queryTokens = '';
+
+      if (rawUrl) {
+        try {
+          const urlObj = new URL(rawUrl);
+          hostname = urlObj.hostname.replace(/^www\./, '');
+          decodedPath = decodeURIComponent(urlObj.pathname || '')
+            .replace(/[-_/+.]+/g, ' ')
+            .trim();
+          const qParam =
+            urlObj.searchParams.get('q') ||
+            urlObj.searchParams.get('query') ||
+            urlObj.searchParams.get('keyword') ||
+            '';
+          queryTokens = decodeURIComponent(qParam).trim();
+        } catch (e) {
+          decodedPath = rawUrl;
+        }
+      }
+
+      const isSocialShortLink = /instagram\.com|threads\.net|tiktok\.com|x\.com|twitter\.com|facebook\.com|fb\.watch/i.test(
+        hostname
+      );
+
+      const cleanedPageTitle =
+        meta.pageTitle && !/^(Instagram|Threads|Log in|登入|Facebook|X|Amazon\.co\.jp)$/i.test(meta.pageTitle.trim())
+          ? meta.pageTitle
+              .replace(/\s*[-|｜]\s*(Tabelog|食べログ|Google 地圖|Google Maps|Instagram|Threads|@cosme|アットコスメ|マツキヨココカラ).*$/i, '')
+              .trim()
+          : '';
+
+      const combinedText = [
+        hintText,
+        extraText,
+        queryTokens,
+        meta.jsonLd.name,
+        cleanedPageTitle,
+        meta.pageDescription,
+        meta.jsonLd.description,
+        meta.rawSnippet,
+        decodedPath,
+      ]
+        .filter(Boolean)
+        .join(' ');
+
+      const lowerCombined = combinedText.toLowerCase();
+
+      // 1. 優先判斷是否為「日本藥妝 / 美妝保養品」
+      const isDrugstoreSignal =
+        intent === 'drugstore' ||
+        (intent === 'auto' && (DRUGSTORE_DOMAIN_REGEX.test(hostname) || DRUGSTORE_KEYWORD_REGEX.test(lowerCombined)));
+
+      // 2. 比對九州已知熱門店家/伴手禮資料庫（非藥妝模式才比對伴手禮景點）
+      const matchedSpot = !isDrugstoreSignal
+        ? KYUSHU_SPOT_GUIDES.find((spot) => spot.keywords.some((kw) => lowerCombined.includes(kw.toLowerCase())))
+        : null;
+
+      const addrMatch = combinedText.match(
+        /(?:〒\d{3}-\d{4}\s*)?(?:福岡県|福岡市|大分県|大分市|別府市|由布市|熊本県|熊本市|阿蘇市|長崎県|長崎市|鹿児島県|宮崎県|佐賀県)[^\s。、|｜<>"]{4,42}/
+      );
+      const hoursMatch = combinedText.match(
+        /(?:営業時間[：:\s]*)?\d{1,2}:\d{2}\s*[～~\-－]\s*\d{1,2}:\d{2}(?:[^\n。]{0,18})?/
+      );
+
+      const detectedRegionId = isDrugstoreSignal
+        ? regions.some((r) => r.id === 'drugstore')
+          ? 'drugstore'
+          : 'fukuoka'
+        : matchedSpot
+          ? matchedSpot.regionId
+          : detectRegionFromText(combinedText, false);
+      const regionName = regions.find((r) => r.id === detectedRegionId)?.name || '九州';
+
+      const isFoodSignal =
+        intent === 'food' ||
+        (!isDrugstoreSignal &&
+          intent === 'auto' &&
+          /tabelog|食べログ|拉麵|らーめん|ラーメン|丼|鍋|天婦羅|天丼|漢堡排|燒咖哩|咖啡|cafe|餐廳|食堂|居酒屋|燒肉|壽司|海鮮/i.test(
+            `${hostname} ${combinedText}`
+          ));
+
+      const detectedType =
+        intent === 'food'
+          ? 'food'
+          : intent === 'drugstore' || intent === 'souvenir' || isDrugstoreSignal
+            ? 'souvenir'
+            : matchedSpot
+              ? matchedSpot.type
+              : isFoodSignal
+                ? 'food'
+                : 'souvenir';
+
+      let resolvedTitle = '';
+      if (hintText) {
+        resolvedTitle = hintText;
+      } else if (extraText) {
+        resolvedTitle = extraText;
+      } else if (meta.jsonLd.name) {
+        resolvedTitle = meta.jsonLd.name;
+      } else if (cleanedPageTitle) {
+        resolvedTitle = cleanedPageTitle.slice(0, 52);
+      } else if (queryTokens) {
+        resolvedTitle = queryTokens.slice(0, 52);
+      } else if (matchedSpot) {
+        resolvedTitle = matchedSpot.title;
+      } else if (isDrugstoreSignal) {
+        const cleanSlug = decodedPath.replace(/\b(product|item|detail|jp|ja|dp|gp)\b/gi, '').trim();
+        resolvedTitle = cleanSlug.length > 2 ? `日本藥妝：${cleanSlug.slice(0, 34)}` : `日本藥妝／美妝必買清單（${hostname || '待補充品名'}）`;
+      } else if (isSocialShortLink && rawUrl) {
+        const slugPart = decodedPath.split(' ').filter(Boolean).slice(-1)[0] || hostname;
+        resolvedTitle = `${regionName}社群推薦好店（${hostname} / ${slugPart.slice(0, 14)}）`;
+      } else if (decodedPath && decodedPath.length > 2) {
+        resolvedTitle = `${regionName}精選：${decodedPath.slice(0, 32)}`;
+      } else {
+        resolvedTitle = `${regionName}必訪推薦（${hostname || '手動輸入'}）`;
+      }
+
+      const detectedCategory = isDrugstoreSignal
+        ? classifyDrugstoreSubCategory(combinedText)
+        : matchedSpot
+          ? matchedSpot.category
+          : detectedType === 'food'
+            ? /拉麵|らーめん/.test(combinedText)
+              ? '豚骨拉麵'
+              : /丼|牛/.test(combinedText)
+                ? '特色丼飯定食'
+                : /咖啡|cafe|甜點|冰淇淋/i.test(combinedText)
+                  ? '特色甜點咖啡'
+                  : '在地人氣美食'
+            : /草莓|蛋糕|布丁|甜點/.test(combinedText)
+              ? '限定甜點禮盒'
+              : '九州在地伴手禮';
+
+      const detectedTransport = isDrugstoreSignal
+        ? 'walk'
+        : matchedSpot
+          ? matchedSpot.transport
+          : detectedRegionId === 'aso' || detectedRegionId === 'itoshima' || detectedRegionId === 'beppu'
+            ? 'car'
+            : 'train';
+
+      const detectedBranches =
+        detectedType === 'souvenir'
+          ? isDrugstoreSignal
+            ? '大國藥妝（博多筑紫口店 / 天神店）、松本清（博多車站地下街店 / 天神地下街店）、唐吉訶德（中洲店 24H / 天神本店 24H）'
+            : matchedSpot?.branches || `${regionName}車站伴手禮專賣街、百貨 B1 專櫃、福岡機場國內／國際線賣店`
+          : '';
+
+      const detectedAddress = isDrugstoreSignal
+        ? '福岡市博多區博多駅中央街1-1（博多站筑紫口／天神藥妝免稅商圈）'
+        : meta.jsonLd.address ||
+          (addrMatch ? addrMatch[0].trim() : '') ||
+          matchedSpot?.address ||
+          `${regionName}周邊（可點下方「查地圖位置」確認精確街區）`;
+
+      const detectedHours = isDrugstoreSignal
+        ? '09:00–22:30（唐吉訶德中洲店・天神本店為 24 小時營業，結帳請備妥護照辦理免稅）'
+        : meta.jsonLd.hours ||
+          (hoursMatch ? hoursMatch[0].trim() : '') ||
+          matchedSpot?.hours ||
+          '10:00–20:00（建議出發前於 Google 地圖確認當日營業與公休日）';
+
+      const rawSummary = (meta.pageDescription || meta.jsonLd.description || '').replace(/\s+/g, ' ').trim();
+      const detectedNote = isDrugstoreSignal
+        ? rawSummary
+          ? `${rawSummary.slice(0, 110)}${rawSummary.length > 110 ? '...' : ''}（單筆未稅滿 5,000 日圓可享免稅，液體/凝膠超過 100ml 需託運）`
+          : '日本藥妝店熱門採買清單！建議集中於同一間免稅藥妝店（大國/松本清/唐吉訶德）一次購足並攜帶護照辦理免稅。'
+        : matchedSpot?.note ||
+          (rawSummary
+            ? `${rawSummary.slice(0, 120)}${rawSummary.length > 120 ? '...' : ''}`
+            : isSocialShortLink
+              ? `來自 ${hostname} 的旅遊筆記收藏！可在上方「補充商品或店名關鍵字」填入名稱再按一次智慧解析，即可精準帶入詳細資料。`
+              : `來自 ${hostname || '參考來源'} 的 ${regionName} 推薦清單，建議先存入手札並於出發前確認排隊時段。`);
+
+      const citations = [];
+      if (rawUrl) {
+        citations.push({ label: hostname || '原始貼上連結', url: rawUrl });
+      }
+      citations.push({
+        label: `Google 搜尋「${resolvedTitle}」`,
+        url: `https://www.google.com/search?q=${encodeURIComponent(isDrugstoreSignal ? `${resolvedTitle} 日本藥妝` : `${regionName} ${resolvedTitle} 九州`)}`,
+      });
+
+      return {
+        rawUrl,
+        sourceHostname: hostname,
+        title: resolvedTitle,
+        detectedType,
+        detectedRegionId,
+        detectedCategory,
+        detectedTransport,
+        detectedBranches,
+        detectedAddress,
+        detectedNote,
+        detectedHours,
+        mapQuery: isDrugstoreSignal ? '大國藥妝 博多筑紫口店' : `${regionName} ${resolvedTitle}`.trim(),
+        citations,
+      };
+    }
+
+    async function searchInfoFromUrl() {
+      const urlInput = document.getElementById('fieldInfoUrl');
+      const hintInput = document.getElementById('fieldInfoHint');
+      const btn = document.getElementById('btnSearchInfoUrl');
+      const statusHint = document.getElementById('urlParseStatusHint');
+
+      const rawInput = (urlInput?.value || '').trim();
+      const hintText = (hintInput?.value || '').trim();
+
+      if (!rawInput && !hintText) {
+        showToast('⚠️ 請先貼上網址或輸入商品／店名關鍵字喔！');
+        return;
+      }
+
+      const urlMatch = rawInput.match(/https?:\/\/[^\s]+/i);
+      const rawUrl = urlMatch ? urlMatch[0] : '';
+      const extraText = rawUrl ? rawInput.replace(rawUrl, '').trim() : rawInput;
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳</span><span>查證中...</span>';
+      }
+      if (statusHint) {
+        statusHint.textContent = '🔍 正在透過網頁摘要與 Google 搜尋查證商品／店家資訊...';
+      }
+
+      try {
+        const meta = await fetchUrlMetadataWithTimeout(rawUrl, 4000);
+
+        // 優先使用 AI + Google 搜尋即時查證，若無網路或無法連線則自動切換本地高精準規則引擎
+        let finalPayload = await queryGeminiWithSearchForUrl({
+          rawUrl,
+          extraText,
+          hintText,
+          intent: urlParseIntent,
+          meta,
+        });
+
+        if (!finalPayload) {
+          finalPayload = inferKyushuDetailsFromText({
+            rawUrl,
+            extraText,
+            hintText,
+            intent: urlParseIntent,
+            meta,
+          });
+        }
+
+        lastParsedUrlPayload = finalPayload;
+
+        if (rawUrl) {
+          const currentEditingItemId = document.getElementById('fieldId')?.value.trim() || '';
+          await recordPastedUrlEntry({
+            url: rawUrl,
+            title: finalPayload.title,
+            regionId: finalPayload.detectedRegionId,
+            type: finalPayload.detectedType,
+            itemId: currentEditingItemId,
+          });
+          await persistStandaloneSnapshot();
+          renderUrlLookupTable();
+        }
+
+        // 更新解析結果摘要卡片
+        const resultBox = document.getElementById('urlSearchResultBox');
+        if (resultBox) {
+          resultBox.classList.remove('hidden');
+          document.getElementById('urlParsedSourceBadge').textContent = rawUrl
+            ? `✨ 已解析來源（${finalPayload.sourceHostname || '連結'}）並自動填入表單：`
+            : '✨ 已根據關鍵字查詢並自動填入表單：';
+          document.getElementById('urlParsedTitleText').textContent = finalPayload.title;
+
+          const branchesRow = document.getElementById('urlParsedBranchesRow');
+          if (finalPayload.detectedBranches) {
+            branchesRow.classList.remove('hidden');
+            document.getElementById('urlParsedBranchesText').textContent = finalPayload.detectedBranches;
+          } else {
+            branchesRow.classList.add('hidden');
+          }
+
+          const addrRow = document.getElementById('urlParsedAddressRow');
+          if (finalPayload.detectedAddress) {
+            addrRow.classList.remove('hidden');
+            document.getElementById('urlParsedAddressText').textContent = finalPayload.detectedAddress;
+          } else {
+            addrRow.classList.add('hidden');
+          }
+
+          const noteRow = document.getElementById('urlParsedNoteRow');
+          if (finalPayload.detectedNote) {
+            noteRow.classList.remove('hidden');
+            document.getElementById('urlParsedNoteText').textContent = finalPayload.detectedNote;
+          } else {
+            noteRow.classList.add('hidden');
+          }
+
+          const hoursRow = document.getElementById('urlParsedHoursRow');
+          if (finalPayload.detectedHours) {
+            hoursRow.classList.remove('hidden');
+            document.getElementById('urlParsedHoursText').textContent = finalPayload.detectedHours;
+          } else {
+            hoursRow.classList.add('hidden');
+          }
+
+          const citationsRow = document.getElementById('urlParsedCitationsRow');
+          const citationsList = document.getElementById('urlParsedCitationsList');
+          if (finalPayload.citations && finalPayload.citations.length > 0 && citationsList) {
+            citationsRow.classList.remove('hidden');
+            citationsList.innerHTML = finalPayload.citations
+              .map(
+                (c) =>
+                  `<a href="${escapeHtml(c.url)}" target="_blank" rel="noopener noreferrer" class="bg-washi border border-ink/50 rounded-full px-2 py-0.5 text-[10px] hover:bg-yamabuki/50">${escapeHtml(c.label)} ↗</a>`
+              )
+              .join('');
+          } else if (citationsRow) {
+            citationsRow.classList.add('hidden');
+          }
+
+          const kw = encodeURIComponent(finalPayload.mapQuery);
+          document.getElementById('urlSearchGoogleInfoLink').href = `https://www.google.com/search?q=${encodeURIComponent(finalPayload.title)}`;
+          document.getElementById('urlSearchGoogleImgLink').href = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(finalPayload.title)}`;
+          document.getElementById('urlSearchGoogleMapLink').href = `https://www.google.com/maps/search/?api=1&query=${kw}`;
+        }
+
+        // 每次解析都自動刷新填入表單欄位
+        applyParsedUrlDataToForm(true, false);
+
+        if (statusHint) {
+          statusHint.textContent = '✅ 解析完成！已自動更新下方名稱、地區、分店、地址與營業時間欄位。';
+        }
+        showToast('✨ 已解析網址並自動填入詳細資料！');
+      } catch (err) {
+        console.error('智慧網址解析發生錯誤：', err);
+        if (statusHint) {
+          statusHint.textContent = '⚠️ 無法自動連線解析，請手動填寫或點擊下方 Google 搜尋捷徑。';
+        }
+        showToast('⚠️ 網址解析遇到限制，請嘗試補充商品或店名關鍵字');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<span>🔍</span><span>智慧解析</span>';
+        }
+      }
+    }
+
+    function applyParsedUrlDataToForm(overwriteExisting = true, notifyUser = true) {
+      if (!lastParsedUrlPayload) return;
+      const p = lastParsedUrlPayload;
+
+      const typeRadio = document.querySelector(`input[name="fieldType"][value="${p.detectedType}"]`);
+      if (typeRadio) {
+        typeRadio.checked = true;
+        toggleBranchField(p.detectedType);
+      }
+
+      const titleEl = document.getElementById('fieldTitle');
+      if (titleEl && (overwriteExisting || !titleEl.value.trim())) {
+        titleEl.value = p.title;
+      }
+
+      const regionEl = document.getElementById('fieldRegion');
+      if (regionEl && regions.some((r) => r.id === p.detectedRegionId)) {
+        regionEl.value = p.detectedRegionId;
+      }
+
+      const catEl = document.getElementById('fieldCategory');
+      if (catEl && (overwriteExisting || !catEl.value.trim())) {
+        catEl.value = p.detectedCategory;
+      }
+
+      const transRadio = document.querySelector(`input[name="fieldTransport"][value="${p.detectedTransport}"]`);
+      if (transRadio) transRadio.checked = true;
+
+      const branchEl = document.getElementById('fieldBranches');
+      if (branchEl && p.detectedType === 'souvenir' && (overwriteExisting || !branchEl.value.trim())) {
+        branchEl.value = p.detectedBranches;
+      }
+
+      const addrEl = document.getElementById('fieldAddress');
+      if (addrEl && (overwriteExisting || !addrEl.value.trim())) {
+        addrEl.value = p.detectedAddress;
+      }
+
+      const noteEl = document.getElementById('fieldNote');
+      if (noteEl && (overwriteExisting || !noteEl.value.trim())) {
+        noteEl.value = p.detectedNote;
+      }
+
+      const hoursEl = document.getElementById('fieldHours');
+      if (hoursEl && (overwriteExisting || !hoursEl.value.trim())) {
+        hoursEl.value = p.detectedHours;
+      }
+
+      updateModalSearchHelper();
+      if (notifyUser) {
+        showToast('✅ 已將解析資料重新套用至表單！');
+      }
+    }
+
+    // ==================== 11. 圖片上傳壓縮、剪貼簿貼圖與燈箱預覽 ====================
     function compressImageFile(file, maxDim = 720, quality = 0.78) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -2948,7 +4003,7 @@
       const errMsg = document.getElementById('modalImageErrorMsg');
       if (!box || !removeBtn) return;
 
-      errMsg.classList.add('hidden');
+      if (errMsg) errMsg.classList.add('hidden');
       if (src) {
         box.className = 'pb-photo-frame h-44 w-full flex items-center justify-center bg-white overflow-hidden';
         box.innerHTML = `<img src="${escapeHtml(src)}" alt="預覽照片" class="max-h-full w-auto max-w-full object-contain" />`;
@@ -2983,506 +4038,6 @@
       setModalPreviewImage('');
     }
 
-    // ==================== 網址自動解析與填寫詳細分店、地址、推薦原因、營業時間 ====================
-    function extractKeywordsFromUrl(rawUrl) {
-      try {
-        const u = new URL(rawUrl);
-        const queryCandidates = ['q', 'query', 'keyword', 'keywords', 'search', 's', 'k'];
-        for (const key of queryCandidates) {
-          const val = u.searchParams.get(key);
-          if (val && val.trim()) {
-            return decodeURIComponent(val.replace(/\+/g, ' ')).trim();
-          }
-        }
-
-        // 針對 Google Maps /maps/place/地標名稱/ 網址提取名稱
-        const placeMatch = u.pathname.match(/\/maps\/place\/([^/]+)/);
-        if (placeMatch && placeMatch[1]) {
-          return decodeURIComponent(placeMatch[1].replace(/\+/g, ' ')).trim();
-        }
-
-        const segments = u.pathname
-          .split('/')
-          .map((seg) => {
-            try {
-              return decodeURIComponent(seg);
-            } catch {
-              return seg;
-            }
-          })
-          .filter(
-            (seg) =>
-              seg &&
-              seg.length > 1 &&
-              !/^\d+$/.test(seg) &&
-              !['p', 'reel', 'reels', 'posts', 'post', 'article', 'articles', 'jp', 'tw', 'zh-tw', 'entry', 'archives', 'index.html'].includes(
-                seg.toLowerCase()
-              )
-          );
-
-        if (segments.length > 0) {
-          const lastSeg = segments[segments.length - 1]
-            .replace(/\.(html?|php|aspx?)$/i, '')
-            .replace(/[-_]+/g, ' ')
-            .trim();
-          if (lastSeg && !/^[a-zA-Z0-9]{18,}$/.test(lastSeg)) {
-            return lastSeg;
-          }
-        }
-        return u.hostname.replace(/^www\./, '');
-      } catch {
-        return rawUrl;
-      }
-    }
-
-    function inferDetailedFieldsFromContext(combinedText, host, rawUrl) {
-      const lower = String(combinedText || '').toLowerCase();
-
-      // 1. 比對內建九州精選資料庫關鍵字，若命中可直接帶出完整分店、地址、推薦原因與營業時間
-      const matchedPreset = DEFAULT_ITEMS.find((preset) => {
-        const coreName = preset.title.split('（')[0].trim().toLowerCase();
-        return coreName.length >= 2 && lower.includes(coreName);
-      });
-
-      // 2. 判斷分類 (souvenir vs food)
-      const souvenirKeywords = ['伴手禮', '手信', '藥妝', '唐吉訶德', '免稅', '餅乾', '仙貝', '禮盒', '布丁', '蛋糕', '麻糬', '和菓子', '銘菓', 'お土産', '薬局', '買物'];
-      const foodKeywords = ['拉麵', '美食', '餐廳', '咖啡', '丼', '漢堡排', '牛腸鍋', '燒咖哩', '天丼', '釜飯', '食堂', '冰淇淋', 'tabelog', '食べログ', 'ランチ', 'グルメ'];
-
-      let detectedType = matchedPreset?.type || null;
-      if (!detectedType) {
-        if (souvenirKeywords.some((kw) => lower.includes(kw))) detectedType = 'souvenir';
-        else if (foodKeywords.some((kw) => lower.includes(kw))) detectedType = 'food';
-      }
-
-      // 3. 判斷所屬地區與預設區域細節
-      const regionTemplates = [
-        {
-          id: 'drugstore',
-          kws: ['藥妝', '唐吉訶德', '大國', '松本清', '合利他命', '百保能', '休足時間', 'eve', 'ドラッグ'],
-          defaultBranches: '博多車站筑紫口大國藥妝、天神地下街松本清、唐吉訶德中洲店 / 天神本店（24H免稅）',
-          defaultAddress: '福岡市博多區博多駅中央街 / 天神商圈周邊免稅藥妝店',
-          defaultHours: '09:00–22:30（唐吉訶德中洲店・天神本店為 24 小時營業）',
-          defaultTransport: 'train',
-        },
-        {
-          id: 'fukuoka',
-          kws: ['福岡', '博多', '天神', '中洲', '明太子', '努努雞', '一雙', '極味屋', '博多阪急', 'マイング'],
-          defaultBranches: '博多車站 Ming（マイング）名店街 1F、博多阪急 B1F、福岡機場國內/國際線伴手禮店',
-          defaultAddress: '福岡市博多區博多駅中央街1-1（JR博多站周邊）',
-          defaultHours: '09:00–21:00（百貨專櫃多為 10:00–20:00）',
-          defaultTransport: 'train',
-        },
-        {
-          id: 'mojiko',
-          kws: ['門司港', '北九州', '關門海峽', '燒咖哩', '海峽廣場'],
-          defaultBranches: '門司港懷舊海峽廣場 1F 特產館、JR 門司港站銘品館',
-          defaultAddress: '福岡縣北九州市門司區港町5-1（門司港懷舊區）',
-          defaultHours: '10:00–20:00（部分餐廳營業至 19:30）',
-          defaultTransport: 'train',
-        },
-        {
-          id: 'beppu',
-          kws: ['別府', '明礬', '鐵輪', '地獄蒸', '岡本屋'],
-          defaultBranches: 'JR 別府車站銘品藏、明礬溫泉賣店、鐵輪溫泉特產街',
-          defaultAddress: '大分縣別府市駅前町 / 鐵輪・明礬溫泉區',
-          defaultHours: '09:00–18:30（部分伴手禮售完提前打烊）',
-          defaultTransport: 'car',
-        },
-        {
-          id: 'yufuin',
-          kws: ['由布院', '湯布院', '金鱗湖', 'b-speak', 'milch', '由布まぶし', '湯之坪'],
-          defaultBranches: '由布院湯之坪街道本店、JR 由布院站前特產店',
-          defaultAddress: '大分縣由布市湯布院町川上（湯之坪街道沿線）',
-          defaultHours: '09:30–17:30（人氣甜點建議中午前前往購買）',
-          defaultTransport: 'walk',
-        },
-        {
-          id: 'aso',
-          kws: ['阿蘇', '熊本', '草千里', '赤牛', '澤西牛', '道の駅'],
-          defaultBranches: '道之驛阿蘇（道の駅 阿蘇，JR阿蘇站旁）、草千里休息站賣店',
-          defaultAddress: '熊本縣阿蘇市黑川1440-1（阿蘇站・草千里周邊）',
-          defaultHours: '09:00–18:00（餐飲名店多為 11:00–15:00）',
-          defaultTransport: 'car',
-        },
-        {
-          id: 'itoshima',
-          kws: ['糸島', '二見浦', '夫婦岩', '花鹽', '志摩'],
-          defaultBranches: '糸島志摩海濱直賣所、新三郎商店糸島本店',
-          defaultAddress: '福岡縣糸島市志摩海濱沿線（縣道54號周邊）',
-          defaultHours: '10:00–17:30（依日落與天候狀況調整）',
-          defaultTransport: 'car',
-        },
-      ];
-
-      let matchedRegionTpl = regionTemplates.find((tpl) => tpl.kws.some((kw) => lower.includes(kw))) || null;
-      const detectedRegionId = matchedPreset?.regionId || matchedRegionTpl?.id || 'fukuoka';
-      if (!matchedRegionTpl) {
-        matchedRegionTpl = regionTemplates.find((tpl) => tpl.id === detectedRegionId) || regionTemplates[1];
-      }
-
-      // 4. 判斷詳細種類
-      let detectedCategory = matchedPreset?.category || '';
-      if (!detectedCategory) {
-        if (lower.includes('藥妝') || lower.includes('唐吉訶德')) detectedCategory = '常備藥妝';
-        else if (lower.includes('拉麵')) detectedCategory = '泡系豚骨拉麵';
-        else if (lower.includes('布丁') || lower.includes('蛋糕') || lower.includes('草莓') || lower.includes('餅')) detectedCategory = '限定甜點禮盒';
-        else if (lower.includes('海鮮') || lower.includes('海景')) detectedCategory = '海景料理';
-        else if (lower.includes('鍋')) detectedCategory = '鄉土鍋物';
-        else if (detectedType === 'souvenir') detectedCategory = '在地名產';
-        else if (detectedType === 'food') detectedCategory = '九州特色美食';
-        else detectedCategory = '九州精選推薦';
-      }
-
-      return {
-        matchedPreset,
-        detectedType: detectedType || 'souvenir',
-        detectedRegionId,
-        detectedCategory,
-        detectedTransport: matchedPreset?.transport || matchedRegionTpl.defaultTransport || 'walk',
-        fallbackBranches: matchedPreset?.branches || matchedRegionTpl.defaultBranches,
-        fallbackAddress: matchedPreset?.address || matchedRegionTpl.defaultAddress,
-        fallbackHours: matchedPreset?.hours || matchedRegionTpl.defaultHours,
-        fallbackNote:
-          matchedPreset?.note ||
-          `來自「${host}」的九州熱門推薦清單！建議出發前確認現場庫存或排隊人潮，可搭配 Google 地圖導航前往。`,
-      };
-    }
-
-    function extractStructuredFieldsFromHtml(htmlText, fallbackKeywords, rawUrl) {
-      const docParser = new DOMParser();
-      const htmlDoc = docParser.parseFromString(htmlText, 'text/html');
-
-      let ogTitle =
-        htmlDoc.querySelector('meta[property="og:title"]')?.getAttribute('content') ||
-        htmlDoc.querySelector('title')?.textContent ||
-        '';
-      let ogDesc =
-        htmlDoc.querySelector('meta[property="og:description"]')?.getAttribute('content') ||
-        htmlDoc.querySelector('meta[name="description"]')?.getAttribute('content') ||
-        '';
-      let ogImage = htmlDoc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
-
-      let ldAddress = '';
-      let ldHours = '';
-      let ldName = '';
-      let ldDesc = '';
-
-      // 解析 JSON-LD 結構化商家資料（常見於 Tabelog、官網、旅遊文章）
-      const ldScripts = htmlDoc.querySelectorAll('script[type="application/ld+json"]');
-      ldScripts.forEach((scriptEl) => {
-        try {
-          const json = JSON.parse(scriptEl.textContent || '{}');
-          const candidates = Array.isArray(json) ? json : json['@graph'] ? json['@graph'] : [json];
-          candidates.forEach((node) => {
-            if (!node || typeof node !== 'object') return;
-            if (!ldName && typeof node.name === 'string') ldName = node.name;
-            if (!ldDesc && typeof node.description === 'string') ldDesc = node.description;
-            if (!ldAddress && node.address) {
-              if (typeof node.address === 'string') {
-                ldAddress = node.address;
-              } else if (typeof node.address === 'object') {
-                ldAddress = [
-                  node.address.postalCode ? `〒${node.address.postalCode}` : '',
-                  node.address.addressRegion || '',
-                  node.address.addressLocality || '',
-                  node.address.streetAddress || '',
-                ]
-                  .filter(Boolean)
-                  .join(' ');
-              }
-            }
-            if (!ldHours && node.openingHours) {
-              ldHours = Array.isArray(node.openingHours) ? node.openingHours.join('、') : String(node.openingHours);
-            }
-          });
-        } catch {
-          // 忽略非標準 JSON-LD
-        }
-      });
-
-      // 從網頁純文字中比對日本地址、營業時間與分店資訊
-      const bodyText = (htmlDoc.body?.textContent || '').replace(/\s+/g, ' ');
-
-      const addrMatch =
-        bodyText.match(/〒\d{3}-\d{4}\s*[^\s。、「」【】]{4,45}/) ||
-        bodyText.match(/(?:福岡県|大分県|熊本県|佐賀県|長崎県|宮崎県|鹿児島県|福岡市|北九州市|別府市|由布市|阿蘇市|糸島市)[^\s。、「」【】]{3,42}/);
-      const regexAddress = addrMatch ? addrMatch[0].trim() : '';
-
-      const hoursMatch =
-        bodyText.match(/(?:営業時間|営業|OPEN|開店時間)[：:\s]*([0-9０-９]{1,2}[:：][0-9０-９]{2}\s*[〜～\-–]\s*[0-9０-９]{1,2}[:：][0-9０-９]{2}[^。、【】]{0,28})/) ||
-        bodyText.match(/([0-9]{1,2}:[0-9]{2}\s*[〜～\-–]\s*[0-9]{1,2}:[0-9]{2}(?:\s*[（(][^）)]{1,20}[）)])?)/);
-      const regexHours = hoursMatch ? (hoursMatch[1] || hoursMatch[0]).trim() : '';
-
-      const branchMatch = bodyText.match(
-        /(?:取扱店舗|販売店舗|主な店舗|分店資訊|購買地點|店舗一覧)[：:\s]*([^。！？]{4,65})/
-      );
-      const regexBranches = branchMatch ? branchMatch[1].trim() : '';
-
-      return {
-        title: (ldName || ogTitle || fallbackKeywords).replace(/\s+/g, ' ').trim(),
-        desc: (ldDesc || ogDesc).replace(/\s+/g, ' ').trim(),
-        image: ogImage.trim(),
-        address: (ldAddress || regexAddress).trim(),
-        hours: (ldHours || regexHours).trim(),
-        branches: regexBranches,
-      };
-    }
-
-    async function searchInfoFromUrl() {
-      const inputEl = document.getElementById('fieldInfoUrl');
-      const btnEl = document.getElementById('btnSearchInfoUrl');
-      let rawUrl = (inputEl?.value || '').trim();
-
-      if (!rawUrl) {
-        showToast('⚠️ 請先貼上文章、店家或地圖網址喔！');
-        return;
-      }
-      if (!/^https?:\/\//i.test(rawUrl)) {
-        rawUrl = `https://${rawUrl}`;
-        inputEl.value = rawUrl;
-      }
-
-      let parsedUrlObj = null;
-      try {
-        parsedUrlObj = new URL(rawUrl);
-      } catch {
-        showToast('⚠️ 網址格式似乎不正確，請重新確認');
-        return;
-      }
-
-      if (btnEl) {
-        btnEl.disabled = true;
-        btnEl.innerHTML = '<span>⏳</span><span>解析填寫中...</span>';
-      }
-
-      const host = parsedUrlObj.hostname.replace(/^www\./, '');
-      const fallbackKeywords = extractKeywordsFromUrl(rawUrl);
-      let extracted = {
-        title: fallbackKeywords,
-        desc: '',
-        image: '',
-        address: '',
-        hours: '',
-        branches: '',
-      };
-
-      // 嘗試透過 CORS 代理抓取網頁內容並解析結構化欄位
-      const proxyCandidates = [
-        async () => {
-          const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(), 4500);
-          const resp = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rawUrl)}`, {
-            signal: controller.signal,
-          });
-          clearTimeout(timer);
-          if (!resp.ok) return null;
-          const data = await resp.json();
-          return data?.contents || null;
-        },
-        async () => {
-          const controller = new AbortController();
-          const timer = setTimeout(() => controller.abort(), 4500);
-          const resp = await fetch(`https://corsproxy.io/?${encodeURIComponent(rawUrl)}`, {
-            signal: controller.signal,
-          });
-          clearTimeout(timer);
-          if (!resp.ok) return null;
-          return await resp.text();
-        },
-      ];
-
-      for (const fetchFn of proxyCandidates) {
-        try {
-          const htmlContent = await fetchFn();
-          if (htmlContent && typeof htmlContent === 'string' && htmlContent.includes('<')) {
-            extracted = extractStructuredFieldsFromHtml(htmlContent, fallbackKeywords, rawUrl);
-            break;
-          }
-        } catch (err) {
-          console.warn('代理讀取略過，嘗試下一備援方式：', err);
-        }
-      }
-
-      const combinedText = `${extracted.title} ${extracted.desc} ${extracted.branches} ${extracted.address} ${fallbackKeywords} ${rawUrl}`;
-      const inferred = inferDetailedFieldsFromContext(combinedText, host, rawUrl);
-
-      const finalTitle =
-        inferred.matchedPreset?.title ||
-        (extracted.title && extracted.title !== host ? extracted.title.slice(0, 55) : fallbackKeywords);
-      const finalBranches =
-        inferred.detectedType === 'souvenir'
-          ? extracted.branches || inferred.fallbackBranches
-          : '';
-      const finalAddress = extracted.address || inferred.fallbackAddress;
-      const finalHours = extracted.hours || inferred.fallbackHours;
-      const baseRecommendation = extracted.desc
-        ? `${extracted.desc.slice(0, 120)}${extracted.desc.length > 120 ? '...' : ''}`
-        : inferred.fallbackNote;
-      const finalNote = `${baseRecommendation}\n參考來源（${host}）：${rawUrl}`;
-
-      lastParsedUrlPayload = {
-        url: rawUrl,
-        host,
-        title: finalTitle,
-        detectedType: inferred.detectedType,
-        detectedRegionId: inferred.detectedRegionId,
-        detectedCategory: inferred.detectedCategory,
-        detectedTransport: inferred.detectedTransport,
-        branches: finalBranches,
-        address: finalAddress,
-        mapQuery: `${finalTitle} ${finalAddress}`.slice(0, 60),
-        note: finalNote,
-        hours: finalHours,
-        image: extracted.image,
-      };
-
-      // 更新解析結果摘要卡片
-      const resultBox = document.getElementById('urlSearchResultBox');
-      const titleTextEl = document.getElementById('urlParsedTitleText');
-      const branchesRow = document.getElementById('urlParsedBranchesRow');
-      const branchesText = document.getElementById('urlParsedBranchesText');
-      const addrRow = document.getElementById('urlParsedAddressRow');
-      const addrText = document.getElementById('urlParsedAddressText');
-      const noteRow = document.getElementById('urlParsedNoteRow');
-      const noteText = document.getElementById('urlParsedNoteText');
-      const hoursRow = document.getElementById('urlParsedHoursRow');
-      const hoursText = document.getElementById('urlParsedHoursText');
-
-      if (titleTextEl) titleTextEl.textContent = `${finalTitle}（${inferred.detectedCategory}）`;
-
-      if (branchesRow && branchesText) {
-        if (finalBranches) {
-          branchesText.textContent = finalBranches;
-          branchesRow.classList.remove('hidden');
-        } else {
-          branchesRow.classList.add('hidden');
-        }
-      }
-      if (addrRow && addrText) {
-        addrText.textContent = finalAddress;
-        addrRow.classList.remove('hidden');
-      }
-      if (noteRow && noteText) {
-        noteText.textContent = baseRecommendation;
-        noteRow.classList.remove('hidden');
-      }
-      if (hoursRow && hoursText) {
-        hoursText.textContent = finalHours;
-        hoursRow.classList.remove('hidden');
-      }
-
-      const encodedTerm = encodeURIComponent(`${finalTitle} 九州`);
-      const infoLinkEl = document.getElementById('urlSearchGoogleInfoLink');
-      const imgLinkEl = document.getElementById('urlSearchGoogleImgLink');
-      const mapLinkEl = document.getElementById('urlSearchGoogleMapLink');
-      if (infoLinkEl) infoLinkEl.href = `https://www.google.com/search?q=${encodedTerm}`;
-      if (imgLinkEl) imgLinkEl.href = `https://www.google.com/search?tbm=isch&q=${encodedTerm}`;
-      if (mapLinkEl) mapLinkEl.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lastParsedUrlPayload.mapQuery)}`;
-
-      if (resultBox) resultBox.classList.remove('hidden');
-
-      // 自動將解析到的分店、地址、推薦原因、營業時間等填入表單欄位
-      applyParsedUrlDataToForm(false);
-
-      if (btnEl) {
-        btnEl.disabled = false;
-        btnEl.innerHTML = '<span>🔍</span><span>自動解析填寫</span>';
-      }
-
-      showToast('✨ 已解析網址並自動填寫分店、地址、推薦原因與營業時間！');
-    }
-
-    function applyParsedUrlDataToForm(forceOverwrite = false) {
-      if (!lastParsedUrlPayload) return;
-      const {
-        title,
-        detectedType,
-        detectedRegionId,
-        detectedCategory,
-        detectedTransport,
-        branches,
-        address,
-        mapQuery,
-        note,
-        hours,
-        image,
-      } = lastParsedUrlPayload;
-
-      const titleInput = document.getElementById('fieldTitle');
-      if (titleInput && (forceOverwrite || !titleInput.value.trim()) && title) {
-        titleInput.value = title;
-      }
-
-      if (detectedType) {
-        const typeRadio = document.querySelector(`input[name="fieldType"][value="${detectedType}"]`);
-        if (typeRadio) {
-          typeRadio.checked = true;
-          toggleBranchField(detectedType);
-        }
-      }
-
-      const regionSelect = document.getElementById('fieldRegion');
-      if (regionSelect && detectedRegionId && regions.some((r) => r.id === detectedRegionId)) {
-        regionSelect.value = detectedRegionId;
-      }
-
-      const catInput = document.getElementById('fieldCategory');
-      if (catInput && (forceOverwrite || !catInput.value.trim()) && detectedCategory) {
-        catInput.value = detectedCategory;
-      }
-
-      if (detectedTransport) {
-        const transRadio = document.querySelector(`input[name="fieldTransport"][value="${detectedTransport}"]`);
-        if (transRadio) transRadio.checked = true;
-      }
-
-      const branchInput = document.getElementById('fieldBranches');
-      if (branchInput && detectedType === 'souvenir' && (forceOverwrite || !branchInput.value.trim()) && branches) {
-        branchInput.value = branches;
-      }
-
-      const addrInput = document.getElementById('fieldAddress');
-      if (addrInput && (forceOverwrite || !addrInput.value.trim()) && address) {
-        addrInput.value = address;
-      }
-
-      const mapInput = document.getElementById('fieldMapQuery');
-      if (mapInput && (forceOverwrite || !mapInput.value.trim()) && mapQuery) {
-        mapInput.value = mapQuery;
-      }
-
-      const noteInput = document.getElementById('fieldNote');
-      if (noteInput && note) {
-        if (forceOverwrite || !noteInput.value.trim()) {
-          noteInput.value = note;
-        } else if (!noteInput.value.includes(lastParsedUrlPayload.url)) {
-          noteInput.value = `${noteInput.value.trim()}\n${note}`;
-        }
-      }
-
-      const hoursInput = document.getElementById('fieldHours');
-      if (hoursInput && (forceOverwrite || !hoursInput.value.trim()) && hours) {
-        hoursInput.value = hours;
-      }
-
-      // 若網頁有提供 og:image 且目前尚未設定圖片，嘗試載入預覽
-      const currentImg = document.getElementById('fieldImageData')?.value;
-      if (image && /^https?:\/\//i.test(image) && (forceOverwrite || !currentImg)) {
-        const probe = new Image();
-        probe.onload = () => {
-          document.getElementById('fieldImageData').value = image;
-          setModalPreviewImage(image);
-        };
-        probe.src = image;
-      }
-
-      updateModalSearchHelper();
-      if (forceOverwrite) {
-        showToast('📋 已將解析出的詳細資料全部填入表單！');
-      }
-    }
-
-    // 支援在新增/編輯彈窗開啟時直接按 Ctrl+V / Cmd+V 貼上剪貼簿圖片
     window.addEventListener('paste', async (e) => {
       const modal = document.getElementById('itemModal');
       if (!modal || modal.classList.contains('hidden')) return;
@@ -3653,6 +4208,7 @@
       renderRegionBar();
       renderRegionManageList();
       renderItems(false);
+      renderUrlLookupTable();
       await persistStandaloneSnapshot();
 
       if (currentUser && db && currentRoomId) {
@@ -3681,6 +4237,7 @@
           renderRegionBar();
           renderRegionManageList();
           renderItems(false);
+          renderUrlLookupTable();
           await persistStandaloneSnapshot();
 
           if (currentUser && db && currentRoomId) {
@@ -3699,11 +4256,12 @@
     function exportBackupJSON() {
       const payload = {
         app: 'kyushu-travel-journal',
-        version: 2,
+        version: 3,
         exportedAt: new Date().toISOString(),
         roomId: currentRoomId,
         regions,
         items,
+        urlLogs,
       };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -3715,7 +4273,7 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast('⬇️ 已匯出完整 JSON 備份檔（含照片）！');
+      showToast('⬇️ 已匯出完整 JSON 備份檔（含照片與網址速查表）！');
     }
 
     function importBackupJSON(event) {
@@ -3736,6 +4294,10 @@
             regions = parsed.regions;
           }
           items = parsed.items;
+          if (Array.isArray(parsed.urlLogs)) {
+            urlLogs = parsed.urlLogs;
+          }
+          syncUrlLogsFromItems();
           renderAll();
           renderRegionManageList();
           await persistStandaloneSnapshot();
@@ -3803,6 +4365,7 @@
         async () => {
           regions = JSON.parse(JSON.stringify(DEFAULT_REGIONS));
           items = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
+          urlLogs = [];
           activeRegion = 'all';
           renderAll();
           await persistStandaloneSnapshot();
@@ -3851,6 +4414,284 @@
       }, 3000);
     }
 
+    // ==================== 13B. 原始貼上網址速查表邏輯 ====================
+    function extractFirstUrlFromText(text) {
+      const m = String(text || '').match(/https?:\/\/[^\s]+/i);
+      return m ? m[0] : '';
+    }
+
+    function syncUrlLogsFromItems() {
+      const byUrl = new Map();
+      urlLogs.forEach((entry) => {
+        if (entry && entry.url) {
+          byUrl.set(entry.url, entry);
+        }
+      });
+
+      items.forEach((item) => {
+        const u = (item.sourceUrl || extractFirstUrlFromText(item.note) || '').trim();
+        if (!u) return;
+        if (!item.sourceUrl) item.sourceUrl = u;
+
+        const existing = byUrl.get(u);
+        if (existing) {
+          existing.title = item.title || existing.title;
+          existing.regionId = item.regionId || existing.regionId;
+          existing.type = item.type || existing.type;
+          existing.itemId = item.id;
+        } else {
+          byUrl.set(u, {
+            id: `url-${item.id}`,
+            url: u,
+            title: item.title || '未命名項目',
+            regionId: item.regionId || 'fukuoka',
+            type: item.type || 'souvenir',
+            itemId: item.id,
+            createdAt: item.updatedAt || Date.now(),
+          });
+        }
+      });
+
+      urlLogs = Array.from(byUrl.values()).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    }
+
+    async function recordPastedUrlEntry({ url, title, regionId, type, itemId }) {
+      const cleanUrl = String(url || '').trim();
+      if (!cleanUrl) return;
+
+      const existingIdx = urlLogs.findIndex((entry) => entry.url === cleanUrl);
+      const now = Date.now();
+      const entryId =
+        existingIdx !== -1
+          ? urlLogs[existingIdx].id
+          : `url-${now}-${Math.random().toString(36).slice(2, 6)}`;
+
+      const record = {
+        id: entryId,
+        roomId: currentRoomId,
+        url: cleanUrl,
+        title: title || (existingIdx !== -1 ? urlLogs[existingIdx].title : '尚未儲存的網址記錄'),
+        regionId: regionId || (existingIdx !== -1 ? urlLogs[existingIdx].regionId : 'fukuoka'),
+        type: type || (existingIdx !== -1 ? urlLogs[existingIdx].type : 'souvenir'),
+        itemId: itemId || (existingIdx !== -1 ? urlLogs[existingIdx].itemId : ''),
+        createdAt: existingIdx !== -1 ? urlLogs[existingIdx].createdAt || now : now,
+        updatedAt: now,
+      };
+
+      if (existingIdx !== -1) {
+        urlLogs[existingIdx] = record;
+      } else {
+        urlLogs.unshift(record);
+      }
+
+      if (currentUser && db && currentRoomId) {
+        try {
+          const urlDocId = `${currentRoomId}__${entryId}`;
+          await setDoc(doc(db, 'artifacts', appId, 'public', 'data', COL_URLS, urlDocId), record, { merge: true });
+        } catch (err) {
+          console.error('同步原始網址記錄至雲端失敗：', err);
+        }
+      }
+    }
+
+    function formatShortTimestamp(ts) {
+      if (!ts) return '—';
+      try {
+        const d = new Date(ts);
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const hh = String(d.getHours()).padStart(2, '0');
+        const min = String(d.getMinutes()).padStart(2, '0');
+        return `${mm}/${dd} ${hh}:${min}`;
+      } catch {
+        return '—';
+      }
+    }
+
+    function toggleUrlTableCollapse() {
+      isUrlTableCollapsed = !isUrlTableCollapsed;
+      const bodyEl = document.getElementById('urlLookupBody');
+      const textEl = document.getElementById('urlTableToggleText');
+      const iconEl = document.getElementById('urlTableToggleIcon');
+      const btnEl = document.getElementById('btnToggleUrlTable');
+      if (!bodyEl) return;
+
+      if (isUrlTableCollapsed) {
+        bodyEl.classList.add('hidden');
+        if (textEl) textEl.textContent = '展開表格';
+        if (iconEl) iconEl.textContent = '▾';
+        if (btnEl) btnEl.setAttribute('aria-expanded', 'false');
+      } else {
+        bodyEl.classList.remove('hidden');
+        if (textEl) textEl.textContent = '收合表格';
+        if (iconEl) iconEl.textContent = '▴';
+        if (btnEl) btnEl.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    function handleUrlTableSearch(val) {
+      urlTableSearchQuery = String(val || '').trim().toLowerCase();
+      const clearBtn = document.getElementById('btnClearUrlTableSearch');
+      if (clearBtn) {
+        if (urlTableSearchQuery) clearBtn.classList.remove('hidden');
+        else clearBtn.classList.add('hidden');
+      }
+      renderUrlLookupTable();
+    }
+
+    function clearUrlTableSearch() {
+      const input = document.getElementById('urlTableSearchInput');
+      if (input) input.value = '';
+      handleUrlTableSearch('');
+    }
+
+    function renderUrlLookupTable() {
+      const tbody = document.getElementById('urlLookupTableBody');
+      const badge = document.getElementById('urlLookupCountBadge');
+      if (!tbody) return;
+
+      if (badge) badge.textContent = `${urlLogs.length} 筆`;
+
+      const filtered = urlLogs.filter((entry) => {
+        if (!urlTableSearchQuery) return true;
+        const reg = regions.find((r) => r.id === entry.regionId);
+        const haystack = [entry.title, entry.url, reg?.name || ''].join(' ').toLowerCase();
+        return haystack.includes(urlTableSearchQuery);
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" class="py-7 px-4 text-center text-xs sm:text-sm text-ink/75 bg-washi/60">
+              ${
+                urlLogs.length === 0
+                  ? '🔗 目前還沒有貼上的網址記錄喔！在「新增／編輯項目」貼上部落格、Tabelog、IG 或 Google 地圖網址，就會自動收錄在這個表格中～'
+                  : '🔍 找不到符合搜尋關鍵字的網址記錄，試試其他關鍵字吧！'
+              }
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered
+        .map((entry) => {
+          const linkedItem = entry.itemId ? items.find((i) => i.id === entry.itemId) : null;
+          const displayTitle = linkedItem?.title || entry.title || '未命名參考網址';
+          const displayRegionId = linkedItem?.regionId || entry.regionId;
+          const displayType = linkedItem?.type || entry.type || 'souvenir';
+          const reg = regions.find((r) => r.id === displayRegionId) || { name: '九州', color: '#F6D27A' };
+          const typeIcon = displayType === 'food' ? '🍜' : '🎁';
+
+          let hostLabel = '';
+          try {
+            hostLabel = new URL(entry.url).hostname.replace(/^www\./, '');
+          } catch {
+            hostLabel = '網頁連結';
+          }
+
+          const actionBtnHtml = linkedItem
+            ? `<button type="button" onclick="openItemModal('${escapeHtml(linkedItem.id)}')" class="pb-btn bg-washi px-2.5 py-1 text-xs" title="編輯此項目">✏️ 編輯</button>`
+            : `<button type="button" onclick="openItemFromUrlLog('${escapeHtml(entry.id)}')" class="pb-btn bg-wakatake px-2.5 py-1 text-xs" title="帶入此網址建立新卡片">＋ 建卡</button>`;
+
+          return `
+            <tr class="hover:bg-washi/80 transition-colors">
+              <td class="py-2.5 px-3 align-top">
+                <div class="flex flex-wrap items-center gap-1 mb-1">
+                  <span class="pb-tag text-[11px] py-0 px-2" style="background-color: ${escapeHtml(reg.color)};">
+                    📍 ${escapeHtml(reg.name)}
+                  </span>
+                  <span class="text-[11px] bg-washi px-1.5 py-0.5 rounded-full border border-ink/40">
+                    ${typeIcon} ${linkedItem ? '已建卡' : '僅解析'}
+                  </span>
+                </div>
+                <p class="text-xs sm:text-sm leading-snug break-words">${escapeHtml(displayTitle)}</p>
+              </td>
+              <td class="py-2.5 px-3 align-top">
+                <span class="inline-block text-[11px] bg-mizuiro/50 px-2 py-0.5 rounded-full border border-ink/40 mb-1">
+                  🌐 ${escapeHtml(hostLabel)}
+                </span>
+                <a
+                  href="${escapeHtml(entry.url)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block text-xs text-ink underline decoration-2 hover:bg-yamabuki/40 rounded px-1 py-0.5 break-all"
+                  title="開啟原始貼上網址"
+                >
+                  ${escapeHtml(entry.url)}
+                </a>
+              </td>
+              <td class="py-2.5 px-3 align-top text-[11px] text-ink/75 whitespace-nowrap">
+                ${formatShortTimestamp(entry.createdAt)}
+              </td>
+              <td class="py-2.5 px-3 align-top text-right whitespace-nowrap">
+                <div class="inline-flex items-center justify-end gap-1.5">
+                  <button
+                    type="button"
+                    onclick="copySingleUrlLog('${escapeHtml(entry.id)}')"
+                    class="pb-btn bg-yamabuki px-2.5 py-1 text-xs"
+                    title="複製原始網址"
+                  >
+                    📋 複製
+                  </button>
+                  ${actionBtnHtml}
+                  <button
+                    type="button"
+                    onclick="confirmDeleteUrlLog('${escapeHtml(entry.id)}')"
+                    class="pb-btn bg-coral/85 px-2 py-1 text-xs"
+                    aria-label="刪除此網址記錄"
+                    title="刪除此網址記錄"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `;
+        })
+        .join('');
+    }
+
+    function copySingleUrlLog(entryId) {
+      const entry = urlLogs.find((e) => e.id === entryId);
+      if (!entry?.url) return;
+      copyTextFallback(entry.url);
+      showToast('📋 已複製原始貼上網址！');
+    }
+
+    function openItemFromUrlLog(entryId) {
+      const entry = urlLogs.find((e) => e.id === entryId);
+      if (!entry) return;
+      openItemModal();
+      const infoUrlInput = document.getElementById('fieldInfoUrl');
+      if (infoUrlInput) infoUrlInput.value = entry.url;
+      searchInfoFromUrl();
+    }
+
+    function confirmDeleteUrlLog(entryId) {
+      const entry = urlLogs.find((e) => e.id === entryId);
+      if (!entry) return;
+      openConfirmModal(
+        '刪除原始網址記錄',
+        `確定要從速查表移除這筆網址記錄嗎？（已儲存的手札卡片不會被刪除）`,
+        async () => {
+          urlLogs = urlLogs.filter((e) => e.id !== entryId);
+          renderUrlLookupTable();
+          await persistStandaloneSnapshot();
+
+          if (currentUser && db && currentRoomId) {
+            try {
+              const urlDocId = `${currentRoomId}__${entryId}`;
+              await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', COL_URLS, urlDocId));
+            } catch (err) {
+              console.error('刪除雲端網址記錄失敗：', err);
+            }
+          }
+          showToast('🗑️ 已從速查表移除該網址');
+        }
+      );
+    }
+
     // ==================== 14. 掛載全域函式供 HTML 事件呼叫並啟動 ====================
     Object.assign(window, {
       toggleMotionPref,
@@ -3885,6 +4726,7 @@
       confirmDeleteItem,
       handleModalFileUpload,
       removeModalImage,
+      setUrlParseIntent,
       searchInfoFromUrl,
       applyParsedUrlDataToForm,
       triggerQuickCardPhotoUpload,
@@ -3894,6 +4736,12 @@
       copyChecklistText,
       confirmResetDefault,
       closeConfirmModal,
+      toggleUrlTableCollapse,
+      handleUrlTableSearch,
+      clearUrlTableSearch,
+      copySingleUrlLog,
+      openItemFromUrlLog,
+      confirmDeleteUrlLog,
     });
 
     if (document.readyState === 'loading') {
