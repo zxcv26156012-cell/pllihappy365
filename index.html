@@ -592,91 +592,6 @@
         ＋ 立即新增一筆記錄
       </button>
     </section>
-
-    <!-- ==================== 原始貼上網址速查表 ==================== -->
-    <section id="urlLookupSection" class="pb-card bg-washi p-4 sm:p-5 mt-6" aria-labelledby="urlLookupTitle">
-      <div class="flex flex-wrap items-center justify-between gap-2.5 pb-3 border-b-[3px] border-ink">
-        <div class="flex items-center gap-2">
-          <span class="w-9 h-9 rounded-[14px] bg-mizuiro border-[2.5px] border-ink flex items-center justify-center text-base shrink-0 shadow-[2px_2px_0px_#3E3A39]">
-            🔗
-          </span>
-          <div>
-            <h2 id="urlLookupTitle" class="text-base sm:text-lg leading-tight flex items-center gap-2">
-              <span>原始貼上網址速查表</span>
-              <span id="urlLookupCountBadge" class="bg-yamabuki text-xs px-2.5 py-0.5 rounded-full border-2 border-ink">
-                0 筆
-              </span>
-            </h2>
-            <p class="text-xs text-ink/75 mt-0.5">
-              自動記錄貼上解析或儲存的原始參考連結，方便隨時回頭查閱來源
-            </p>
-          </div>
-        </div>
-
-        <button
-          id="btnToggleUrlTable"
-          type="button"
-          onclick="toggleUrlTableCollapse()"
-          class="pb-btn bg-washi px-3 py-1.5 text-xs sm:text-sm flex items-center gap-1"
-          aria-expanded="true"
-        >
-          <span id="urlTableToggleText">收合表格</span>
-          <span id="urlTableToggleIcon">▴</span>
-        </button>
-      </div>
-
-      <div id="urlLookupBody" class="mt-3.5 space-y-3">
-        <!-- 表格內快速搜尋列 -->
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          <div class="relative flex-1">
-            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm pointer-events-none">🔎</span>
-            <input
-              id="urlTableSearchInput"
-              type="text"
-              oninput="handleUrlTableSearch(this.value)"
-              placeholder="快速搜尋關聯店名、地區或原始網址..."
-              class="pb-input pl-9 pr-8 py-1.5 text-xs sm:text-sm bg-white"
-            />
-            <button
-              id="btnClearUrlTableSearch"
-              type="button"
-              onclick="clearUrlTableSearch()"
-              class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-xs bg-coral px-1.5 py-0.5 rounded-full border border-ink"
-              aria-label="清除網址搜尋"
-            >
-              ✕
-            </button>
-          </div>
-          <button
-            type="button"
-            onclick="openItemModal()"
-            class="pb-btn bg-yamabuki px-3.5 py-1.5 text-xs sm:text-sm shrink-0 flex items-center justify-center gap-1"
-          >
-            <span>＋</span>
-            <span>貼上新網址</span>
-          </button>
-        </div>
-
-        <!-- 繪本風粗線框表格容器 -->
-        <div class="border-[3px] border-ink rounded-[18px] overflow-hidden bg-white shadow-[3px_3px_0px_#3E3A39]">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse min-w-[600px]">
-              <thead>
-                <tr class="bg-yamabuki/60 border-b-[3px] border-ink text-xs sm:text-sm">
-                  <th class="py-2.5 px-3 font-normal w-[30%]">關聯項目 / 地區</th>
-                  <th class="py-2.5 px-3 font-normal w-[42%]">原始貼上網址</th>
-                  <th class="py-2.5 px-3 font-normal w-[13%]">記錄時間</th>
-                  <th class="py-2.5 px-3 font-normal text-right w-[15%]">操作</th>
-                </tr>
-              </thead>
-              <tbody id="urlLookupTableBody" class="divide-y-2 divide-ink/15 text-xs sm:text-sm">
-                <!-- 由 JS 動態渲染原始網址列 -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- ==================== 頁尾 (Footer) ==================== -->
@@ -1368,7 +1283,6 @@
       await idbSet('kyushu_journal_snapshot_v1', {
         regions,
         items,
-        urlLogs,
         userNickname,
         reduceMotion,
         savedAt: Date.now(),
@@ -1411,7 +1325,6 @@
     const COL_ROOMS = 'kyushu_journal_rooms';
     const COL_REGIONS = 'kyushu_journal_regions';
     const COL_ITEMS = 'kyushu_journal_items';
-    const COL_URLS = 'kyushu_journal_urls';
 
     const BRAND_COLORS = [
       { hex: '#F2A497', name: '珊瑚粉' },
@@ -1845,17 +1758,13 @@
     let userNickname = '';
     let unsubscribeRegions = null;
     let unsubscribeItems = null;
-    let unsubscribeUrls = null;
 
     let regions = JSON.parse(JSON.stringify(DEFAULT_REGIONS));
     let items = [];
-    let urlLogs = [];
     let activeTab = 'souvenir'; // 'souvenir' | 'food'
     let activeRegion = 'all';
     let statusFilter = 'all'; // 'all' | 'todo' | 'done'
     let searchQuery = '';
-    let urlTableSearchQuery = '';
-    let isUrlTableCollapsed = false;
     let reduceMotion = false;
     let pendingConfirmCallback = null;
     let quickUploadTargetItemId = null;
@@ -1874,9 +1783,6 @@
         if (Array.isArray(savedSnapshot.regions) && savedSnapshot.regions.length > 0) {
           regions = savedSnapshot.regions;
         }
-        if (Array.isArray(savedSnapshot.urlLogs)) {
-          urlLogs = savedSnapshot.urlLogs;
-        }
         if (typeof savedSnapshot.userNickname === 'string') {
           userNickname = savedSnapshot.userNickname;
         }
@@ -1888,7 +1794,6 @@
         await persistStandaloneSnapshot();
       }
 
-      syncUrlLogsFromItems();
       applyMotionPreference();
 
       // 若環境未內建雲端設定，檢查使用者是否曾在「共享手札」設定過自訂雲端專案
@@ -2037,7 +1942,6 @@
       updateSyncStatusUI('syncing', '同步中...');
       if (typeof unsubscribeRegions === 'function') unsubscribeRegions();
       if (typeof unsubscribeItems === 'function') unsubscribeItems();
-      if (typeof unsubscribeUrls === 'function') unsubscribeUrls();
 
       let firstSnapshotReceived = false;
       const syncTimeoutId = setTimeout(() => {
@@ -2061,7 +1965,6 @@
           regions = list.length > 0 ? list : JSON.parse(JSON.stringify(DEFAULT_REGIONS));
           renderRegionBar();
           renderItems(false);
-          renderUrlLookupTable();
           if (!document.getElementById('regionModal').classList.contains('hidden')) {
             renderRegionManageList();
           }
@@ -2089,12 +1992,10 @@
           list.sort((a, b) => (a.sortOrder || 9999) - (b.sortOrder || 9999));
           if (list.length > 0) {
             items = list;
-            syncUrlLogsFromItems();
             persistStandaloneSnapshot();
           }
           updateStats();
           renderItems(false);
-          renderUrlLookupTable();
           updateSyncStatusUI('online', '已同步');
 
           if (lightboxCurrentItemId) {
@@ -2109,37 +2010,6 @@
           console.error('監聽手札項目失敗：', error);
           updateSyncStatusUI('offline', '同步異常');
           showToast('⚠️ 雲端同步連線發生錯誤，請檢查網路狀態');
-        }
-      );
-
-      const urlsColRef = collection(db, 'artifacts', appId, 'public', 'data', COL_URLS);
-      unsubscribeUrls = onSnapshot(
-        urlsColRef,
-        (snapshot) => {
-          const remoteLogs = [];
-          snapshot.forEach((docSnap) => {
-            const data = docSnap.data();
-            if (data && data.roomId === roomId && data.url) {
-              remoteLogs.push(data);
-            }
-          });
-          if (remoteLogs.length > 0) {
-            const mergedMap = new Map();
-            urlLogs.forEach((l) => mergedMap.set(l.url, l));
-            remoteLogs.forEach((l) => {
-              const existing = mergedMap.get(l.url);
-              if (!existing || (l.updatedAt || l.createdAt || 0) >= (existing.updatedAt || existing.createdAt || 0)) {
-                mergedMap.set(l.url, l);
-              }
-            });
-            urlLogs = Array.from(mergedMap.values()).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-            syncUrlLogsFromItems();
-            persistStandaloneSnapshot();
-            renderUrlLookupTable();
-          }
-        },
-        (error) => {
-          console.error('監聽原始網址記錄失敗：', error);
         }
       );
 
@@ -2364,7 +2234,6 @@
       currentRoomId = newCode;
       items = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
       regions = JSON.parse(JSON.stringify(DEFAULT_REGIONS));
-      urlLogs = [];
       updateRoomDisplayUI();
       renderAll();
 
@@ -2424,7 +2293,6 @@
       renderRegionBar();
       updateStats();
       renderItems(false);
-      renderUrlLookupTable();
     }
 
     function switchTab(tab) {
@@ -3030,23 +2898,12 @@
         items.unshift(itemPayload);
       }
 
-      if (sourceUrl) {
-        await recordPastedUrlEntry({
-          url: sourceUrl,
-          title,
-          regionId,
-          type,
-          itemId,
-        });
-      }
-
       if (activeTab !== type) {
         switchTab(type);
       } else {
         updateStats();
         renderItems(true);
       }
-      renderUrlLookupTable();
 
       closeItemModal();
       await persistStandaloneSnapshot();
@@ -3076,7 +2933,6 @@
           items = items.filter((i) => i.id !== itemId);
           updateStats();
           renderItems(false);
-          renderUrlLookupTable();
           await persistStandaloneSnapshot();
 
           if (currentUser && db && currentRoomId) {
@@ -3814,19 +3670,6 @@
 
         lastParsedUrlPayload = finalPayload;
 
-        if (rawUrl) {
-          const currentEditingItemId = document.getElementById('fieldId')?.value.trim() || '';
-          await recordPastedUrlEntry({
-            url: rawUrl,
-            title: finalPayload.title,
-            regionId: finalPayload.detectedRegionId,
-            type: finalPayload.detectedType,
-            itemId: currentEditingItemId,
-          });
-          await persistStandaloneSnapshot();
-          renderUrlLookupTable();
-        }
-
         // 更新解析結果摘要卡片
         const resultBox = document.getElementById('urlSearchResultBox');
         if (resultBox) {
@@ -4208,7 +4051,6 @@
       renderRegionBar();
       renderRegionManageList();
       renderItems(false);
-      renderUrlLookupTable();
       await persistStandaloneSnapshot();
 
       if (currentUser && db && currentRoomId) {
@@ -4237,7 +4079,6 @@
           renderRegionBar();
           renderRegionManageList();
           renderItems(false);
-          renderUrlLookupTable();
           await persistStandaloneSnapshot();
 
           if (currentUser && db && currentRoomId) {
@@ -4261,7 +4102,6 @@
         roomId: currentRoomId,
         regions,
         items,
-        urlLogs,
       };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -4273,7 +4113,7 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast('⬇️ 已匯出完整 JSON 備份檔（含照片與網址速查表）！');
+      showToast('⬇️ 已匯出完整 JSON 備份檔（含照片）！');
     }
 
     function importBackupJSON(event) {
@@ -4294,10 +4134,6 @@
             regions = parsed.regions;
           }
           items = parsed.items;
-          if (Array.isArray(parsed.urlLogs)) {
-            urlLogs = parsed.urlLogs;
-          }
-          syncUrlLogsFromItems();
           renderAll();
           renderRegionManageList();
           await persistStandaloneSnapshot();
@@ -4365,7 +4201,6 @@
         async () => {
           regions = JSON.parse(JSON.stringify(DEFAULT_REGIONS));
           items = JSON.parse(JSON.stringify(DEFAULT_ITEMS));
-          urlLogs = [];
           activeRegion = 'all';
           renderAll();
           await persistStandaloneSnapshot();
@@ -4378,7 +4213,12 @@
       );
     }
 
-    // ==================== 13. 確認彈窗與繪本輕提示 (Toast) ====================
+    // ==================== 13. 確認彈窗、網址擷取與繪本輕提示 (Toast) ====================
+    function extractFirstUrlFromText(text) {
+      const m = String(text || '').match(/https?:\/\/[^\s]+/i);
+      return m ? m[0] : '';
+    }
+
     function openConfirmModal(title, message, onConfirm) {
       document.getElementById('confirmTitle').textContent = title;
       document.getElementById('confirmMessage').textContent = message;
@@ -4412,284 +4252,6 @@
       toastTimer = setTimeout(() => {
         banner.classList.add('hidden');
       }, 3000);
-    }
-
-    // ==================== 13B. 原始貼上網址速查表邏輯 ====================
-    function extractFirstUrlFromText(text) {
-      const m = String(text || '').match(/https?:\/\/[^\s]+/i);
-      return m ? m[0] : '';
-    }
-
-    function syncUrlLogsFromItems() {
-      const byUrl = new Map();
-      urlLogs.forEach((entry) => {
-        if (entry && entry.url) {
-          byUrl.set(entry.url, entry);
-        }
-      });
-
-      items.forEach((item) => {
-        const u = (item.sourceUrl || extractFirstUrlFromText(item.note) || '').trim();
-        if (!u) return;
-        if (!item.sourceUrl) item.sourceUrl = u;
-
-        const existing = byUrl.get(u);
-        if (existing) {
-          existing.title = item.title || existing.title;
-          existing.regionId = item.regionId || existing.regionId;
-          existing.type = item.type || existing.type;
-          existing.itemId = item.id;
-        } else {
-          byUrl.set(u, {
-            id: `url-${item.id}`,
-            url: u,
-            title: item.title || '未命名項目',
-            regionId: item.regionId || 'fukuoka',
-            type: item.type || 'souvenir',
-            itemId: item.id,
-            createdAt: item.updatedAt || Date.now(),
-          });
-        }
-      });
-
-      urlLogs = Array.from(byUrl.values()).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-    }
-
-    async function recordPastedUrlEntry({ url, title, regionId, type, itemId }) {
-      const cleanUrl = String(url || '').trim();
-      if (!cleanUrl) return;
-
-      const existingIdx = urlLogs.findIndex((entry) => entry.url === cleanUrl);
-      const now = Date.now();
-      const entryId =
-        existingIdx !== -1
-          ? urlLogs[existingIdx].id
-          : `url-${now}-${Math.random().toString(36).slice(2, 6)}`;
-
-      const record = {
-        id: entryId,
-        roomId: currentRoomId,
-        url: cleanUrl,
-        title: title || (existingIdx !== -1 ? urlLogs[existingIdx].title : '尚未儲存的網址記錄'),
-        regionId: regionId || (existingIdx !== -1 ? urlLogs[existingIdx].regionId : 'fukuoka'),
-        type: type || (existingIdx !== -1 ? urlLogs[existingIdx].type : 'souvenir'),
-        itemId: itemId || (existingIdx !== -1 ? urlLogs[existingIdx].itemId : ''),
-        createdAt: existingIdx !== -1 ? urlLogs[existingIdx].createdAt || now : now,
-        updatedAt: now,
-      };
-
-      if (existingIdx !== -1) {
-        urlLogs[existingIdx] = record;
-      } else {
-        urlLogs.unshift(record);
-      }
-
-      if (currentUser && db && currentRoomId) {
-        try {
-          const urlDocId = `${currentRoomId}__${entryId}`;
-          await setDoc(doc(db, 'artifacts', appId, 'public', 'data', COL_URLS, urlDocId), record, { merge: true });
-        } catch (err) {
-          console.error('同步原始網址記錄至雲端失敗：', err);
-        }
-      }
-    }
-
-    function formatShortTimestamp(ts) {
-      if (!ts) return '—';
-      try {
-        const d = new Date(ts);
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        const hh = String(d.getHours()).padStart(2, '0');
-        const min = String(d.getMinutes()).padStart(2, '0');
-        return `${mm}/${dd} ${hh}:${min}`;
-      } catch {
-        return '—';
-      }
-    }
-
-    function toggleUrlTableCollapse() {
-      isUrlTableCollapsed = !isUrlTableCollapsed;
-      const bodyEl = document.getElementById('urlLookupBody');
-      const textEl = document.getElementById('urlTableToggleText');
-      const iconEl = document.getElementById('urlTableToggleIcon');
-      const btnEl = document.getElementById('btnToggleUrlTable');
-      if (!bodyEl) return;
-
-      if (isUrlTableCollapsed) {
-        bodyEl.classList.add('hidden');
-        if (textEl) textEl.textContent = '展開表格';
-        if (iconEl) iconEl.textContent = '▾';
-        if (btnEl) btnEl.setAttribute('aria-expanded', 'false');
-      } else {
-        bodyEl.classList.remove('hidden');
-        if (textEl) textEl.textContent = '收合表格';
-        if (iconEl) iconEl.textContent = '▴';
-        if (btnEl) btnEl.setAttribute('aria-expanded', 'true');
-      }
-    }
-
-    function handleUrlTableSearch(val) {
-      urlTableSearchQuery = String(val || '').trim().toLowerCase();
-      const clearBtn = document.getElementById('btnClearUrlTableSearch');
-      if (clearBtn) {
-        if (urlTableSearchQuery) clearBtn.classList.remove('hidden');
-        else clearBtn.classList.add('hidden');
-      }
-      renderUrlLookupTable();
-    }
-
-    function clearUrlTableSearch() {
-      const input = document.getElementById('urlTableSearchInput');
-      if (input) input.value = '';
-      handleUrlTableSearch('');
-    }
-
-    function renderUrlLookupTable() {
-      const tbody = document.getElementById('urlLookupTableBody');
-      const badge = document.getElementById('urlLookupCountBadge');
-      if (!tbody) return;
-
-      if (badge) badge.textContent = `${urlLogs.length} 筆`;
-
-      const filtered = urlLogs.filter((entry) => {
-        if (!urlTableSearchQuery) return true;
-        const reg = regions.find((r) => r.id === entry.regionId);
-        const haystack = [entry.title, entry.url, reg?.name || ''].join(' ').toLowerCase();
-        return haystack.includes(urlTableSearchQuery);
-      });
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="4" class="py-7 px-4 text-center text-xs sm:text-sm text-ink/75 bg-washi/60">
-              ${
-                urlLogs.length === 0
-                  ? '🔗 目前還沒有貼上的網址記錄喔！在「新增／編輯項目」貼上部落格、Tabelog、IG 或 Google 地圖網址，就會自動收錄在這個表格中～'
-                  : '🔍 找不到符合搜尋關鍵字的網址記錄，試試其他關鍵字吧！'
-              }
-            </td>
-          </tr>
-        `;
-        return;
-      }
-
-      tbody.innerHTML = filtered
-        .map((entry) => {
-          const linkedItem = entry.itemId ? items.find((i) => i.id === entry.itemId) : null;
-          const displayTitle = linkedItem?.title || entry.title || '未命名參考網址';
-          const displayRegionId = linkedItem?.regionId || entry.regionId;
-          const displayType = linkedItem?.type || entry.type || 'souvenir';
-          const reg = regions.find((r) => r.id === displayRegionId) || { name: '九州', color: '#F6D27A' };
-          const typeIcon = displayType === 'food' ? '🍜' : '🎁';
-
-          let hostLabel = '';
-          try {
-            hostLabel = new URL(entry.url).hostname.replace(/^www\./, '');
-          } catch {
-            hostLabel = '網頁連結';
-          }
-
-          const actionBtnHtml = linkedItem
-            ? `<button type="button" onclick="openItemModal('${escapeHtml(linkedItem.id)}')" class="pb-btn bg-washi px-2.5 py-1 text-xs" title="編輯此項目">✏️ 編輯</button>`
-            : `<button type="button" onclick="openItemFromUrlLog('${escapeHtml(entry.id)}')" class="pb-btn bg-wakatake px-2.5 py-1 text-xs" title="帶入此網址建立新卡片">＋ 建卡</button>`;
-
-          return `
-            <tr class="hover:bg-washi/80 transition-colors">
-              <td class="py-2.5 px-3 align-top">
-                <div class="flex flex-wrap items-center gap-1 mb-1">
-                  <span class="pb-tag text-[11px] py-0 px-2" style="background-color: ${escapeHtml(reg.color)};">
-                    📍 ${escapeHtml(reg.name)}
-                  </span>
-                  <span class="text-[11px] bg-washi px-1.5 py-0.5 rounded-full border border-ink/40">
-                    ${typeIcon} ${linkedItem ? '已建卡' : '僅解析'}
-                  </span>
-                </div>
-                <p class="text-xs sm:text-sm leading-snug break-words">${escapeHtml(displayTitle)}</p>
-              </td>
-              <td class="py-2.5 px-3 align-top">
-                <span class="inline-block text-[11px] bg-mizuiro/50 px-2 py-0.5 rounded-full border border-ink/40 mb-1">
-                  🌐 ${escapeHtml(hostLabel)}
-                </span>
-                <a
-                  href="${escapeHtml(entry.url)}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block text-xs text-ink underline decoration-2 hover:bg-yamabuki/40 rounded px-1 py-0.5 break-all"
-                  title="開啟原始貼上網址"
-                >
-                  ${escapeHtml(entry.url)}
-                </a>
-              </td>
-              <td class="py-2.5 px-3 align-top text-[11px] text-ink/75 whitespace-nowrap">
-                ${formatShortTimestamp(entry.createdAt)}
-              </td>
-              <td class="py-2.5 px-3 align-top text-right whitespace-nowrap">
-                <div class="inline-flex items-center justify-end gap-1.5">
-                  <button
-                    type="button"
-                    onclick="copySingleUrlLog('${escapeHtml(entry.id)}')"
-                    class="pb-btn bg-yamabuki px-2.5 py-1 text-xs"
-                    title="複製原始網址"
-                  >
-                    📋 複製
-                  </button>
-                  ${actionBtnHtml}
-                  <button
-                    type="button"
-                    onclick="confirmDeleteUrlLog('${escapeHtml(entry.id)}')"
-                    class="pb-btn bg-coral/85 px-2 py-1 text-xs"
-                    aria-label="刪除此網址記錄"
-                    title="刪除此網址記錄"
-                  >
-                    🗑️
-                  </button>
-                </div>
-              </td>
-            </tr>
-          `;
-        })
-        .join('');
-    }
-
-    function copySingleUrlLog(entryId) {
-      const entry = urlLogs.find((e) => e.id === entryId);
-      if (!entry?.url) return;
-      copyTextFallback(entry.url);
-      showToast('📋 已複製原始貼上網址！');
-    }
-
-    function openItemFromUrlLog(entryId) {
-      const entry = urlLogs.find((e) => e.id === entryId);
-      if (!entry) return;
-      openItemModal();
-      const infoUrlInput = document.getElementById('fieldInfoUrl');
-      if (infoUrlInput) infoUrlInput.value = entry.url;
-      searchInfoFromUrl();
-    }
-
-    function confirmDeleteUrlLog(entryId) {
-      const entry = urlLogs.find((e) => e.id === entryId);
-      if (!entry) return;
-      openConfirmModal(
-        '刪除原始網址記錄',
-        `確定要從速查表移除這筆網址記錄嗎？（已儲存的手札卡片不會被刪除）`,
-        async () => {
-          urlLogs = urlLogs.filter((e) => e.id !== entryId);
-          renderUrlLookupTable();
-          await persistStandaloneSnapshot();
-
-          if (currentUser && db && currentRoomId) {
-            try {
-              const urlDocId = `${currentRoomId}__${entryId}`;
-              await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', COL_URLS, urlDocId));
-            } catch (err) {
-              console.error('刪除雲端網址記錄失敗：', err);
-            }
-          }
-          showToast('🗑️ 已從速查表移除該網址');
-        }
-      );
     }
 
     // ==================== 14. 掛載全域函式供 HTML 事件呼叫並啟動 ====================
@@ -4736,12 +4298,6 @@
       copyChecklistText,
       confirmResetDefault,
       closeConfirmModal,
-      toggleUrlTableCollapse,
-      handleUrlTableSearch,
-      clearUrlTableSearch,
-      copySingleUrlLog,
-      openItemFromUrlLog,
-      confirmDeleteUrlLog,
     });
 
     if (document.readyState === 'loading') {
